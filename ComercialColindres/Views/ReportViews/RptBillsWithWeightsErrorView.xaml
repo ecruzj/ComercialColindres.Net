@@ -1,0 +1,173 @@
+﻿<UserControl x:Class="ComercialColindres.Views.ReportViews.RptBillsWithWeightsErrorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:MisControlesWPF="clr-namespace:MisControlesWPF;assembly=MisControlesWPF"
+             xmlns:controlsMahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" 
+             DataContext="{Binding RptBillsWithWeightsErrorViewModel, Mode=OneWay, Source={StaticResource Locator}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <MisControlesWPF:TitleTextBlock  Text="Reporte de Compras vs Ventas de Biomasa" Style="{DynamicResource EncabezadoTituloStyle}"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <MisControlesWPF:TitleTextBlock Text="Filtros"/>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="300"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <MisControlesWPF:HeaderTextBlock Text="Planta" Grid.Column="0" VerticalAlignment="Center"/>
+                    <MisControlesWPF:InputTextBoxAutoCompleteControl Grid.Row="0" Grid.Column="1" SelectedItem="{Binding PlantaSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                     Buscar="{Binding CommandFindPlanta}" AutoCompletionList="{Binding Plantas}"
+                                                                     VerticalAlignment="Center"/>
+                </Grid>
+                <TabControl Grid.Row="1">
+                    <TabItem controlsMahApps:ControlsHelper.HeaderFontSize="16" Header="Análisis de Compra/Venta">
+                        <Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <DataGrid ItemsSource="{Binding BillsWithWeightsErros}" AutoGenerateColumns="False" IsReadOnly="True">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="#Factura">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding NumeroFactura}" HorizontalAlignment="Left"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Header="Fecha Emisión" Binding="{Binding FechaEmision, StringFormat=d}"/>
+                                        <DataGridTemplateColumn Header="Biomasa">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Biomasa}" HorizontalAlignment="Left"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Moneda">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Moneda}" HorizontalAlignment="Center"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Venta/Toneladas">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding VentaTone, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Compra/Toneladas">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding CompraTone, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Precio/Tonelada">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                        <TextBlock Text="{Binding PrecioTone, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Diferencia/Tonelada">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding DiferenciaTone, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Saldo">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Saldo, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <Grid Grid.Row="1" HorizontalAlignment="Right">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" MinWidth="80" />
+                                    </Grid.ColumnDefinitions>
+                                    <MisControlesWPF:HeaderTextBlock Grid.Row="0"
+                                                                     Grid.Column="0"
+                                                                     FontSize="16"
+                                                                     Text="Saldo"
+                                                                     HorizontalAlignment="Center"
+                                                                     
+                                                                     Foreground="Red"
+                                                                     FontWeight="DemiBold"/>
+                                    <MisControlesWPF:BodyTextBlock Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   FontSize="16"
+                                                                   FontWeight="Bold"
+                                                                   Text="{Binding Saldo,
+                                                                                  Mode=TwoWay,
+                                                                                  UpdateSourceTrigger=PropertyChanged,
+                                                                                  StringFormat=N2}"
+                                                                   TextAlignment="Right" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2" Background="{DynamicResource AccentColorBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <MisControlesWPF:AppBarPanel x:Name="appBarPanel"
+				Grid.Column="1"
+				HorizontalAlignment="Right">
+                <MisControlesWPF:AppBarButton Command="{Binding CommandGetInformation}"
+					Imagen="{StaticResource BuscarReportPathImagen}"
+					Titulo="Obtener Informacion"
+					ToolTip="{StaticResource BuscarReporteToolTip}" />
+                <MisControlesWPF:Separador />
+                <MisControlesWPF:AppBarButton Command="{Binding ComandoImprimir}"
+					Imagen="{StaticResource ImprimirPathImagen}"
+					Titulo="Imprimir"
+					ToolTip="{StaticResource ImprimirToolTip}" 
+                                              IsEnabled="False"/>
+            </MisControlesWPF:AppBarPanel>
+        </Grid>
+        <Border Grid.RowSpan="3" Visibility="{Binding MostrarVentanaEsperaPrincipal}" d:IsHidden="True">
+            <Grid>
+                <MisControlesWPF:BloqueoPanel/>
+                <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

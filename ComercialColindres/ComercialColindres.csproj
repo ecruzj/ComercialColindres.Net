@@ -1,0 +1,610 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\ComercialColindres\Instalador\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <UpdateUrl>http://colindres.jcespinoza.com/updates/</UpdateUrl>
+    <ApplicationRevision>46</ApplicationRevision>
+    <ApplicationVersion>2.5.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Uriy1966-Wooden-System.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>897515297D87EF76A352C6BF6577DB9BBFC0213F</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>ComercialColindres_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{30D83F5E-735D-4915-86BA-C190DB800FB4}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ComercialColindres</RootNamespace>
+    <AssemblyName>ComercialColindres</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EPPlus">
+      <HintPath>..\..\Librerias\Excel\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\Galasoft\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.WPF45">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\Galasoft\GalaSoft.MvvmLight.WPF45.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\WPF Otras\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.Resources">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\WPF Otras\MahApps.Metro.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MicrosoftExpressionInteractions.3.0.40218.0\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\Microsoft\Practices\CommonServiceLocator\NET\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="MisControlesWPF">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\WPF Otras\MisControlesWPF.dll</HintPath>
+    </Reference>
+    <Reference Include="NotifyMessageControl">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\WPF Otras\NotifyMessageControl.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\ServiceStack\net45\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\ServiceStack\net45\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\ServiceStack\net45\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\Microsoft\Expression Blend\WPF\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WPFCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\OldLibrary\Librerias\WPF Otras\WPFCore.dll</HintPath>
+    </Reference>
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\Microsoft\WPF\Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Busquedas\BusquedaBoletas.cs" />
+    <Compile Include="Busquedas\BusquedaProveedores.cs" />
+    <Compile Include="Busquedas\FindPos.cs" />
+    <Compile Include="Clases\BaseVM.cs" />
+    <Compile Include="Clases\ICriterioBusqueda.cs" />
+    <Compile Include="Clases\InformacionSistema.cs" />
+    <Compile Include="Clases\IServiciosComunes.cs" />
+    <Compile Include="Clases\ServiciosComunes.cs" />
+    <Compile Include="Clases\Sistema.cs" />
+    <Compile Include="Clases\Sucursal.cs" />
+    <Compile Include="Comportamientos\Comportamientos.cs" />
+    <Compile Include="Controls\ImportarExcelUserControl.xaml.cs">
+      <DependentUpon>ImportarExcelUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Convertidores\BoolToColorConverter.cs" />
+    <Compile Include="Convertidores\EstadoColorConvert.cs" />
+    <Compile Include="CrossViewModel\BoletasPendingPaymentInfo.cs" />
+    <Compile Include="DatosEjemplos\DatosDiseño.cs" />
+    <Compile Include="Enumeraciones\EventType.cs" />
+    <Compile Include="Enumeraciones\TipoSeguridadPropiedad.cs" />
+    <Compile Include="Helpers\ClaseDinamica.cs" />
+    <Compile Include="Helpers\EnterKeyHelpers.cs" />
+    <Compile Include="Modelos\AjusteBoletaDetallesModel.cs" />
+    <Compile Include="Modelos\AjusteBoletaPagoModel.cs" />
+    <Compile Include="Modelos\BoletaHumedadModel.cs" />
+    <Compile Include="Modelos\BoletaHumedadPagoModel.cs" />
+    <Compile Include="Modelos\BoletaOtrasDeduccionesModel.cs" />
+    <Compile Include="Modelos\DescargasPorAdelantadoModel.cs" />
+    <Compile Include="Modelos\FacturaDetalleBoletasModel.cs" />
+    <Compile Include="Modelos\FacturaDetalleItemModel.cs" />
+    <Compile Include="Modelos\FacturaPagoModel.cs" />
+    <Compile Include="Modelos\FuelOrderManualPaymentModel.cs" />
+    <Compile Include="Modelos\GasolineraCreditoPagosModel.cs" />
+    <Compile Include="Modelos\NotasCreditoModel.cs" />
+    <Compile Include="Modelos\OrdenCombustibleModel.cs" />
+    <Compile Include="Modelos\OrdenesCompraProductoDetalleModel.cs" />
+    <Compile Include="Modelos\PagoDescargaDetallesModel.cs" />
+    <Compile Include="Modelos\PagoDescargasModel.cs" />
+    <Compile Include="Modelos\PagoPrestamoModel.cs" />
+    <Compile Include="Modelos\BoletaCierresModel.cs" />
+    <Compile Include="Modelos\ConductoresModel.cs" />
+    <Compile Include="Modelos\CuentasBancariasModel.cs" />
+    <Compile Include="Modelos\EquiposModel.cs" />
+    <Compile Include="Modelos\EstadosModel.cs" />
+    <Compile Include="Modelos\OpcionesUsuarioModel.cs" />
+    <Compile Include="Modelos\PrestamoModel.cs" />
+    <Compile Include="Modelos\PrestamoTransferenciasModel.cs" />
+    <Compile Include="Recursos\Configuracion.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Configuracion.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos\Estados.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Estados.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos\EventTitle.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EventTitle.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos\Mensajes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mensajes.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\AjusteBoletasViewModel.cs" />
+    <Compile Include="ViewModels\BoletasHumedadViewModel.cs" />
+    <Compile Include="ViewModels\BoletasViewModel.cs" />
+    <Compile Include="ViewModels\DescargadoresViewModel.cs" />
+    <Compile Include="ViewModels\FacturasViewModel.cs" />
+    <Compile Include="ViewModels\GasolinerasViewModel.cs" />
+    <Compile Include="ViewModels\LineasCreditoViewModel.cs" />
+    <Compile Include="ViewModels\MonitorBoletasInProcessViewModel.cs" />
+    <Compile Include="ViewModels\OrdenesCompraProductoViewModel.cs" />
+    <Compile Include="ViewModels\PrestamosViewModel.cs" />
+    <Compile Include="ViewModels\ProveedoresViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ReportesMainViewModel.cs" />
+    <Compile Include="ViewModels\Reportes\RptHistoryOfInvoiceBalancesViewModel.cs" />
+    <Compile Include="ViewModels\Reportes\RptBillsWithWeightsErrorViewModel.cs" />
+    <Compile Include="ViewModels\Reportes\RptBoletaPaymentPendingViewModel.cs" />
+    <Compile Include="ViewModels\Reportes\RptBoletasPorProveedorViewModel.cs" />
+    <Compile Include="ViewModels\Reportes\RptBoletasWithoutInvoiceViewModel.cs" />
+    <Compile Include="ViewModels\Reportes\RptCompraBiomasaDetalleViewModel.cs" />
+    <Compile Include="ViewModels\Reportes\RptCompraProductoBiomasaResumenViewModel.cs" />
+    <Compile Include="ViewModels\Reportes\RptHumidityPendingPaymentViewModel.cs" />
+    <Compile Include="ViewModels\Reportes\RptPendingInvoiceViewModel.cs" />
+    <Compile Include="ViewModels\Reportes\RptPrestamosPentiendesViewModel.cs" />
+    <Compile Include="ViewModels\Reportes\RptPrestamosPorProveedorViewModel.cs" />
+    <Compile Include="ViewModels\UsuariosViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\IngresarSistemaView.xaml.cs">
+      <DependentUpon>IngresarSistemaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuPrincipalView.xaml.cs">
+      <DependentUpon>MenuPrincipalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportViews\RptBillsWithWeightsErrorView.xaml.cs">
+      <DependentUpon>RptBillsWithWeightsErrorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportViews\RptBoletasPaymentPendingView.xaml.cs">
+      <DependentUpon>RptBoletasPaymentPendingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportViews\RptBoletasPorProveedorView.xaml.cs">
+      <DependentUpon>RptBoletasPorProveedorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportViews\RptBoletasWithoutInvoiceView.xaml.cs">
+      <DependentUpon>RptBoletasWithoutInvoiceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportViews\RptCompraBiomasaDetalleView.xaml.cs">
+      <DependentUpon>RptCompraBiomasaDetalleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportViews\RptCompraProductoBiomasaResumenView.xaml.cs">
+      <DependentUpon>RptCompraProductoBiomasaResumenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportViews\RptHistoryOfInvoiceBalancesView.xaml.cs">
+      <DependentUpon>RptHistoryOfInvoiceBalancesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportViews\RptHumidityPendingPaymentView.xaml.cs">
+      <DependentUpon>RptHumidityPendingPaymentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportViews\RptPendingInvoiceView.xaml.cs">
+      <DependentUpon>RptPendingInvoiceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportViews\RptPrestamosPendientesView.xaml.cs">
+      <DependentUpon>RptPrestamosPendientesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportViews\RptPrestamosPorProveedorView.xaml.cs">
+      <DependentUpon>RptPrestamosPorProveedorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserDesignView.xaml.cs">
+      <DependentUpon>UserDesignView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AjusteBoletasWindow.xaml.cs">
+      <DependentUpon>AjusteBoletasWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\BoletasHumedadWindow.xaml.cs">
+      <DependentUpon>BoletasHumedadWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\BoletasWindow.xaml.cs">
+      <DependentUpon>BoletasWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\DescargadoresWindow.xaml.cs">
+      <DependentUpon>DescargadoresWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\FacturasWindow.xaml.cs">
+      <DependentUpon>FacturasWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\GasolinerasWindow.xaml.cs">
+      <DependentUpon>GasolinerasWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\LineasCreditoWindow.xaml.cs">
+      <DependentUpon>LineasCreditoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MonitorBoletasInProcess.xaml.cs">
+      <DependentUpon>MonitorBoletasInProcess.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\OrdenesCompraProductoWindow.xaml.cs">
+      <DependentUpon>OrdenesCompraProductoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PrestamosWindow.xaml.cs">
+      <DependentUpon>PrestamosWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ProveedoresWindow.xaml.cs">
+      <DependentUpon>ProveedoresWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ReportesWindow.xaml.cs">
+      <DependentUpon>ReportesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\UsuariosWindow.xaml.cs">
+      <DependentUpon>UsuariosWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Assets\MainSkin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ImportarExcelUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Views\IngresarSistemaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MenuPrincipalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportViews\RptBillsWithWeightsErrorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportViews\RptBoletasPaymentPendingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportViews\RptBoletasPorProveedorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportViews\RptBoletasWithoutInvoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportViews\RptCompraBiomasaDetalleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportViews\RptCompraProductoBiomasaResumenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportViews\RptHistoryOfInvoiceBalancesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportViews\RptHumidityPendingPaymentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportViews\RptPendingInvoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportViews\RptPrestamosPendientesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportViews\RptPrestamosPorProveedorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserDesignView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AjusteBoletasWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\BoletasHumedadWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\BoletasWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\DescargadoresWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\FacturasWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\GasolinerasWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LineasCreditoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MonitorBoletasInProcess.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\OrdenesCompraProductoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PrestamosWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ProveedoresWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ReportesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\UsuariosWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\ReporteFacturacion.rdlc">
+      <Link>ReportFiles\ReporteFacturacion.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\ReporteGasCreditoDetalle.rdlc">
+      <Link>ReportFiles\ReporteGasCreditoDetalle.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\ReporteLineasCredito.rdlc">
+      <Link>ReportFiles\ReporteLineasCredito.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\ReportePagoBoleta.rdlc">
+      <Link>ReportFiles\ReportePagoBoleta.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\ReportePagoDescargadores.rdlc">
+      <Link>ReportFiles\ReportePagoDescargadores.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\rptBoletaDeduccionesPrestamo.rdlc">
+      <Link>ReportFiles\rptBoletaDeduccionesPrestamo.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\RptBoletasDeduccionesPrestamo.rdlc">
+      <Link>ReportFiles\RptBoletasDeduccionesPrestamo.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\RptHistorialBoletasPorProveedor.rdlc">
+      <Link>ReportFiles\RptHistorialBoletasPorProveedor.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\RptPagoBoleta.rdlc">
+      <Link>ReportFiles\RptPagoBoleta.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\RptPrestamosPendientes.rdlc">
+      <Link>ReportFiles\RptPrestamosPendientes.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\RptPrestamosPorProveedor.rdlc">
+      <Link>ReportFiles\RptPrestamosPorProveedor.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\RptPreviewPagoDescargadores.rdlc">
+      <Link>ReportFiles\RptPreviewPagoDescargadores.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\RptCompraProductoBiomasaResumen.rdlc">
+      <Link>ReportFiles\RptCompraProductoBiomasaResumen.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\RptCompraProductoBiomasaDetalle.rdlc">
+      <Link>ReportFiles\RptCompraProductoBiomasaDetalle.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ComercialColindres.Reportes\Reportes\RptHumidityPendingPayment.rdlc">
+      <Link>ReportFiles\RptHumidityPendingPayment.rdlc</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos\Configuracion.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Configuracion.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos\Estados.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Estados.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos\EventTitle.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EventTitle.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos\Mensajes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Mensajes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="ComercialColindres_TemporaryKey.pfx" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ComercialColindres.DTOs\ComercialColindres.DTOs.csproj">
+      <Project>{b772147b-2173-4145-a6ac-5564c66795f3}</Project>
+      <Name>ComercialColindres.DTOs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="Microsoft.Data.Tools.Components">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.Data.Tools.Schema.Sql.UnitTesting">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Uriy1966-Wooden-System.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />
+  <PropertyGroup>
+    <SsdtUnitTestVersion>2.0</SsdtUnitTestVersion>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

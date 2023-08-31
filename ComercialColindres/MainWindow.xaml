@@ -1,0 +1,59 @@
+﻿<controlsMahApps:MetroWindow x:Class="ComercialColindres.MainWindow"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:clases="clr-namespace:ComercialColindres.Clases"
+                             xmlns:wpfCoreAnimaciones="clr-namespace:WPFCore.Animaciones;assembly=WPFCore"
+                             xmlns:controlsMahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                             xmlns:views="clr-namespace:ComercialColindres.Views"
+                             Title="Comercial Colindres"
+                             Width="720"
+                             Height="530"
+                             wpfCoreAnimaciones:ManejadorVisualStates.VisualStateProperty="{Binding AnimacionActual,
+                                                                                        Mode=TwoWay,
+                                                                                        UpdateSourceTrigger=PropertyChanged}"
+                             mc:Ignorable="d">
+    <controlsMahApps:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro.Resources;component/Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Storyboard x:Key="MenuStoryboard">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ScrollViewer" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScrollViewer" Storyboard.TargetProperty="(UIElement.Opacity)">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1" />
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="IngresarSistemaView" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Collapsed}" />
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="IngresarSistemaView" Storyboard.TargetProperty="(UIElement.Opacity)">
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+        </ResourceDictionary>
+    </controlsMahApps:MetroWindow.Resources>
+
+    <controlsMahApps:MetroWindow.DataContext>
+        <Binding Path="MainViewModel" Source="{StaticResource Locator}" />
+    </controlsMahApps:MetroWindow.DataContext>
+
+    <controlsMahApps:MetroWindow.RightWindowCommands>
+        <controlsMahApps:WindowCommands>
+            <Button Content="ayuda" ToolTip="Ayuda del Sistema" />
+        </controlsMahApps:WindowCommands>
+    </controlsMahApps:MetroWindow.RightWindowCommands>
+
+    <controlsMahApps:MetroContentControl>
+        <Grid>
+            <ScrollViewer x:Name="ScrollViewer"
+                          Opacity="0"
+                          Visibility="Collapsed" />
+            <views:IngresarSistemaView x:Name="IngresarSistemaView" d:IsHidden="True" />
+        </Grid>
+    </controlsMahApps:MetroContentControl>
+</controlsMahApps:MetroWindow>

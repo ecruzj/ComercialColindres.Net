@@ -1,0 +1,191 @@
+﻿<UserControl x:Class="ComercialColindres.Views.ReportViews.RptPendingInvoiceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Convertidores="clr-namespace:WPFCore.Convertidores;assembly=WPFCore"
+             xmlns:MisControlesWPF="clr-namespace:MisControlesWPF;assembly=MisControlesWPF"
+             xmlns:controlsMahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" 
+             DataContext="{Binding RptPendingInvoiceViewModel, Mode=OneWay, Source={StaticResource Locator}}">
+
+    <UserControl.Resources>
+        <Convertidores:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <MisControlesWPF:TitleTextBlock  Text="Reporte Facturas Pendientes de Pago" Style="{DynamicResource EncabezadoTituloStyle}"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <MisControlesWPF:TitleTextBlock Text="Filtros"/>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="300"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <MisControlesWPF:HeaderTextBlock Grid.Row="0" Grid.Column="0" Text="Filtrar Por"  VerticalAlignment="Center"/>
+                    <ComboBox
+                        Margin="5"
+                        Grid.Row="0"
+                        Grid.Column="1"                                        
+                        ItemsSource="{Binding FilterTypes}"
+                        SelectedItem="{Binding FilterSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <MisControlesWPF:HeaderTextBlock Grid.Row="1" Grid.Column="0" Text="Planta"  VerticalAlignment="Center"
+                                                     Visibility="{Binding ShowPlanta, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <MisControlesWPF:InputTextBoxAutoCompleteControl
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        AutoCompletionList="{Binding Plantas}"       
+                        Buscar="{Binding CommandFindPlanta}"
+                        SelectedItem="{Binding PlantaSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        Visibility="{Binding ShowPlanta, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                </Grid>
+                <TabControl Grid.Row="1">
+                    <TabItem controlsMahApps:ControlsHelper.HeaderFontSize="16" Header="Facturas por Cobrar">
+                        <Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <DataGrid 
+                                    ItemsSource="{Binding PendingInvoice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    AutoGenerateColumns="False" 
+                                    IsReadOnly="True">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="#Factura">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding NumeroFactura}" HorizontalAlignment="Center"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Header="Planta" Binding="{Binding Planta}"/>
+                                        <DataGridTextColumn Header="Moneda" Binding="{Binding Moneda}"/>
+                                        <DataGridTemplateColumn Header="Total">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Total, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Saldo Pendiente">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding SaldoPendiente, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Fecha Emisión">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding FechaEmision, StringFormat=d}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Antiguedad">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Antiguedad, StringFormat='#,#.'}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <Grid Grid.Row="1" HorizontalAlignment="Right">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto" MinWidth="100"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" MinWidth="100"/>
+                                    </Grid.ColumnDefinitions>
+                                    <MisControlesWPF:HeaderTextBlock Grid.Row="0"
+                                                                     Grid.Column="0"
+                                                                     FontSize="16"
+                                                                     Text="$"
+                                                                     FontWeight="SemiBold"
+                                                                     Visibility="{Binding HasDollar, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    <MisControlesWPF:BodyTextBlock Grid.Row="0"
+                                                                   Grid.Column="1"
+                                                                   FontSize="16"
+                                                                   FontWeight="Bold"
+                                                                   Text="{Binding TotalDollar,
+                                                                                  Mode=TwoWay,
+                                                                                  UpdateSourceTrigger=PropertyChanged,
+                                                                                  StringFormat=N2}"
+                                                                   TextAlignment="Right"
+                                                                   Visibility="{Binding HasDollar, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    <MisControlesWPF:HeaderTextBlock Grid.Row="0"
+                                                                     FontSize="16"
+                                                                     Text="Lps"
+                                                                     FontWeight="SemiBold" Grid.Column="3"
+                                                                     Visibility="{Binding HasLps, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    <MisControlesWPF:BodyTextBlock Grid.Row="0"
+                                                                   Grid.Column="4"
+                                                                   FontSize="16"
+                                                                   FontWeight="Bold"
+                                                                   Text="{Binding TotalLps,
+                                                                                  Mode=TwoWay,
+                                                                                  UpdateSourceTrigger=PropertyChanged,
+                                                                                  StringFormat=N2}"
+                                                                   TextAlignment="Right"
+                                                                   Visibility="{Binding HasLps, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2" Background="{DynamicResource AccentColorBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <MisControlesWPF:AppBarPanel x:Name="appBarPanel"
+				Grid.Column="1"
+				HorizontalAlignment="Right">
+                <MisControlesWPF:AppBarButton Command="{Binding CommandGetInformation}"
+					Imagen="{StaticResource BuscarReportPathImagen}"
+					Titulo="Obtener Informacion"
+					ToolTip="{StaticResource BuscarReporteToolTip}" />
+                <MisControlesWPF:Separador />
+                <MisControlesWPF:AppBarButton Command="{Binding ComandoImprimir}"
+					Imagen="{StaticResource ImprimirPathImagen}"
+					Titulo="Imprimir"
+					ToolTip="{StaticResource ImprimirToolTip}" />
+            </MisControlesWPF:AppBarPanel>
+        </Grid>
+        <Border Grid.RowSpan="3" Visibility="{Binding MostrarVentanaEsperaPrincipal}" d:IsHidden="True">
+            <Grid>
+                <MisControlesWPF:BloqueoPanel/>
+                <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>ComercialColindres.Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{739f7978-10d6-4c8d-ba94-99b3da394be9}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>ComercialColindres.Database</RootNamespace>
+    <AssemblyName>ComercialColindres.Database</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Programacion" />
+    <Folder Include="Script" />
+    <Folder Include="Tablas" />
+    <Folder Include="UserDefinedTableType" />
+    <Folder Include="Tablas\Transacciones" />
+    <Folder Include="Tablas\LogTransacciones" />
+    <Folder Include="Programacion\StoredProcedures" />
+    <Folder Include="Programacion\Functions" />
+    <Folder Include="Programacion\Functions\Scalar" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tablas\Sucursales.sql" />
+    <Build Include="Tablas\Opciones.sql" />
+    <Build Include="Tablas\Usuarios.sql" />
+    <Build Include="Tablas\UsuariosOpciones.sql" />
+    <Build Include="Tablas\Correlativos.sql" />
+    <Build Include="Tablas\Configuraciones.sql" />
+    <Build Include="Tablas\ConfiguracionesDetalle.sql" />
+    <Build Include="Tablas\Proveedores.sql" />
+    <Build Include="Tablas\CuentasBancarias.sql" />
+    <Build Include="Tablas\FacturasCategorias.sql" />
+    <Build Include="Tablas\Facturas.sql" />
+    <Build Include="Tablas\Equipos.sql" />
+    <Build Include="Tablas\EquiposCategorias.sql" />
+    <Build Include="Tablas\Conductores.sql" />
+    <Build Include="Tablas\Bancos.sql" />
+    <Build Include="Tablas\ClientePlantas.sql" />
+    <Build Include="Tablas\Gasolineras.sql" />
+    <Build Include="Tablas\Cuadrillas.sql" />
+    <Build Include="Tablas\CategoriaProductos.sql" />
+    <Build Include="Tablas\PrecioProductos.sql" />
+    <Build Include="Tablas\PrecioDescargas.sql" />
+    <Build Include="Tablas\Descargadores.sql" />
+    <Build Include="Tablas\OrdenesCombustible.sql" />
+    <Build Include="Tablas\Prestamos.sql" />
+    <Build Include="Tablas\PagoPrestamos.sql" />
+    <Build Include="Tablas\Boletas.sql" />
+    <Build Include="Tablas\BoletaDetalles.sql" />
+    <Build Include="Tablas\Deducciones.sql" />
+    <Build Include="Tablas\BoletaCierres.sql" />
+    <Build Include="Tablas\PrestamoTransferencias.sql" />
+    <Build Include="Tablas\PagoOrdenesCombustible.sql" />
+    <Build Include="Tablas\PagoDescargadores.sql" />
+    <Build Include="Tablas\PagoDescargaDetalles.sql" />
+    <Build Include="Tablas\GasolineraCreditos.sql" />
+    <Build Include="Tablas\GasolineraCreditoPagos.sql" />
+    <Build Include="Tablas\FacturaDetalleBoletas.sql" />
+    <Build Include="Tablas\Recibos.sql" />
+    <Build Include="Tablas\CuentasFinancieraTipos.sql" />
+    <Build Include="Tablas\CuentasFinancieras.sql" />
+    <Build Include="Tablas\LineasCredito.sql" />
+    <Build Include="Tablas\LineasCreditoDeducciones.sql" />
+    <Build Include="Tablas\MaestroBiomosa.sql" />
+    <Build Include="Tablas\OrdenesCompraProducto.sql" />
+    <Build Include="Tablas\OrdenesCompraProductoDetalle.sql" />
+    <Build Include="Tablas\OrdenesCompraDetalleBoleta.sql" />
+    <Build Include="Tablas\BoletaOtrasDeducciones.sql" />
+    <Build Include="Tablas\Transacciones\BoletaCierres_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\BoletaDetalles_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\BoletaOtrasDeducciones_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\Descargadores_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\FacturaDetalleBoletas_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\GasolineraCreditoPagos_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\GasolineraCreditos_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\LineasCredito_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\LineasCreditoDeducciones_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\OrdenesCombustible_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\Boletas_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\OrdenesCompraDetalleBoleta_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\OrdenesCompraProducto_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\OrdenesCompraProductoDetalle_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\PagoDescargaDetalles_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\PagoDescargadores_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\PagoOrdenesCombustible_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\PagoPrestamos_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\PrecioDescargas_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\Prestamos_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\PrecioProductos_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\PrestamoTransferencias_Transacciones.sql" />
+    <Build Include="Tablas\Transacciones\Facturas_Transacciones.sql" />
+    <Build Include="Tablas\LogTransacciones\LogTransaccionesDetalle.sql" />
+    <Build Include="Tablas\LogTransacciones\LogTransacciones.sql" />
+    <Build Include="Tablas\LogTransacciones\LogEventosExcepciones.sql" />
+    <Build Include="Tablas\DescargasPorAdelantado.sql" />
+    <Build Include="Tablas\Transacciones\DescargasPorAdelantado_Transacciones.sql" />
+    <Build Include="Programacion\StoredProcedures\spReporteFacturacion.sql" />
+    <Build Include="Programacion\StoredProcedures\spPagoDescargadores.sql" />
+    <Build Include="Programacion\StoredProcedures\spObtenerPrestamosPendientes.sql" />
+    <Build Include="Programacion\StoredProcedures\spObtenerOrdenesCombustiblePersonales.sql" />
+    <Build Include="Programacion\StoredProcedures\spObtenerOrdenesCombustibleOperativo.sql" />
+    <Build Include="Programacion\StoredProcedures\spObtenerLineaGasCredito.sql" />
+    <Build Include="Programacion\StoredProcedures\spObtenerDescargas.sql" />
+    <Build Include="Programacion\StoredProcedures\spObtenerCorrelativo.sql" />
+    <Build Include="Programacion\StoredProcedures\spBoletasDeduccionesPrestamo.sql" />
+    <Build Include="Programacion\StoredProcedures\Sp_ReportePrestamosEncabezadoPorProveedor.sql" />
+    <Build Include="Programacion\StoredProcedures\Sp_ReportePrestamosDetallePorProveedor.sql" />
+    <Build Include="Programacion\StoredProcedures\Sp_ReporteHistorialBoletasPorProveedor.sql" />
+    <Build Include="Programacion\StoredProcedures\ObtenerCompraProductoBiomasaResumen.sql" />
+    <Build Include="Programacion\StoredProcedures\ObtenerCompraProductoBiomasaDetalle.sql" />
+    <Build Include="Programacion\Functions\Scalar\IsInt.sql" />
+    <Build Include="Programacion\Functions\Scalar\GetBoletaDeductions.sql" />
+    <Build Include="Programacion\Functions\Scalar\GetBoletaAmount.sql" />
+    <Build Include="Programacion\StoredProcedures\spGetBoletaPaymentPending.sql" />
+    <Build Include="Tablas\BoletasHumedad.sql" />
+    <Build Include="Tablas\Transacciones\BoletasHumedad_Transacciones.sql" />
+    <Build Include="Tablas\BoletasHumedadPago.sql" />
+    <Build Include="Tablas\Transacciones\BoletasHumedadPago_Transacciones.sql" />
+    <Build Include="Tablas\BoletasHumedadAsignacion.sql" />
+    <Build Include="Tablas\Transacciones\BoletasHumedadAsignacion_Transacciones.sql" />
+    <Build Include="Programacion\Functions\Scalar\GetHumidityFactor.sql" />
+    <Build Include="Programacion\StoredProcedures\spGetHumidityPendingPayment.sql" />
+    <Build Include="Programacion\Functions\Scalar\GetSecurityRate.sql" />
+    <Build Include="Programacion\Functions\Scalar\GetHumidityPaymentByBoletaId.sql" />
+    <Build Include="UserDefinedTableType\tblBoletas.sql" />
+    <Build Include="Tablas\FacturaDetalleItems.sql" />
+    <Build Include="Tablas\Transacciones\FacturaDetalleItems_Transacciones.sql" />
+    <Build Include="Tablas\SubPlantas.sql" />
+    <Build Include="Tablas\FacturaPagos.sql" />
+    <Build Include="Tablas\Transacciones\FacturaPagos_Transacciones.sql" />
+    <Build Include="Tablas\NotasCredito.sql" />
+    <Build Include="Tablas\Transacciones\NotasCredito_Transacciones.sql" />
+    <Build Include="Tablas\BonificacionProducto.sql" />
+    <Build Include="Programacion\Functions\Scalar\GetTotalBill.sql" />
+    <Build Include="Programacion\StoredProcedures\spGetPendingInvoice.sql" />
+    <Build Include="Programacion\StoredProcedures\spGetBoletasWithOutInvoice.sql" />
+    <Build Include="Programacion\StoredProcedures\spGetBillsWithWeightsError.sql" />
+    <Build Include="Tablas\AjusteTipos.sql" />
+    <Build Include="Tablas\AjusteBoletas.sql" />
+    <Build Include="Tablas\Transacciones\AjusteBoletas_Transacciones.sql" />
+    <Build Include="Tablas\AjusteBoletaPagos.sql" />
+    <Build Include="Tablas\Transacciones\AjusteBoletaPagos_Transacciones.sql" />
+    <Build Include="Tablas\AjusteBoletaDetalles.sql" />
+    <Build Include="Tablas\Transacciones\AjusteBoletaDetalles_Transacciones.sql" />
+    <Build Include="Programacion\Functions\Scalar\GetTotalChargeLoan.sql" />
+    <Build Include="Programacion\Functions\Scalar\GetLoanPayments.sql" />
+    <Build Include="Programacion\Functions\Scalar\GetAntiguedadLoan.sql" />
+    <Build Include="Programacion\Functions\Scalar\GetInteresLoan.sql" />
+    <Build Include="Programacion\Functions\Scalar\GetOutStandingBalanceBill.sql" />
+    <Build Include="Tablas\BoletasImg.sql" />
+    <Build Include="Tablas\Transacciones\BoletasImg_Transacciones.sql" />
+    <Build Include="Tablas\OrdenesCombustibleImg.sql" />
+    <Build Include="Tablas\Transacciones\OrdenesCombustibleImg_Transacciones.sql" />
+    <Build Include="Programacion\Functions\Scalar\GetBillBalance.sql" />
+    <Build Include="Programacion\Functions\Scalar\GetBillBalanceByHistorical.sql" />
+    <Build Include="Programacion\StoredProcedures\spGetHistoryOfInvoiceBalances.sql" />
+    <Build Include="Programacion\Functions\Scalar\GetTotalCreditNotesByInvoice.sql" />
+    <Build Include="Tablas\FuelOrderManualPayment.sql" />
+    <Build Include="Tablas\Transacciones\FuelOrderManualPayment_Transacciones.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ComercialColindres_CloudUpdate.Database.publish.xml" />
+    <None Include="Script\CloseBoletaMasive.sql" />
+    <None Include="ComercialColindres.Database.Dev.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="ComercialColindres.Database.refactorlog" />
+  </ItemGroup>
+</Project>

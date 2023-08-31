@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[Usuarios]
+(
+	[UsuarioId] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [Usuario] VARCHAR(15) NOT NULL DEFAULT '', 
+    [Nombre] VARCHAR(50) NOT NULL DEFAULT '', 
+    [Clave] VARCHAR(MAX) NOT NULL DEFAULT '', 
+	[CuentaTelegram] VARCHAR(50) NOT NULL DEFAULT '', 
+    [Estado] VARCHAR(10) NOT NULL DEFAULT '' 
+)

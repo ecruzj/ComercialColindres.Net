@@ -1,0 +1,538 @@
+﻿<clases:MetroWindowExt
+    x:Class="ComercialColindres.Windows.UsuariosWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:clases="clr-namespace:WPFCore.UtilidadesWindows;assembly=WPFCore"
+    xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:misControlesWpf="clr-namespace:MisControlesWPF;assembly=MisControlesWPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:wpfCoreConvertidores="clr-namespace:WPFCore.Convertidores;assembly=WPFCore"
+    xmlns:wpfCoreHelpers="clr-namespace:WPFCore.Funciones;assembly=WPFCore"
+    Title="Usuarios"
+    BorderBrush="{DynamicResource AccentColorBrush}"
+    BorderThickness="1"
+    MostrarDialogo="{Binding DialogSettings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    SaveWindowPosition="True"
+    ShowFlyout="{Binding SlidePanelIndice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    mc:Ignorable="d">
+
+    <clases:MetroWindowExt.Resources>
+        <wpfCoreConvertidores:StateValueToColorConverter x:Key="StateValueToColor" />
+    </clases:MetroWindowExt.Resources>
+
+    <clases:MetroWindowExt.DataContext>
+        <Binding
+            Mode="OneWay"
+            Path="UsuariosViewModel"
+            Source="{StaticResource Locator}" />
+    </clases:MetroWindowExt.DataContext>
+
+    <clases:MetroWindowExt.Flyouts>
+        <controls:FlyoutsControl>
+            <controls:Flyout
+                x:Name="AgregarFlyout"
+                Width="450"
+                Margin="100,0,0,0"
+                Header="Crear Usuario"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+
+
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical">
+                            <misControlesWpf:HeaderTextBlock Text="Usuario" />
+                            <misControlesWpf:InputTextBox
+                                Margin="5"
+                                controls:TextboxHelper.Watermark="usuario id del sistema"
+                                Text="{Binding DatoUsuario.Usuario, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControlesWpf:HeaderTextBlock Text="Nombre del Usuario" />
+                            <misControlesWpf:InputTextBox
+                                Margin="5"
+                                controls:TextboxHelper.Watermark="nombre completo del usuario"
+                                Text="{Binding DatoUsuario.Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControlesWpf:HeaderTextBlock Text="Clave" />
+                            <PasswordBox
+                                Margin="5"
+                                wpfCoreHelpers:PasswordHelper.Attach="True"
+                                wpfCoreHelpers:PasswordHelper.Password="{Binding DatoUsuario.Clave, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControlesWpf:HeaderTextBlock Text="Estado" />
+                            <ComboBox
+                                Margin="5"
+                                DisplayMemberPath="Estado"
+                                ItemsSource="{Binding ListadoEstados}"
+                                SelectedValue="{Binding DatoUsuario.Estado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedValuePath="Estado" />
+                            <misControlesWpf:HeaderTextBlock Style="{StaticResource EncabezadoTituloStyle}" Text="Listado de Opciones Permitidas" />
+                            <misControlesWpf:HeaderTextBlock Text="Sucursal" />
+                            <ComboBox
+                                Margin="5"
+                                DisplayMemberPath="Nombre"
+                                ItemsSource="{Binding DatoListadoSucursales}"
+                                SelectedItem="{Binding DatoSucursalSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGrid
+                                Margin="5"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                ItemsSource="{Binding DatoOpcionesUsuarioAgrupadosModel}">
+                                <DataGrid.GroupStyle>
+                                    <GroupStyle>
+                                        <GroupStyle.ContainerStyle>
+                                            <Style TargetType="{x:Type GroupItem}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                            <StackPanel>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock
+                                                                        FontSize="14"
+                                                                        FontWeight="Bold"
+                                                                        Text="{Binding Name}" />
+                                                                    <TextBlock Margin="30,0,0,0" Text="{Binding ItemCount, StringFormat=Registros: {0}}" FontSize="10" FontWeight="Bold" FontStyle="Italic" />
+                                                                </StackPanel>
+                                                                <ItemsPresenter />
+                                                            </StackPanel>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </GroupStyle.ContainerStyle>
+                                    </GroupStyle>
+                                </DataGrid.GroupStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Binding="{Binding Nombre}"
+                                        Header="Nombre de la Opcion"
+                                        IsReadOnly="True" />
+                                    <DataGridCheckBoxColumn Binding="{Binding Seleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Acceso" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <misControlesWpf:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                        <misControlesWpf:AppBarButton
+                            Command="{Binding ComandoCrear}"
+                            Imagen="{StaticResource GuardarPathImagen}"
+                            Titulo="Guadar"
+                            ToolTip="{StaticResource GuardarToolTip}" />
+                    </misControlesWpf:AppBarPanel>
+                </Grid>
+            </controls:Flyout>
+            <controls:Flyout
+                x:Name="EditarFlyout"
+                Width="450"
+                Margin="100,0,0,0"
+                Header="Editar Usuario"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+
+
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical">
+                            <misControlesWpf:HeaderTextBlock Text="Usuario" />
+                            <misControlesWpf:BodyTextBlock Margin="5" Text="{Binding DatoUsuario.Usuario, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControlesWpf:HeaderTextBlock Text="Nombre del Usuario" />
+                            <misControlesWpf:InputTextBox
+                                Margin="5"
+                                controls:TextboxHelper.Watermark="nombre completo del usuario"
+                                Text="{Binding DatoUsuario.Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControlesWpf:HeaderTextBlock Text="Clave" />
+                            <PasswordBox
+                                Margin="5"
+                                wpfCoreHelpers:PasswordHelper.Attach="True"
+                                wpfCoreHelpers:PasswordHelper.Password="{Binding DatoUsuario.Clave, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControlesWpf:HeaderTextBlock Text="Estado" />
+                            <ComboBox
+                                Margin="5"
+                                DisplayMemberPath="Estado"
+                                ItemsSource="{Binding ListadoEstados}"
+                                SelectedValue="{Binding DatoUsuario.Estado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedValuePath="Estado" />
+                            <misControlesWpf:HeaderTextBlock Style="{StaticResource EncabezadoTituloStyle}" Text="Listado de Opciones Permitidas" />
+                            <misControlesWpf:HeaderTextBlock Text="Sucursal" />
+                            <ComboBox
+                                Margin="5"
+                                DisplayMemberPath="Nombre"
+                                ItemsSource="{Binding DatoListadoSucursales}"
+                                SelectedItem="{Binding DatoSucursalSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGrid
+                                Margin="5"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                ItemsSource="{Binding DatoOpcionesUsuarioAgrupadosModel}">
+                                <DataGrid.GroupStyle>
+                                    <GroupStyle>
+                                        <GroupStyle.ContainerStyle>
+                                            <Style TargetType="{x:Type GroupItem}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                            <StackPanel>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock
+                                                                        FontSize="14"
+                                                                        FontWeight="Bold"
+                                                                        Text="{Binding Name}" />
+                                                                    <TextBlock Margin="30,0,0,0" Text="{Binding ItemCount, StringFormat=Registros: {0}}" FontSize="10" FontWeight="Bold" FontStyle="Italic" />
+                                                                </StackPanel>
+                                                                <ItemsPresenter />
+                                                            </StackPanel>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </GroupStyle.ContainerStyle>
+                                    </GroupStyle>
+                                </DataGrid.GroupStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Binding="{Binding Nombre}"
+                                        Header="Nombre de la Opcion"
+                                        IsReadOnly="True" />
+                                    <DataGridCheckBoxColumn Binding="{Binding Seleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Acceso" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <misControlesWpf:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                        <misControlesWpf:AppBarButton
+                            Command="{Binding ComandoActualizar}"
+                            Imagen="{StaticResource GuardarPathImagen}"
+                            Titulo="Guadar"
+                            ToolTip="{StaticResource GuardarToolTip}" />
+                    </misControlesWpf:AppBarPanel>
+                </Grid>
+            </controls:Flyout>
+        </controls:FlyoutsControl>
+    </clases:MetroWindowExt.Flyouts>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="26*" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="433*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Rectangle
+                Height="5"
+                VerticalAlignment="Top"
+                Fill="{DynamicResource AccentColorBrush}" />
+            <Rectangle Margin="0,9,0,0" Fill="{DynamicResource AccentColorBrush}" />
+            <misControlesWpf:HeaderTextBlock
+                Height="20"
+                Margin="30,9.5,0,5.5"
+                Foreground="White"
+                FontSize="16"
+                Text="DETALLE" />
+            <StackPanel
+                Height="60"
+                Margin="0,-16.286,30,-8.714"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <misControlesWpf:TextAppBarButton
+                    Background="{DynamicResource AccentColorBrush}"
+                    Command="{Binding ComandoAgregar}"
+                    Imagen="{Binding Mode=OneWay, Source={StaticResource AgregarPathImagen}}"
+                    Titulo="AGREGAR"
+                    ToolTip="{StaticResource AgregarToolTip}" />
+                <misControlesWpf:TextAppBarButton
+                    Background="{DynamicResource AccentColorBrush}"
+                    Command="{Binding ComandoEditar}"
+                    Imagen="{Binding Mode=OneWay, Source={StaticResource EditarPathImagen}}"
+                    Titulo="EDITAR"
+                    ToolTip="{StaticResource EditarToolTip}" />
+                <misControlesWpf:TextAppBarButton
+                    Background="{DynamicResource AccentColorBrush}"
+                    Command="{Binding ComandoEliminar}"
+                    Imagen="{Binding Mode=OneWay, Source={StaticResource EliminarPathImagen}}"
+                    Titulo="ELIMINAR"
+                    ToolTip="{StaticResource EliminarToolTip}" />
+                <misControlesWpf:TextAppBarButton
+                    Background="{DynamicResource AccentColorBrush}"
+                    Command="{Binding ComandoRefrescar}"
+                    Imagen="{Binding Mode=OneWay, Source={StaticResource RefrescarPathImagen}}"
+                    Titulo="REFRESCAR"
+                    ToolTip="{StaticResource RefrescarToolTip}" />
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="2" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <misControlesWpf:HeaderTextBlock
+                        Style="{StaticResource EncabezadoTituloStyle}"
+                        Text="Buscar"
+                        TextWrapping="Wrap" />
+                    <misControlesWpf:SearchTextBox
+                        Grid.Row="1"
+                        Width="200"
+                        HorizontalAlignment="Left"
+                        Buscar="{Binding ComandoBuscar}"
+                        Text="{Binding ValorBusqueda, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+                <DataGrid
+                    Grid.Row="1"
+                    Margin="5"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    CanUserDeleteRows="False"
+                    IsReadOnly="True"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding ListadoUsuarios, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding UsuarioSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Usuario}" Header="Descripcion" />
+                        <DataGridTextColumn Binding="{Binding Nombre}" Header="Nombre del Usuario" />
+                        <DataGridTemplateColumn Header="Estado">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Ellipse
+                                        Width="10"
+                                        Height="10"
+                                        Fill="{Binding Estado, Converter={StaticResource StateValueToColor}}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+            <Grid Grid.Column="1" Margin="20,0,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <misControlesWpf:HeaderTextBlock Style="{StaticResource EncabezadoTituloStyle}" Text="Datos Generales" />
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                        </Grid.RowDefinitions>
+                        <misControlesWpf:HeaderTextBlock
+                            Margin="5"
+                            Text="Usuario"
+                            TextWrapping="Wrap" />
+                        <misControlesWpf:BodyTextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="5"
+                            Text="{Binding UsuarioSeleccionado.Usuario}"
+                            TextWrapping="Wrap" />
+                        <misControlesWpf:HeaderTextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="5"
+                            Text="Nombre del Usuario"
+                            TextWrapping="Wrap" />
+                        <misControlesWpf:BodyTextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="5"
+                            Text="{Binding UsuarioSeleccionado.Nombre}"
+                            TextWrapping="Wrap" />
+                        <misControlesWpf:HeaderTextBlock
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="5,7.02,5,6.98"
+                            Text="Estado"
+                            TextWrapping="Wrap" />
+                        <misControlesWpf:BodyTextBlock
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Margin="5"
+                            Text="{Binding UsuarioSeleccionado.Estado}"
+                            TextWrapping="Wrap" />
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <misControlesWpf:HeaderTextBlock Style="{StaticResource EncabezadoTituloStyle}" Text="Listado de Opciones Permitidas" />
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <DataGrid
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="5"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding UsuarioSeleccionado.UsuariosSucursalesAsignadas}"
+                                SelectedItem="{Binding UsuarioSucursalAsignadaSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Viewbox Width="22" Height="22">
+                                                    <Grid>
+                                                        <Grid
+                                                            Name="backgroundGrid"
+                                                            Width="128"
+                                                            Height="128"
+                                                            Visibility="Visible">
+                                                            <Path
+                                                                Name="Stroke"
+                                                                Fill="{DynamicResource AccentColorBrush}"
+                                                                Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z"
+                                                                Stretch="Fill"
+                                                                Visibility="Visible" />
+                                                        </Grid>
+                                                        <Path
+                                                            Width="68"
+                                                            Height="68"
+                                                            Margin="0,0,0,0"
+                                                            Fill="#FF5390CC"
+                                                            Data="M6.013,10.875L6.013,13.542 8.6800003,13.542 8.6800003,10.875z M1.7630001,10.833999L1.7630001,13.5 4.4299998,13.5 4.4299998,10.833999z M11.834017,8.9999989L21.501001,8.9999989 21.501001,21.334001 18.750721,21.334001 18.750721,15.083646 14.834323,15.083646 14.834323,21.334001 11.834017,21.334001z M6.013,6.584L6.013,9.2499998 8.6800003,9.2499998 8.6800003,6.584z M1.7630001,6.5419997L1.7630001,9.2089995 4.4299998,9.2089995 4.4299998,6.5419997z M11.834,6.4439996L21.500999,6.4439996 21.500999,7.6939996 11.834,7.6939996z M6.013,2.2920001L6.013,4.959 8.6800003,4.959 8.6800003,2.2920001z M1.7630001,2.2499998L1.7630001,4.9169997 4.4299998,4.9169997 4.4299998,2.2499998z M0,0L10.444,0 10.444,21.333999 0,21.333999z"
+                                                            RenderTransformOrigin="0.5,0.5"
+                                                            Stretch="Uniform">
+                                                            <Path.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <TransformGroup.Children>
+                                                                        <RotateTransform Angle="0" />
+                                                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                                    </TransformGroup.Children>
+                                                                </TransformGroup>
+                                                            </Path.RenderTransform>
+                                                        </Path>
+                                                    </Grid>
+                                                </Viewbox>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn
+                                        FontWeight="Bold"
+                                        Binding="{Binding Nombre}"
+                                        Header="Sucursal" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <DataGrid
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="2"
+                                Margin="5"
+                                AlternatingRowBackground="AliceBlue"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                IsSynchronizedWithCurrentItem="True"
+                                ItemsSource="{Binding ListadoUsuarioOpcionesAgrupadas}"
+                                VirtualizingStackPanel.VirtualizationMode="Recycling">
+                                <DataGrid.GroupStyle>
+                                    <GroupStyle>
+                                        <GroupStyle.ContainerStyle>
+                                            <Style TargetType="{x:Type GroupItem}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                            <StackPanel>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock
+                                                                        FontSize="14"
+                                                                        FontWeight="Bold"
+                                                                        Text="{Binding Name}" />
+                                                                    <TextBlock Margin="30,0,0,0" Text="{Binding ItemCount, StringFormat=Registros: {0}}" FontSize="10" FontStyle="Italic" FontWeight="Bold" />
+                                                                </StackPanel>
+                                                                <ItemsPresenter />
+                                                            </StackPanel>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </GroupStyle.ContainerStyle>
+                                    </GroupStyle>
+                                </DataGrid.GroupStyle>
+
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Viewbox Width="22" Height="22">
+                                                    <Grid>
+                                                        <Grid
+                                                            Name="backgroundGrid"
+                                                            Width="128"
+                                                            Height="128"
+                                                            Visibility="Visible">
+                                                            <Path
+                                                                Name="Stroke"
+                                                                Fill="{DynamicResource AccentColorBrush}"
+                                                                Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z"
+                                                                Stretch="Fill"
+                                                                Visibility="Visible" />
+                                                        </Grid>
+                                                        <Path
+                                                            Width="68"
+                                                            Height="68"
+                                                            Margin="0,0,0,0"
+                                                            Fill="#FF5390CC"
+                                                            Data="M-150.204,626.126C-152.317,626.126 -154.429,626.126 -156.541,626.126 -167.642,633.42 -180.629,646.047 -189.668,657.238 -190.916,658.782 -192.945,662.362 -193.701,662.422 -194.041,662.448 -198.024,659.719 -198.614,659.297 -202.818,656.279 -205.779,653.709 -209.257,650.899 -211.248,652.172 -212.879,653.805 -214.153,655.797 -206.627,665.074 -200.283,675.534 -193.124,685.18 -181.491,665.11 -168.473,644.683 -152.796,629.006 -151.735,627.946 -149.817,626.933 -150.204,626.126z"
+                                                            RenderTransformOrigin="0.5,0.5"
+                                                            Stretch="Uniform">
+                                                            <Path.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <TransformGroup.Children>
+                                                                        <RotateTransform Angle="0" />
+                                                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                                    </TransformGroup.Children>
+                                                                </TransformGroup>
+                                                            </Path.RenderTransform>
+                                                        </Path>
+                                                    </Grid>
+                                                </Viewbox>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Binding="{Binding NombreOpcion}" Header="Nombre de la Opcion" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</clases:MetroWindowExt>

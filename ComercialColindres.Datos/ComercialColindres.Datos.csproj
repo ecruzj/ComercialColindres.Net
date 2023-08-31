@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CD90379B-A665-458C-9877-334539A5DFF2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ComercialColindres.Datos</RootNamespace>
+    <AssemblyName>ComercialColindres.Datos</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\Librerias\AutoMapper\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\Microsoft\EntityFramework\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="ServidorCore">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\WPF Otras\ServidorCore.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Clases\ClaseCifradoContenido.cs" />
+    <Compile Include="Clases\IAuditedEntity.cs" />
+    <Compile Include="Clases\IValidacionesEntidades.cs" />
+    <Compile Include="Entorno\DataCore\BCUnitOfWork\ADOIdentityGenerator.cs" />
+    <Compile Include="Entorno\DataCore\BCUnitOfWork\ADOIdentityGeneratorFactory.cs" />
+    <Compile Include="Entorno\DataCore\BCUnitOfWork\ComercialColindresContext.cs" />
+    <Compile Include="Entorno\Context\Entity.cs" />
+    <Compile Include="Entorno\Context\EntityConfiguration.cs" />
+    <Compile Include="Entorno\DataCore\Logging\ILogger.cs" />
+    <Compile Include="Entorno\DataCore\Logging\ILoggerFactory.cs" />
+    <Compile Include="Entorno\DataCore\Logging\LoggerFactory.cs" />
+    <Compile Include="Entorno\DataCore\Logging\TraceSourceLog.cs" />
+    <Compile Include="Entorno\DataCore\Logging\TraceSourceLogFactory.cs" />
+    <Compile Include="Entorno\DataCore\Setting\ADOSetting.cs" />
+    <Compile Include="Entorno\DataCore\Setting\ADOSettingFactory.cs" />
+    <Compile Include="Entorno\DataCore\Setting\ISetting.cs" />
+    <Compile Include="Entorno\DataCore\Setting\ISettingFactory.cs" />
+    <Compile Include="Entorno\DataCore\Setting\SettingFactory.cs" />
+    <Compile Include="Entorno\Entidades\AjusteBoleta.cs" />
+    <Compile Include="Entorno\Entidades\AjusteBoletaDetalle.cs" />
+    <Compile Include="Entorno\Entidades\AjusteBoletaPago.cs" />
+    <Compile Include="Entorno\Entidades\AjusteTipo.cs" />
+    <Compile Include="Entorno\Entidades\Bancos.cs" />
+    <Compile Include="Entorno\Entidades\BoletaCierres.cs" />
+    <Compile Include="Entorno\Entidades\BoletaDeduccionManual.cs" />
+    <Compile Include="Entorno\Entidades\BoletaDetalles.cs" />
+    <Compile Include="Entorno\Entidades\BoletaHumedad.cs" />
+    <Compile Include="Entorno\Entidades\BoletaHumedadAsignacion.cs" />
+    <Compile Include="Entorno\Entidades\BoletaImg.cs" />
+    <Compile Include="Entorno\Entidades\BoletaOtrasDeducciones.cs" />
+    <Compile Include="Entorno\Entidades\BoletaHumedadPago.cs" />
+    <Compile Include="Entorno\Entidades\Boletas.cs" />
+    <Compile Include="Entorno\Entidades\BonificacionProducto.cs" />
+    <Compile Include="Entorno\Entidades\CategoriaProductos.cs" />
+    <Compile Include="Entorno\Entidades\ClientePlantas.cs" />
+    <Compile Include="Entorno\Entidades\Cuadrillas.cs" />
+    <Compile Include="Entorno\Entidades\CuentasFinancieras.cs" />
+    <Compile Include="Entorno\Entidades\CuentasFinancieraTipos.cs" />
+    <Compile Include="Entorno\Entidades\Deducciones.cs" />
+    <Compile Include="Entorno\Entidades\Descargadores.cs" />
+    <Compile Include="Entorno\Entidades\DescargasPorAdelantado.cs" />
+    <Compile Include="Entorno\Entidades\FacturaDetalleBoletas.cs" />
+    <Compile Include="Entorno\Entidades\FacturaDetalleItem.cs" />
+    <Compile Include="Entorno\Entidades\FacturaPago.cs" />
+    <Compile Include="Entorno\Entidades\FuelOrderManualPayment.cs" />
+    <Compile Include="Entorno\Entidades\GasolineraCreditoPagos.cs" />
+    <Compile Include="Entorno\Entidades\GasolineraCreditos.cs" />
+    <Compile Include="Entorno\Entidades\Gasolineras.cs" />
+    <Compile Include="Entorno\Entidades\LineasCredito.cs" />
+    <Compile Include="Entorno\Entidades\LineasCreditoDeducciones.cs" />
+    <Compile Include="Entorno\Entidades\MaestroBiomasa.cs" />
+    <Compile Include="Entorno\Entidades\NotaCredito.cs" />
+    <Compile Include="Entorno\Entidades\OrdenCombustibleImg.cs" />
+    <Compile Include="Entorno\Entidades\OrdenesCombustible.cs" />
+    <Compile Include="Entorno\Entidades\OrdenesCompraDetalleBoleta.cs" />
+    <Compile Include="Entorno\Entidades\OrdenesCompraProducto.cs" />
+    <Compile Include="Entorno\Entidades\OrdenesCompraProductoDetalle.cs" />
+    <Compile Include="Entorno\Entidades\PagoDescargaDetalles.cs" />
+    <Compile Include="Entorno\Entidades\PagoDescargadores.cs" />
+    <Compile Include="Entorno\Entidades\PagoOrdenesCombustible.cs" />
+    <Compile Include="Entorno\Entidades\PagoPrestamos.cs" />
+    <Compile Include="Entorno\Entidades\PrecioDescargas.cs" />
+    <Compile Include="Entorno\Entidades\PrecioProductos.cs" />
+    <Compile Include="Entorno\Entidades\Prestamos.cs" />
+    <Compile Include="Entorno\Entidades\PrestamosTransferencias.cs" />
+    <Compile Include="Entorno\Entidades\Proveedores.cs" />
+    <Compile Include="Entorno\Entidades\Conductores.cs" />
+    <Compile Include="Entorno\Entidades\Configuraciones.cs" />
+    <Compile Include="Entorno\Entidades\ConfiguracionesDetalles.cs" />
+    <Compile Include="Entorno\Entidades\Correlativos.cs" />
+    <Compile Include="Entorno\Entidades\CuentasBancarias.cs" />
+    <Compile Include="Entorno\Entidades\Equipos.cs" />
+    <Compile Include="Entorno\Entidades\EquiposCategorias.cs" />
+    <Compile Include="Entorno\Entidades\Factura.cs" />
+    <Compile Include="Entorno\Entidades\FacturasCategorias.cs" />
+    <Compile Include="Entorno\Entidades\Opciones.cs" />
+    <Compile Include="Entorno\Entidades\Recibos.cs" />
+    <Compile Include="Entorno\Entidades\SubPlanta.cs" />
+    <Compile Include="Entorno\Entidades\Sucursales.cs" />
+    <Compile Include="Entorno\Entidades\Usuarios.cs" />
+    <Compile Include="Entorno\Entidades\UsuariosOpciones.cs" />
+    <Compile Include="Entorno\DataCore\BCUnitOfWork\EntityMapping.cs" />
+    <Compile Include="Entorno\DataCore\Identy\IdentityFactory.cs" />
+    <Compile Include="Entorno\DataCore\Identy\IIdentityFactory.cs" />
+    <Compile Include="Entorno\DataCore\Identy\IIdentityGenerator.cs" />
+    <Compile Include="Entorno\Mapeos\AjusteBoletaDetalleMap.cs" />
+    <Compile Include="Entorno\Mapeos\AjusteBoletaMap.cs" />
+    <Compile Include="Entorno\Mapeos\AjusteBoletaPagoMap.cs" />
+    <Compile Include="Entorno\Mapeos\AjusteTipoMap.cs" />
+    <Compile Include="Entorno\Mapeos\BancosMap.cs" />
+    <Compile Include="Entorno\Mapeos\BoletaCierresMap.cs" />
+    <Compile Include="Entorno\Mapeos\BoletaDeduccionManualMap.cs" />
+    <Compile Include="Entorno\Mapeos\BoletaDetallesMap.cs" />
+    <Compile Include="Entorno\Mapeos\BoletaHumedadAsignacionMap.cs" />
+    <Compile Include="Entorno\Mapeos\BoletaHumedadMap.cs" />
+    <Compile Include="Entorno\Mapeos\BoletaHumedadPagoMap.cs" />
+    <Compile Include="Entorno\Mapeos\BoletaOtrasDeduccionesMap.cs" />
+    <Compile Include="Entorno\Mapeos\BoletasImgMap.cs" />
+    <Compile Include="Entorno\Mapeos\BoletasMap.cs" />
+    <Compile Include="Entorno\Mapeos\BonificacionProductoMap.cs" />
+    <Compile Include="Entorno\Mapeos\CategoriaProductosMap.cs" />
+    <Compile Include="Entorno\Mapeos\ClientePlantasMap.cs" />
+    <Compile Include="Entorno\Mapeos\CuadrillasMap.cs" />
+    <Compile Include="Entorno\Mapeos\CuentasFinancierasMap.cs" />
+    <Compile Include="Entorno\Mapeos\CuentasFinancieraTiposMap.cs" />
+    <Compile Include="Entorno\Mapeos\DeduccionesMap.cs" />
+    <Compile Include="Entorno\Mapeos\DescargadoresMap.cs" />
+    <Compile Include="Entorno\Mapeos\DescargasPorAdelantadoMap.cs" />
+    <Compile Include="Entorno\Mapeos\FacturaDetalleBoletasMap.cs" />
+    <Compile Include="Entorno\Mapeos\FacturaDetalleItemsMap.cs" />
+    <Compile Include="Entorno\Mapeos\FacturaPagoMap.cs" />
+    <Compile Include="Entorno\Mapeos\FuelOrderManualPaymentMap.cs" />
+    <Compile Include="Entorno\Mapeos\GasolineraCreditoPagosMap.cs" />
+    <Compile Include="Entorno\Mapeos\GasolineraCreditosMap.cs" />
+    <Compile Include="Entorno\Mapeos\GasolinerasMap.cs" />
+    <Compile Include="Entorno\Mapeos\LineasCreditoDeduccionesMap.cs" />
+    <Compile Include="Entorno\Mapeos\LineasCreditoMap.cs" />
+    <Compile Include="Entorno\Mapeos\MaestroBiomasaMap.cs" />
+    <Compile Include="Entorno\Mapeos\NotaCreditoMap.cs" />
+    <Compile Include="Entorno\Mapeos\OrdenesCombustibleImgMap.cs" />
+    <Compile Include="Entorno\Mapeos\OrdenesCombustibleMap.cs" />
+    <Compile Include="Entorno\Mapeos\OrdenesCompraDetalleBoletaMap.cs" />
+    <Compile Include="Entorno\Mapeos\OrdenesCompraProductoDetalleMap.cs" />
+    <Compile Include="Entorno\Mapeos\OrdenesCompraProductoMap.cs" />
+    <Compile Include="Entorno\Mapeos\PagoDescargaDetallesMap.cs" />
+    <Compile Include="Entorno\Mapeos\PagoDescargadoresMap.cs" />
+    <Compile Include="Entorno\Mapeos\PagoOrdenesCombustibleMap.cs" />
+    <Compile Include="Entorno\Mapeos\PagoPrestamosMap.cs" />
+    <Compile Include="Entorno\Mapeos\PrecioDescargasMap.cs" />
+    <Compile Include="Entorno\Mapeos\PrecioProductosMap.cs" />
+    <Compile Include="Entorno\Mapeos\PrestamosMap.cs" />
+    <Compile Include="Entorno\Mapeos\PrestamosTransferenciasMap.cs" />
+    <Compile Include="Entorno\Mapeos\ProveedoresMap.cs" />
+    <Compile Include="Entorno\Mapeos\ConductoresMap.cs" />
+    <Compile Include="Entorno\Mapeos\ConfiguracionesDetallesMap.cs" />
+    <Compile Include="Entorno\Mapeos\ConfiguracionesMap.cs" />
+    <Compile Include="Entorno\Mapeos\CorrelativosMap.cs" />
+    <Compile Include="Entorno\Mapeos\CuentasBancariasMap.cs" />
+    <Compile Include="Entorno\Mapeos\EquiposCategoriasMap.cs" />
+    <Compile Include="Entorno\Mapeos\EquiposMap.cs" />
+    <Compile Include="Entorno\Mapeos\FacturasCategoriasMap.cs" />
+    <Compile Include="Entorno\Mapeos\FacturasMap.cs" />
+    <Compile Include="Entorno\Mapeos\OpcionesMap.cs" />
+    <Compile Include="Entorno\Mapeos\RecibosMap.cs" />
+    <Compile Include="Entorno\Mapeos\SubPlantaMap.cs" />
+    <Compile Include="Entorno\Mapeos\SucursalesMap.cs" />
+    <Compile Include="Entorno\Mapeos\UsuariosMap.cs" />
+    <Compile Include="Entorno\Mapeos\UsuariosOpcionesMap.cs" />
+    <Compile Include="Entorno\Modelos\ReporteBoletaDeduccionesPrestamo.cs" />
+    <Compile Include="Entorno\Modelos\ReporteDescargadores.cs" />
+    <Compile Include="Entorno\Modelos\ReporteFacturacion.cs" />
+    <Compile Include="Entorno\Modelos\ReportePagoDescargadores.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\BillsWithWeightsError\RptBillWithWeightsError.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\BoletaPaymentPending\RptBoletaPaymentPending.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\BoletaPaymentPending\RptBoletaPaymentPendingResumen.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\BoletaWithOutInvoice\RptBoletaWithOutInvoice.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\HistoryOfInvoicceBalances\RptHistoryOfInvoiceBalances.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\Humidity\RptHumidityPendingPayment.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\PendingInvoice\RptPendingInvoice.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\RptCompraProductoBiomasaDetalle.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\RptCompraProductoBiomasaResumen.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\GasCreditos\RptGasCreditoEncabezado.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\GasCreditos\RptOrdenesCombustibleOperativo.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\GasCreditos\RptOrdenesCombustiblePersonales.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\PrestamosPorProveedor\RptPrestamosPorProveedorDetalle.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\PrestamosPorProveedor\RptPrestamosPorProveedorEncabezado.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\RptHistorialBoletas.cs" />
+    <Compile Include="Entorno\Modelos\Reportes\RptPrestamosPendientes.cs" />
+    <Compile Include="Entorno\Modelos\TransaccionInformacion.cs" />
+    <Compile Include="Entorno\Modelos\UsuariosSucursalesAsignadas.cs" />
+    <Compile Include="Entorno\DataCore\BCUnitOfWork\ModifiedEntityEntry.cs" />
+    <Compile Include="Entorno\DataCore\BCUnitOfWork\SqlCommandInfo.cs" />
+    <Compile Include="Entorno\DataCore\Transactions\Transaction.cs" />
+    <Compile Include="Entorno\DataCore\Transactions\TransactionDetail.cs" />
+    <Compile Include="Entorno\DataCore\Transactions\TransactionIdentity.cs" />
+    <Compile Include="Entorno\DataCore\Transactions\TransactionInfo.cs" />
+    <Compile Include="Entorno\DataCore\Transactions\TransactionInfoFactory.cs" />
+    <Compile Include="Entorno\DataCore\Transactions\TransactionScopeFactory.cs" />
+    <Compile Include="Especificaciones\AjusteBoletasSpecification.cs" />
+    <Compile Include="Especificaciones\BoletasEspecificaciones.cs" />
+    <Compile Include="Especificaciones\BoletasHumedadSpecification.cs" />
+    <Compile Include="Especificaciones\CategoriaProductosEspecificaciones.cs" />
+    <Compile Include="Especificaciones\ClientePlantasEspecificaciones.cs" />
+    <Compile Include="Especificaciones\ConductoresEspecificaciones.cs" />
+    <Compile Include="Especificaciones\CuadrillasEspecificaciones.cs" />
+    <Compile Include="Especificaciones\DescargadoresEspecificaciones.cs" />
+    <Compile Include="Especificaciones\EquiposEspecificaciones.cs" />
+    <Compile Include="Especificaciones\GasolineraCreditosEspecificaciones.cs" />
+    <Compile Include="Especificaciones\GasolinerasEspecificaciones.cs" />
+    <Compile Include="Especificaciones\LineasCreditoEspecificaciones.cs" />
+    <Compile Include="Especificaciones\OrdenesCombustibleEspecificaciones.cs" />
+    <Compile Include="Especificaciones\OrdenesCompraProductoEspecificaciones.cs" />
+    <Compile Include="Especificaciones\PagoDescargasEspecificaciones.cs" />
+    <Compile Include="Especificaciones\PrestamosEspecificaciones.cs" />
+    <Compile Include="Especificaciones\ProveedoresEspecificaciones.cs" />
+    <Compile Include="Especificaciones\FacturasEspecificaciones.cs" />
+    <Compile Include="Especificaciones\OpcionesEspecificaciones.cs" />
+    <Compile Include="Especificaciones\UsuariosEspecificaciones.cs" />
+    <Compile Include="Helpers\CorrelativosHelper.cs" />
+    <Compile Include="Helpers\FuncionesDataService.cs" />
+    <Compile Include="Helpers\ReportesDataService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recursos\Estados.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Estados.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos\MensajesValidacion.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MensajesValidacion.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos\ProductCategory.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProductCategory.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ComercialColindres.DTOs\ComercialColindres.DTOs.csproj">
+      <Project>{B772147B-2173-4145-A6AC-5564C66795F3}</Project>
+      <Name>ComercialColindres.DTOs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Recursos\Estados.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Estados.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos\MensajesValidacion.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MensajesValidacion.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos\ProductCategory.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProductCategory.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

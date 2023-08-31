@@ -1,0 +1,522 @@
+﻿<wpfCoreWindow:MetroWindowExt
+    x:Class="ComercialColindres.Windows.BoletasHumedadWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:Convertidores="clr-namespace:WPFCore.Convertidores;assembly=WPFCore"
+    xmlns:controles="clr-namespace:ComercialColindres.Controls"
+    xmlns:convertidoresLocal="clr-namespace:ComercialColindres.Convertidores"
+    xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:HelpersMahApps="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:controlsMahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:Comportamientos="clr-namespace:WPFCore.Comportamientos;assembly=WPFCore"
+    xmlns:misControles="clr-namespace:MisControlesWPF;assembly=MisControlesWPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:wpfCoreWindow="clr-namespace:WPFCore.UtilidadesWindows;assembly=WPFCore"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+    Title="Boletas con Humedad"
+    Width="1024"
+    Height="600"
+    MostrarDialogo="{Binding DialogSettings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    SaveWindowPosition="True"
+    ShowFlyout="{Binding SlidePanelIndice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    WindowStartupLocation="CenterScreen">
+
+    <wpfCoreWindow:MetroWindowExt.Resources>
+        <Convertidores:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <Convertidores:BoolToStringConverter x:Key="BoolToStringConverter" />
+        <Convertidores:StateValueToColorConverter x:Key="StateValueToColorConverter" />
+        <Convertidores:DateTimeToShortString x:Key="DateTimeToShortString" />
+        <convertidoresLocal:EstadoColorConvert x:Key="EstadoColorConvert" />
+    </wpfCoreWindow:MetroWindowExt.Resources>
+
+    <wpfCoreWindow:MetroWindowExt.DataContext>
+        <Binding Path="BoletasHumedadViewModel" Source="{StaticResource Locator}"/>
+    </wpfCoreWindow:MetroWindowExt.DataContext>
+
+    <wpfCoreWindow:MetroWindowExt.Flyouts>
+        <controlsMahApps:FlyoutsControl>
+            <controlsMahApps:Flyout x:Name="AgregarBoletasHumedadFlyout"
+                Width="500"
+                Margin="100,0,0,0"
+                Header="Agregar Boletas con Humedad"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="115"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                            </Grid.RowDefinitions>
+                            <misControles:HeaderTextBlock Text="Planta Destino" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+                            <misControles:InputTextBoxAutoCompleteControl
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                    AutoCompletionList="{Binding ListaPlantasAutoComplete}"       
+                                    Buscar="{Binding CommandSearchFacility}"
+                                    SelectedItem="{Binding FacilitySelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock Text="Total Humedades" Grid.Column="1" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+                            <misControles:BodyTextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DatoBoletasHumidity.TotalBoletas}" HorizontalAlignment="Center" />
+                        </Grid>
+                        <TabControl Grid.Row="1">
+                            <TabItem HelpersMahApps:ControlsHelper.HeaderFontSize="16" Header="Importar Humedades">
+                                <!--<i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding Path=ComandoIndicarTipoImportacion}" CommandParameter="False"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>-->
+                                <Grid>
+                                    <controles:ImportarExcelUserControl ColeccionDatosImportados="{Binding XlsColeccionImportacion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </Grid>
+                            </TabItem>
+                            <TabItem HelpersMahApps:ControlsHelper.HeaderFontSize="16" Header="Validaciones" Visibility="{Binding ImportationErrors, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <Grid Margin="5">
+                                    <DataGrid
+                                        Grid.Row="1"
+                                        Margin="5"
+                                        AutoGenerateColumns="False"
+                                        CanUserAddRows="False"
+                                        CanUserDeleteRows="False"
+                                        IsReadOnly="True"
+                                        ItemsSource="{Binding BoletaHumidityValidations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding NumeroEnvio}" Header="Número Envío" />
+                                            <DataGridTextColumn Binding="{Binding MensajeError}" Header="Mensaje Validacion" Foreground="Red" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </TabItem>
+                            <TabItem HelpersMahApps:ControlsHelper.HeaderFontSize="16" Header="Agregar Humedad Manual" Visibility="Collapsed">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding Path=ComandoIndicarTipoImportacion}" CommandParameter="True"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <Grid Margin="5" Visibility="Collapsed">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="250"/>
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <misControles:HeaderTextBlock Grid.Row="0" Text="Número de Envío" />
+                                        <misControles:InputTextBox Grid.Row="0"
+                                        Grid.Column="1">
+
+                                        </misControles:InputTextBox>
+                                        <misControles:OnlyImageAutoSizeButton
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Width="21"
+                                        Height="21"
+                                        Margin="5"
+                                        HorizontalAlignment="Left"
+                                        Background="{DynamicResource AccentColorBrush}"
+                                        Command="{Binding ComandoAgregarFacturaBoletaDetalle}"
+                                        Imagen="{DynamicResource AgregarPathImagen}" />
+                                        <misControles:HeaderTextBlock Grid.Row="1" Text="Promedio de Humedad" />
+                                        <misControles:InputTextBox Grid.Row="1"
+                                        Grid.Column="1">
+
+                                        </misControles:InputTextBox>
+                                    </Grid>
+                                    <DataGrid
+                                        Grid.Row="1"
+                                        Margin="5"
+                                        AutoGenerateColumns="False"
+                                        CanUserAddRows="False"
+                                        CanUserDeleteRows="False"
+                                        IsReadOnly="True"
+                                        ItemsSource="{Binding ListaFacturaDetalleBoletasModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedItem="{Binding FacturaDetalleBoletaSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Width="33">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <misControles:OnlyImageAutoSizeButton
+                                                                Width="21"
+                                                                Height="21"
+                                                                Margin="2"
+                                                                Background="{DynamicResource AccentColorBrush}"
+                                                                Command="{Binding FacturasViewModel.ComandoQuitarFacturaBoletaDetalle, Source={StaticResource Locator}}"
+                                                                Imagen="{DynamicResource QuitarPathImagen}" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Binding="{Binding CodigoBoleta}" Header="Boleta" />
+                                            <DataGridTextColumn Binding="{Binding NombreProveedor}" Header="Proveedor" />
+                                            <DataGridTextColumn Binding="{Binding DescripcionTipoProducto}" Header="Producto" />
+                                            <DataGridTextColumn Binding="{Binding PrecioProductoCompra, StringFormat=N2}" Header="Precio Compra" />
+                                            <DataGridTextColumn Binding="{Binding PrecioProductoVenta, StringFormat=N2}" Header="Precio Venta" />
+                                            <DataGridTextColumn Binding="{Binding PesoProducto, StringFormat=N2}" Header="Toneladas" />
+                                            <DataGridTextColumn Binding="{Binding TotalPrecioBoleta, StringFormat=N2}" Header="Total" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                    <misControles:AppBarPanel x:Name="GuardarManual" Grid.Row="1" Background="{DynamicResource AccentColorBrush}" Visibility="Collapsed">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoGuardarDetalleBoletasManual}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar" />
+                    </misControles:AppBarPanel>
+                    <misControles:AppBarPanel x:Name="GuardarMasivo" Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                        <misControles:AppBarButton
+                            Command="{Binding CommandSaveBoletasHumidityMasive}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar Masivo" />
+                    </misControles:AppBarPanel>
+                    <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+        </controlsMahApps:FlyoutsControl>
+    </wpfCoreWindow:MetroWindowExt.Flyouts>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="70" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="275" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="Busqueda Boletas con Humedad">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="400*" />
+                        <RowDefinition Height="33*" />
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <misControles:TitleTextBlock Text="Buscar" />
+                        <misControles:SearchTextBox
+							Grid.Row="1"
+							Buscar="{Binding CommandSearchBoletaHumidity}"
+							SpellCheck.IsEnabled="True"
+							Text="{Binding SearchValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                    <ListBox
+                        Grid.Row="1"
+                        Margin="5"
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding BoletasHumidityControl.Items}"
+                        SelectedItem="{Binding BoletaHumiditeSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Margin="2">
+                                        <Grid Width="25">
+                                            <Path
+                                                Fill="{Binding Estado, Converter={StaticResource StateValueToColorConverter}}"
+                                                Data="M10.058927,10.900028C11.158908,13.400034 9.8589301,15.200039 9.8589301,15.200039 9.5589354,15.900041 9.4589369,16.400042 9.4589369,16.400042 9.058944,19.200049 11.158908,19.60005 11.158908,19.60005 13.258872,19.90005 13.758863,17.800045 13.758863,17.800045 14.958843,14.300036 10.058927,10.900028 10.058927,10.900028z M2.3590581,0C2.3590584,0 21.958723,12.300032 17.4588,25.500064 17.4588,25.500065 15.358836,32.900083 7.0589778,31.900081 7.0589781,31.900081 -1.24088,30.500077 0.15909624,20.200051 0.15909624,20.200051 0.35909271,18.400047 1.6590705,15.80004 1.6590705,15.80004 6.5589866,8.6000223 2.3590581,0z"
+                                                RenderTransformOrigin="0.5,0.5"
+                                                Stretch="Uniform" />
+                                        </Grid>
+                                    </Viewbox>
+                                    <StackPanel
+                                        Width="185"
+                                        Margin="5"
+                                        Orientation="Vertical">
+                                        <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Text="{Binding NumeroEnvio}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            FontSize="10"
+                                            Text="{Binding NombreProveedor}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            Foreground="{Binding Estado, Converter={StaticResource StateValueToColorConverter}}"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Text="{Binding Estado}"
+                                            TextWrapping="Wrap" />
+                                        <Rectangle Height="6" Style="{StaticResource EstiloRectanguloEnListas}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <misControles:PaginarControl
+						Grid.Row="2"
+						Width="170"
+						Background="{DynamicResource AccentColorBrush}"
+						ComandoAnterior="{Binding CommandSurf}"
+						ComandoSiguiente="{Binding CommandSurf}"
+						NumeroPagina="{Binding NumeroPagina, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						TotalPaginas="{Binding BoletasHumidityControl.TotalPagina}" />
+                </Grid>
+            </GroupBox>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <GroupBox Header="Datos Generales de la Boleta con Humedad">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" MinHeight="28" />
+                            <RowDefinition Height="Auto" MinHeight="28" />
+                            <RowDefinition Height="Auto" MinHeight="28" />
+                            <RowDefinition Height="Auto" MinHeight="28" />
+                            <RowDefinition Height="Auto" MinHeight="28" />
+                        </Grid.RowDefinitions>
+                        <misControles:HeaderTextBlock
+							Margin="5"
+							Text="Codigo de la Boleta"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding BoletaHumiditeSelected.CodigoBoleta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+							Margin="5"
+                            Grid.Column="2"
+                            Grid.Row="0"
+							Text="Numero de Envío"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Column="3"
+                            Grid.Row="0"
+							Margin="5"
+							Text="{Binding BoletaHumiditeSelected.NumeroEnvio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="1"
+							Margin="5"
+							Text="Proveedor"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="1"
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding BoletaHumiditeSelected.NombreProveedor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="1"
+                            Grid.Column="2"
+							Margin="5"
+							Text="Planta Destino"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="1"
+							Grid.Column="3"
+							Margin="5"
+							Text="{Binding BoletaHumiditeSelected.NombrePlanta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="2"
+							Margin="5"
+							Text="Precio Compra"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="2"
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding BoletaHumiditeSelected.PrecioCompra, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="2"
+                            Grid.Column="2"
+							Margin="5"
+							Text="Promedio Humedad"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="2"
+							Grid.Column="3"
+							Margin="5"
+							Text="{Binding BoletaHumiditeSelected.HumedadPromedio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="3"
+                            Grid.Column="0"
+							Margin="5"
+							Text="% Tolerancia"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="3"
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding BoletaHumiditeSelected.PorcentajeTolerancia, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="3"
+                            Grid.Column="2"
+							Margin="5"
+							Text="Saldo por Humedad"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="3"
+							Grid.Column="3"
+							Margin="5"
+							Text="{Binding BoletaHumiditeSelected.OutStandingPay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="4"
+							Margin="5"
+							Text="Boleta Ingresada"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="4"
+							Grid.Column="1"
+							Text="{Binding BoletaHumiditeSelected.BoletaIngresada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="4"
+                            Grid.Column="2"
+                            Margin="5"
+							Text="Fecha Humedad"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="4"
+							Grid.Column="3"
+							Text="{Binding BoletaHumiditeSelected.FechaHumedad, StringFormat=D, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                </GroupBox>
+                <TabControl Grid.Row="1" Visibility="{Binding IsPaid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TabItem controlsMahApps:ControlsHelper.HeaderFontSize="16" Header="Pago con Boleta">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Border
+                            Grid.Column="0"
+                            Width="100"
+                            Height="100"
+                            Margin="5"
+                            Background="{DynamicResource AccentColorBrush}"
+                            BorderBrush="{DynamicResource AccentColorBrush}"
+                            BorderThickness="1"
+                            CornerRadius="1">
+                                    <Grid>
+                                        <Viewbox Margin="5">
+                                            <Grid>
+                                                <Path
+                                            Width="26"
+                                            Height="26"
+                                            Margin="0,0,0,0"
+                                            Fill="#FFFFFFFF"
+                                            Data="M15,25.010004L19,25.010004C19.552,25.010004 20,25.458004 20,26.010004 20,26.562004 19.552,27.010004 19,27.010004L15,27.010004C14.448,27.010004 14,26.562004 14,26.010004 14,25.458004 14.448,25.010004 15,25.010004z M6,22L6,26 10,26 10,22z M15,21.010004L19,21.010004C19.552,21.010004 20,21.458004 20,22.010004 20,22.562004 19.552,23.010004 19,23.010004L15,23.010004C14.448,23.010004 14,22.562004 14,22.010004 14,21.458004 14.448,21.010004 15,21.010004z M4,20L12,20 12,28 4,28z M15,14.010004L19,14.010004C19.552,14.010004 20,14.458004 20,15.010004 20,15.562004 19.552,16.010004 19,16.010004L15,16.010004C14.448,16.010004 14,15.562004 14,15.010004 14,14.458004 14.448,14.010004 15,14.010004z M6,11L6,15 10,15 10,11z M15,10.010004L19,10.010004C19.552,10.010004 20,10.458004 20,11.010004 20,11.562004 19.552,12.010004 19,12.010004L15,12.010004C14.448,12.010004 14,11.562004 14,11.010004 14,10.458004 14.448,10.010004 15,10.010004z M4,9L12,9 12,17 4,17z M18,2.4139996L18,6.0309906 21.616991,6.0309906z M2,2L2,30 22,30 22,8.0309887 16,8.0309887 16,2z M2,0L18.414,0 24,5.5860004 24,30C24,31.103,23.103001,32,22,32L2,32C0.89700007,32,0,31.103,0,30L0,2C0,0.89699936,0.89700007,0,2,0z"
+                                            RenderTransformOrigin="0.5,0.5"
+                                            Stretch="Uniform">
+                                                    <Path.RenderTransform>
+                                                        <TransformGroup>
+                                                            <RotateTransform Angle="0" />
+                                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                        </TransformGroup>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                            </Grid>
+                                        </Viewbox>
+                                    </Grid>
+                                </Border>
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <misControles:HeaderTextBlock Margin="5" Text="Precio Producto" />
+                                    <misControles:BodyTextBlock Margin="5" Grid.Column="1" Text="{Binding BoletaHumidityPayment.PrecioProducto, StringFormat=N2}" />
+                                    <misControles:HeaderTextBlock Margin="5" Grid.Column="2" Text="Fecha Ingreso" />
+                                    <misControles:BodyTextBlock Margin="5" Grid.Column="3" Text="{Binding BoletaHumidityPayment.FechaIngreso, Converter={StaticResource DateTimeToShortString}}" />
+                                    <misControles:HeaderTextBlock Margin="5" Grid.Row="1" Text="Motorista" />
+                                    <misControles:BodyTextBlock Margin="5" Grid.Row="1" Grid.Column="1" Text="{Binding BoletaHumidityPayment.Motorista}" />
+                                    <misControles:HeaderTextBlock Margin="5" Grid.Row="1" Grid.Column="2" Text="Placa Cabezal" />
+                                    <misControles:BodyTextBlock Margin="5" Grid.Row="1" Grid.Column="3" Text="{Binding BoletaHumidityPayment.PlacaCabezal}" />
+                                    <misControles:HeaderTextBlock Margin="5" Grid.Row="2" Text="Producto Biomasa" />
+                                    <misControles:BodyTextBlock Margin="5" Grid.Row="2" Grid.Column="1" Text="{Binding BoletaHumidityPayment.ProductoBiomasa}" />
+                                    <misControles:HeaderTextBlock Margin="5" Grid.Row="2" Grid.Column="2" Text="Toneladas" />
+                                    <misControles:BodyTextBlock Margin="5" Grid.Row="2" Grid.Column="3" Text="{Binding BoletaHumidityPayment.Toneladas, StringFormat=N2}" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Grid>
+        <misControles:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+            <misControles:AppBarButton
+				Command="{Binding CommandShowBoletasHumidityPanel}"
+				Imagen="{DynamicResource AgregarPathImagen}"
+				Titulo="Crear" />
+            <misControles:AppBarButton
+				Command="{Binding ComandoMostrarEditar}"
+				Imagen="{DynamicResource EditarPathImagen}"
+				Titulo="Editar" />
+            <misControles:AppBarButton
+				Command="{Binding CommandDeleteHumidity}"
+				Imagen="{DynamicResource EliminarPathImagen}"
+				Titulo="Eliminar" />
+            <misControles:Separador />
+            <misControles:AppBarButton
+				Command="{Binding CommandRefresh}"
+				Imagen="{DynamicResource RefrescarPathImagen}"
+				Titulo="Actualizar" />
+        </misControles:AppBarPanel>
+
+        <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEsperaPrincipal}" d:IsHidden="True">
+            <Grid>
+                <misControles:BloqueoPanel/>
+                <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+            </Grid>
+        </Border>
+    </Grid>
+</wpfCoreWindow:MetroWindowExt>

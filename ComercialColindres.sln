@@ -1,0 +1,130 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComercialColindres", "ComercialColindres\ComercialColindres.csproj", "{30D83F5E-735D-4915-86BA-C190DB800FB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComercialColindres.Web", "ComercialColindres.Web\ComercialColindres.Web.csproj", "{5C64F748-606B-4178-B116-A658EEC2DFF1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cliente", "Cliente", "{6CA1312B-7446-438B-A4AD-2007EB3CC529}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servidor", "Servidor", "{06CFF430-A613-4041-8789-85D0E1430664}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComercialColindres.Servicios", "ComercialColindres.Servicios\ComercialColindres.Servicios.csproj", "{43111A72-A870-474D-AD46-83522D16357C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComercialColindres.DTOs", "ComercialColindres.DTOs\ComercialColindres.DTOs.csproj", "{B772147B-2173-4145-A6AC-5564C66795F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComercialColindres.Datos", "ComercialColindres.Datos\ComercialColindres.Datos.csproj", "{CD90379B-A665-458C-9877-334539A5DFF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComercialColindres.ReglasNegocio", "ComercialColindres.ReglasNegocio\ComercialColindres.ReglasNegocio.csproj", "{10F157C3-3219-4CF6-915C-24F1C6374CF5}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ComercialColindres.Database", "ComercialColindres.Database\ComercialColindres.Database.sqlproj", "{739F7978-10D6-4C8D-BA94-99B3DA394BE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComercialColindres.Reportes", "ComercialColindres.Reportes\ComercialColindres.Reportes.csproj", "{5D394F53-9B0D-4CBB-B7BE-34860D97F909}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComercialColindres.Test", "ComercialColindres.Test\ComercialColindres.Test.csproj", "{0B4F322B-564E-45A8-95E5-A75A1EF45AF5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{30D83F5E-735D-4915-86BA-C190DB800FB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30D83F5E-735D-4915-86BA-C190DB800FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30D83F5E-735D-4915-86BA-C190DB800FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30D83F5E-735D-4915-86BA-C190DB800FB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C64F748-606B-4178-B116-A658EEC2DFF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C64F748-606B-4178-B116-A658EEC2DFF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C64F748-606B-4178-B116-A658EEC2DFF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C64F748-606B-4178-B116-A658EEC2DFF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43111A72-A870-474D-AD46-83522D16357C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43111A72-A870-474D-AD46-83522D16357C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43111A72-A870-474D-AD46-83522D16357C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43111A72-A870-474D-AD46-83522D16357C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B772147B-2173-4145-A6AC-5564C66795F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B772147B-2173-4145-A6AC-5564C66795F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B772147B-2173-4145-A6AC-5564C66795F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B772147B-2173-4145-A6AC-5564C66795F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD90379B-A665-458C-9877-334539A5DFF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD90379B-A665-458C-9877-334539A5DFF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD90379B-A665-458C-9877-334539A5DFF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD90379B-A665-458C-9877-334539A5DFF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10F157C3-3219-4CF6-915C-24F1C6374CF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10F157C3-3219-4CF6-915C-24F1C6374CF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10F157C3-3219-4CF6-915C-24F1C6374CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10F157C3-3219-4CF6-915C-24F1C6374CF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{739F7978-10D6-4C8D-BA94-99B3DA394BE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{739F7978-10D6-4C8D-BA94-99B3DA394BE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{739F7978-10D6-4C8D-BA94-99B3DA394BE9}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{739F7978-10D6-4C8D-BA94-99B3DA394BE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{739F7978-10D6-4C8D-BA94-99B3DA394BE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{739F7978-10D6-4C8D-BA94-99B3DA394BE9}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{5D394F53-9B0D-4CBB-B7BE-34860D97F909}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D394F53-9B0D-4CBB-B7BE-34860D97F909}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D394F53-9B0D-4CBB-B7BE-34860D97F909}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D394F53-9B0D-4CBB-B7BE-34860D97F909}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B4F322B-564E-45A8-95E5-A75A1EF45AF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B4F322B-564E-45A8-95E5-A75A1EF45AF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B4F322B-564E-45A8-95E5-A75A1EF45AF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B4F322B-564E-45A8-95E5-A75A1EF45AF5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{30D83F5E-735D-4915-86BA-C190DB800FB4} = {6CA1312B-7446-438B-A4AD-2007EB3CC529}
+		{5C64F748-606B-4178-B116-A658EEC2DFF1} = {06CFF430-A613-4041-8789-85D0E1430664}
+		{43111A72-A870-474D-AD46-83522D16357C} = {06CFF430-A613-4041-8789-85D0E1430664}
+		{B772147B-2173-4145-A6AC-5564C66795F3} = {06CFF430-A613-4041-8789-85D0E1430664}
+		{CD90379B-A665-458C-9877-334539A5DFF2} = {06CFF430-A613-4041-8789-85D0E1430664}
+		{10F157C3-3219-4CF6-915C-24F1C6374CF5} = {06CFF430-A613-4041-8789-85D0E1430664}
+		{5D394F53-9B0D-4CBB-B7BE-34860D97F909} = {06CFF430-A613-4041-8789-85D0E1430664}
+		{0B4F322B-564E-45A8-95E5-A75A1EF45AF5} = {06CFF430-A613-4041-8789-85D0E1430664}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91B43596-5F0F-476F-B847-789673B63EBD}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 10
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://ecruzj.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ComercialColindres.Database\\ComercialColindres.Database.sqlproj
+		SccProjectName1 = ComercialColindres.Database
+		SccLocalPath1 = ComercialColindres.Database
+		SccProjectUniqueName2 = ComercialColindres.Datos\\ComercialColindres.Datos.csproj
+		SccProjectTopLevelParentUniqueName2 = ComercialColindres.sln
+		SccProjectName2 = ComercialColindres.Datos
+		SccLocalPath2 = ComercialColindres.Datos
+		SccProjectUniqueName3 = ComercialColindres.DTOs\\ComercialColindres.DTOs.csproj
+		SccProjectTopLevelParentUniqueName3 = ComercialColindres.sln
+		SccProjectName3 = ComercialColindres.DTOs
+		SccLocalPath3 = ComercialColindres.DTOs
+		SccProjectUniqueName4 = ComercialColindres.ReglasNegocio\\ComercialColindres.ReglasNegocio.csproj
+		SccProjectTopLevelParentUniqueName4 = ComercialColindres.sln
+		SccProjectName4 = ComercialColindres.ReglasNegocio
+		SccLocalPath4 = ComercialColindres.ReglasNegocio
+		SccProjectUniqueName5 = ComercialColindres.Reportes\\ComercialColindres.Reportes.csproj
+		SccProjectTopLevelParentUniqueName5 = ComercialColindres.sln
+		SccProjectName5 = ComercialColindres.Reportes
+		SccLocalPath5 = ComercialColindres.Reportes
+		SccProjectUniqueName6 = ComercialColindres.Servicios\\ComercialColindres.Servicios.csproj
+		SccProjectTopLevelParentUniqueName6 = ComercialColindres.sln
+		SccProjectName6 = ComercialColindres.Servicios
+		SccLocalPath6 = ComercialColindres.Servicios
+		SccProjectUniqueName7 = ComercialColindres.Web\\ComercialColindres.Web.csproj
+		SccProjectTopLevelParentUniqueName7 = ComercialColindres.sln
+		SccProjectName7 = ComercialColindres.Web
+		SccLocalPath7 = ComercialColindres.Web
+		SccProjectUniqueName8 = ComercialColindres\\ComercialColindres.csproj
+		SccProjectTopLevelParentUniqueName8 = ComercialColindres.sln
+		SccProjectName8 = ComercialColindres
+		SccLocalPath8 = ComercialColindres
+		SccProjectUniqueName9 = ComercialColindres.Test\\ComercialColindres.Test.csproj
+		SccProjectTopLevelParentUniqueName9 = ComercialColindres.sln
+		SccProjectName9 = ComercialColindres.Test
+		SccLocalPath9 = ComercialColindres.Test
+	EndGlobalSection
+EndGlobal

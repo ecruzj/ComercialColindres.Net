@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="ComercialColindres.Views.IngresarSistemaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:my="clr-namespace:ComercialColindres.Helpers"
+             xmlns:wpfCoreHelpers="clr-namespace:WPFCore.Funciones;assembly=WPFCore"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:misControlesWpf="clr-namespace:MisControlesWPF;assembly=MisControlesWPF"
+             d:DesignHeight="600"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <Grid>
+        <Grid Width="300"    
+              Height="245"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Viewbox Width="75" Grid.Row="0">
+                <Grid>
+                    <Grid Width="128"
+                          Height="128"
+                          Visibility="Visible">
+                        <Path Name="Stroke"
+                              Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z"
+                              Fill="{DynamicResource AccentColorBrush}"
+                              Stretch="Fill"
+                              Visibility="Visible" />
+                    </Grid>
+                    <Path Width="68"
+                          Height="68"
+                          Margin="0,0,0,0"
+                          Data="M7.0330159,25.740992C6.5330163,25.740992 6.1249963,26.148951 6.1249963,26.647974 6.1249963,27.152977 6.5330163,27.558006 7.0330159,27.558006 7.5339919,27.558006 7.9429885,27.152977 7.9429885,26.647974 7.9429885,26.148951 7.5339919,25.740992 7.0330159,25.740992z M32.818016,18.931972C32.818016,18.931972,42.134018,21.152967,43.02002,30.024954L10.634006,30.024954C10.634006,30.024954,13.297008,20.263969,21.283011,19.375971L23.446011,28.637957 25.035574,28.624798 26.841871,23.884357 25.155031,20.958004 28.529009,20.958004 26.909308,23.957279 28.97218,28.592213 30.211014,28.581957z M3.4349955,17.525914C2.852049,17.525914 2.3749987,17.920934 2.3749985,18.403965 2.3749987,18.886996 2.852049,19.282992 3.4349955,19.282992L10.632013,19.282992C11.21502,19.282992 11.691033,18.886996 11.691033,18.403965 11.691033,17.920934 11.21502,17.525914 10.632013,17.525914z M3.4349955,14.049967C2.852049,14.049967 2.3749987,14.446939 2.3749985,14.929971 2.3749987,15.413002 2.852049,15.808997 3.4349955,15.808997L10.632013,15.808997C11.21502,15.808997 11.691033,15.413002 11.691033,14.929971 11.691033,14.446939 11.21502,14.049967 10.632013,14.049967z M3.4349955,10.579024C2.852049,10.579024 2.3749987,10.973921 2.3749985,11.457929 2.3749987,11.94096 2.852049,12.335979 3.4349955,12.335979L10.632013,12.335979C11.21502,12.335979 11.691033,11.94096 11.691033,11.457929 11.691033,10.973921 11.21502,10.579024 10.632013,10.579024z M1.059997,6.5339843L13.006035,6.5339843C13.589042,6.5339848,14.064017,7.0099364,14.064017,7.5919665L14.096,19.429965C10.852044,21.381012,8.51501,25.394922,7.8560134,29.037985L1.059997,29.037985C0.47802706,29.037985,0,28.559958,0,27.977928L0,7.5919665C0,7.0099364,0.47802706,6.5339848,1.059997,6.5339843z M26.604014,0C31.538006,0 35.542999,4.000999 35.542999,8.9379981 35.542999,13.875997 31.538006,17.879995 26.604014,17.879995 21.666021,17.879995 17.664028,13.875997 17.664028,8.9379981 17.664028,4.000999 21.666021,0 26.604014,0z"
+                          Fill="{DynamicResource AccentColorBrush}"
+                          RenderTransformOrigin="0.5,0.5"
+                          Stretch="Uniform">
+                        <Path.RenderTransform>
+                            <TransformGroup>
+                                <TransformGroup.Children>
+                                    <RotateTransform Angle="0" />
+                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                </TransformGroup.Children>
+                            </TransformGroup>
+                        </Path.RenderTransform>
+                    </Path>
+                </Grid>
+            </Viewbox>
+            <TextBlock Grid.Row="1"
+                       Margin="5"
+                       FontSize="18"
+                       Foreground="{DynamicResource AccentColorBrush}"
+                       Text="Login"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap" />
+            <TextBox Grid.Row="2"
+                     Width="200"
+                     Margin="1"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Top"
+                     Text="{Binding Usuario,
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged}"
+                     TextWrapping="Wrap"
+                     controls:TextboxHelper.ClearTextButton="True"
+                     controls:TextboxHelper.IsWaitingForData="True"
+                     controls:TextboxHelper.Watermark="usuario" />
+            <PasswordBox Grid.Row="3"
+                         Width="200"
+                         Margin="1"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Top"
+                         wpfCoreHelpers:PasswordHelper.Password="{Binding Clave,
+                                                                  Mode=TwoWay,
+                                                                  UpdateSourceTrigger=PropertyChanged}"
+                         controls:TextboxHelper.ClearTextButton="True"
+                         my:EnterKeyHelpers.EnterKeyCommand="{Binding ComandoEntrarSistema}"/>
+            <ComboBox Grid.Row="4"
+                      Width="200"
+                      Margin="1"
+                      DisplayMemberPath="Nombre"
+                      ItemsSource="{Binding Sucursales}"
+                      SelectedItem="{Binding SucursalSeleccionada,
+                                             Mode=TwoWay,
+                                             UpdateSourceTrigger=PropertyChanged}" />
+            <misControlesWpf:OnlyImageAutoSizeButton Grid.Row="5"
+                                                     Width="29"
+                                                     Height="30"
+                                                     Margin="0,1,50,0"
+                                                     HorizontalAlignment="Right"
+                                                     VerticalAlignment="Top"
+                                                     Background="{StaticResource AccentColorBrush}"
+                                                     Command="{Binding ComandoEntrarSistema}"
+                                                     Imagen="F1M-218.342,2910.79L-234.066,2926.52 -233.954,2926.63 -225.428,2926.63 -210.87,2912.07 -206.495,2907.7 -225.313,2888.88 -234.066,2888.88 -218.342,2904.6 -259.829,2904.6 -259.829,2910.79 -218.342,2910.79z"
+                                                     ToolTip="Entrar al Sistma" />
+        </Grid>
+        <misControlesWpf:BloqueoPanel Visibility="{Binding ControlEsperaEntrandoAlSistema}" d:IsHidden="True" />
+        <controls:ProgressRing Width="50"
+                               Height="50"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               IsActive="True"
+                               Visibility="{Binding ControlEsperaEntrandoAlSistema}"
+                               d:IsHidden="True" />
+        <TextBlock Margin="10,10,10,10"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   FontSize="14"
+                   FontWeight="Bold"
+                   Foreground="{DynamicResource AccentColorBrush}"
+                   Text="{Binding VersionAplicacion,
+                                  Mode=TwoWay,
+                                  UpdateSourceTrigger=PropertyChanged}" />
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,12 @@
+﻿CREATE TABLE [dbo].[Proveedores]
+(
+	[ProveedorId] INT NOT NULL PRIMARY KEY IDENTITY, 
+	[CedulaNo] VARCHAR(20) NOT NULL DEFAULT '', 
+    [RTN] VARCHAR(20) NOT NULL DEFAULT '', 
+    [Nombre] VARCHAR(50) NOT NULL DEFAULT '', 
+    [Direccion] VARCHAR(80) NOT NULL DEFAULT '', 
+    [Telefonos] VARCHAR(50) NOT NULL DEFAULT '', 
+    [CorreoElectronico] VARCHAR(50) NOT NULL DEFAULT '',
+    [Estado] VARCHAR(10) NOT NULL DEFAULT 'ACTIVO', 
+    [IsExempt] BIT NOT NULL DEFAULT 0
+)

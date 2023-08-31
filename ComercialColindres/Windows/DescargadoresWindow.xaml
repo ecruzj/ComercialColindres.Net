@@ -1,0 +1,1674 @@
+﻿<wpfCoreWindow:MetroWindowExt
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Convertidores="clr-namespace:WPFCore.Convertidores;assembly=WPFCore"
+    xmlns:convertidoresLocal="clr-namespace:ComercialColindres.Convertidores"
+    xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:HelpersMahApps="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:controlsMahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:Comportamientos="clr-namespace:WPFCore.Comportamientos;assembly=WPFCore"
+    xmlns:misControles="clr-namespace:MisControlesWPF;assembly=MisControlesWPF"
+    xmlns:controles="clr-namespace:ComercialColindres.Controls"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:wpfCoreWindow="clr-namespace:WPFCore.UtilidadesWindows;assembly=WPFCore"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+    x:Class="ComercialColindres.Windows.DescargadoresWindow"
+    Title="Descargadores"
+    Width="920"
+    Height="600"
+    MostrarDialogo="{Binding DialogSettings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    SaveWindowPosition="True"
+    ShowFlyout="{Binding SlidePanelIndice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    WindowStartupLocation="CenterScreen">
+
+    <wpfCoreWindow:MetroWindowExt.Resources>
+        <Convertidores:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <Convertidores:BoolToStringConverter x:Key="BoolToStringConverter" />
+        <Convertidores:StateValueToColorConverter x:Key="StateValueToColorConverter" />
+        <Convertidores:DateTimeToShortString x:Key="DateTimeToShortString" />
+        <convertidoresLocal:EstadoColorConvert x:Key="EstadoColorConvert" />
+    </wpfCoreWindow:MetroWindowExt.Resources>
+
+    <wpfCoreWindow:MetroWindowExt.DataContext>
+        <Binding Path="DescargadoresViewModel" Source="{StaticResource Locator}"/>
+    </wpfCoreWindow:MetroWindowExt.DataContext>
+
+    <wpfCoreWindow:MetroWindowExt.Flyouts>
+        <controlsMahApps:FlyoutsControl>
+            <controlsMahApps:Flyout x:Name="BusquedaBoletasFlyout"
+                Width="700"
+                Margin="100,0,0,0"
+                Header="Buscar Boleta"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Grid>
+                            <misControles:BusquedaControl
+                                Background="{DynamicResource AccentColorBrush}"
+                                ComandoBuscar="{Binding CommandSearchBoleta}"
+                                ComandoSeleccionarItem="{Binding CommandSelectBoleta}"
+                                ListadoColumnas="{Binding BusquedaBoletasControl.ListadoColumnasBusqueda}"
+                                ListadoDatos="{Binding BusquedaBoletasControl.DatosEncontrados, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ValorBusqueda="{Binding BusquedaBoletasControl.ValorBusqueda, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                    </ScrollViewer>
+                    <Border Grid.RowSpan="1" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+            <controlsMahApps:Flyout x:Name="AgregarPagoDescargasFlyout"
+                Width="530"
+                Margin="100,0,0,0"
+                Header="Pago de Descargas"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                            </Grid.RowDefinitions>
+                            <misControles:HeaderTextBlock Text="Fecha" HorizontalAlignment="Center" FontWeight="SemiBold" Grid.Column="2" Grid.Row="0"/>
+                            <DatePicker Grid.Row="1" Grid.Column="2" SelectedDate="{Binding DatoPagoDescargadores.FechaPago, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
+                            <misControles:HeaderTextBlock Text="Planta Destino" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+                            <misControles:InputTextBoxAutoCompleteControl            
+                            Grid.Row="1"                                        
+                                    AutoCompletionList="{Binding ListaPlantasAutoComplete}"       
+                                    Buscar="{Binding ComandoBuscarPlantas}"
+                                    SelectedItem="{Binding PlantaAutoCompleteSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock Grid.Column="1" Text="Cuadrilla" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+                            <misControles:InputTextBoxAutoCompleteControl
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                    AutoCompletionList="{Binding ListaCuadrillasAutoComplete}"       
+                                    Buscar="{Binding ComandoBuscarCuadrillas}"
+                                    SelectedItem="{Binding CuadrillaAutoCompleteSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                        <TabControl Grid.Row="1">
+                            <TabItem HelpersMahApps:ControlsHelper.HeaderFontSize="16" Header="Importar Descargas">
+                                <Grid>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <controles:ImportarExcelUserControl ColeccionDatosImportados="{Binding XlsColeccionImportacion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsPlantaSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                        <Grid Grid.Row="1" HorizontalAlignment="Right">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto" MinWidth="15"/>
+                                                <ColumnDefinition Width="Auto" MinWidth="15" />
+                                            </Grid.ColumnDefinitions>
+                                            <misControles:HeaderTextBlock Grid.Row="0"
+                                                                      Grid.Column="0"
+                                                                 Text="Descargas:"
+                                                                  FontWeight="SemiBold"
+                                                                      FontSize="12"/>
+                                            <misControles:BodyTextBlock Grid.Row="0"
+                                                               Grid.Column="1"
+                                                               FontWeight="Bold"
+                                                                    FontSize="12"
+                                                               Text="{Binding DatoPagoDescargadores.TotalBoletaDescargas,
+                                                                              Mode=TwoWay,
+                                                                              UpdateSourceTrigger=PropertyChanged}"
+                                                               TextAlignment="Right" />
+                                            <misControles:HeaderTextBlock Grid.Row="0"
+                                                                      Grid.Column="2"
+                                                                 Text="Total:"
+                                                                  FontWeight="SemiBold"
+                                                                      FontSize="12"/>
+                                            <misControles:BodyTextBlock Grid.Row="0"
+                                                               Grid.Column="3"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding DatoPagoDescargadores.TotalPago,
+                                                                              Mode=TwoWay,
+                                                                              UpdateSourceTrigger=PropertyChanged, StringFormat=n2}"
+                                                               TextAlignment="Right"
+                                                                    FontSize="12"/>
+                                        </Grid>
+                                    </Grid>
+
+                                </Grid>
+                            </TabItem>
+                            <TabItem HelpersMahApps:ControlsHelper.HeaderFontSize="16" Header="Validaciones" Visibility="{Binding ImportationErrors, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <Grid Margin="5">
+                                    <DataGrid
+                                        Grid.Row="1"
+                                        Margin="5"
+                                        AutoGenerateColumns="False"
+                                        CanUserAddRows="False"
+                                        CanUserDeleteRows="False"
+                                        IsReadOnly="True"
+                                        ItemsSource="{Binding PagoDescargasErrors, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding NumeroEnvio}" Header="#Envío" />
+                                            <DataGridTextColumn Binding="{Binding CodigoBoleta}" Header="#Boleta" />
+                                            <DataGridTextColumn Binding="{Binding ValidationErrorMessage}" Header="Mensaje Validacion" Foreground="Red" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                    <misControles:AppBarPanel x:Name="GuardarMasivo" Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoGuardarPagoDescargas}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar Masivo" />
+                    </misControles:AppBarPanel>
+                    <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+            <controlsMahApps:Flyout x:Name="DescargasManualFlyout"
+                Width="575"
+                Margin="100,0,0,0"
+                Header="Descargas Manual"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <GroupBox Header="Datos Generales">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90*"/>
+                                        <ColumnDefinition Width= "90*" />
+                                        <ColumnDefinition Width="90*" />
+                                        <ColumnDefinition Width="90*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                    </Grid.RowDefinitions>
+                                    <misControles:HeaderTextBlock Grid.Column="0" Text="Código Pago" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="0" 
+                                                                Text="{Binding PagoDescargadoresSeleccionado.CodigoPagoDescarga, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <misControles:HeaderTextBlock Grid.Column="1" Text="Cuadrilla" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="1" 
+                                                                Text="{Binding PagoDescargadoresSeleccionado.EncargadoCuadrilla, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <misControles:HeaderTextBlock Grid.Column="2" Text="Total Descargas" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="2" 
+                                                                Text="{Binding DatoDescargaPorAdelantado.TotalDescargas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <misControles:HeaderTextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="3"
+                                        Text="Total a Pagar" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="3" 
+                                                                FontSize="12"
+                                                                FontWeight="Bold"
+                                                                Text="{Binding DatoDescargaPorAdelantado.TotalPagoDescargas,
+                                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <TabControl Grid.Row="1">
+                            <TabItem HelpersMahApps:ControlsHelper.HeaderFontSize="16" Header="Descargas">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="70" />
+                                    </Grid.RowDefinitions>
+                                    <GroupBox Grid.Row="0" Header="Descargas por Adelantado">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="140" />
+                                                    <ColumnDefinition Width="140" />
+                                                    <ColumnDefinition Width="40"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" MinHeight="30" />
+                                                    <RowDefinition Height="Auto" MinHeight="30" />
+                                                </Grid.RowDefinitions>
+                                                <misControles:HeaderTextBlock Grid.Column="0" Text="Boleta" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"/>
+                                                <misControles:SearchTextBox
+                                            Grid.Row="1" Grid.Column="0"
+                                    BuscarOpcional="{Binding CommandShowSearchBoleta}"
+                                    IsReadOnly="True"
+                                    Text="{Binding DatoBoleta.CodigoBoleta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                                <misControles:HeaderTextBlock Grid.Column="1" Text="Precio Descarga" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"/>
+                                                <misControles:InputTextBox Grid.Row="1" Grid.Column="1"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               MaxLength="18"
+                                                               Text="{Binding DatoDescargaPorAdelantado.PrecioDescarga, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                                               Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                                                <misControles:OnlyImageAutoSizeButton
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Width="21"
+                                        Height="21"
+                                        Margin="5"
+                                        HorizontalAlignment="Left"
+                                        Background="{DynamicResource AccentColorBrush}"
+                                        Command="{Binding ComandoAgregarAdelantoDescarga}"
+                                        Imagen="{DynamicResource AgregarPathImagen}" />
+                                            </Grid>
+                                            <Grid Grid.Row="1">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <DataGrid                                    
+                                Margin="5"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                IsReadOnly="False"                                        
+                                ItemsSource="{Binding DescargasPorAdelantoModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedItem="{Binding DescargaPorAdelantadoSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTemplateColumn Width="25">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <misControles:OnlyImageAutoSizeButton
+                                                        Width="21"
+                                                        Height="21"
+                                                        Margin="2"
+                                                        Background="{DynamicResource AccentColorBrush}"
+                                                        Command="{Binding DescargadoresViewModel.ComandoRemoverAdelantoDescarga, Source={StaticResource Locator}}"
+                                                        Imagen="{DynamicResource QuitarPathImagen}" />
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                        </DataGridTemplateColumn>
+                                                        <DataGridTextColumn Binding="{Binding CodigoBoleta}" Header="#Boleta" />
+                                                        <DataGridTextColumn Binding="{Binding NumeroEnvio}" Header="#Envío" />
+                                                        <DataGridTextColumn Binding="{Binding PrecioDescarga, StringFormat=N2}" Header="Precio Descarga" />
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                                <Grid Grid.Row="1" HorizontalAlignment="Right">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                    </GroupBox>
+                                    <misControles:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                                        <misControles:AppBarButton
+                            Command="{Binding ComandoGuardarAdelantoDescargas}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar Descarga" />
+                                    </misControles:AppBarPanel>
+                                </Grid>
+
+                            </TabItem>
+                            <TabItem HelpersMahApps:ControlsHelper.HeaderFontSize="16" Header="Por Adelanto">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="70" />
+                                    </Grid.RowDefinitions>
+                                    <GroupBox Grid.Row="0" Header="Descargas por Adelantado">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="140" />
+                                                    <ColumnDefinition Width="140" />
+                                                    <ColumnDefinition Width="40"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" MinHeight="30" />
+                                                    <RowDefinition Height="Auto" MinHeight="30" />
+                                                </Grid.RowDefinitions>
+                                                <misControles:HeaderTextBlock Grid.Column="0" Text="#Envío" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"
+                                                              Visibility="{Binding DatoDescargaPorAdelantado.HasShippingNumber, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                <misControles:HeaderTextBlock Grid.Column="0" Text="Código Boleta" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"
+                                                              Visibility="{Binding DatoDescargaPorAdelantado.HasShippingNumber, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=INVERTIR}"/>
+                                                <misControles:InputTextBox Grid.Row="1" Grid.Column="0"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               MaxLength="10"
+                                                               Text="{Binding DatoDescargaPorAdelantado.NumeroEnvio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                           Visibility="{Binding DatoDescargaPorAdelantado.HasShippingNumber, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                <misControles:InputTextBox Grid.Row="1" Grid.Column="0"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               MaxLength="10"
+                                                               Text="{Binding DatoDescargaPorAdelantado.CodigoBoleta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                           Visibility="{Binding DatoDescargaPorAdelantado.HasShippingNumber, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=INVERTIR}"/>
+
+                                                <misControles:HeaderTextBlock Grid.Column="1" Text="Precio Descarga" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"/>
+                                                <misControles:InputTextBox Grid.Row="1" Grid.Column="1"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               MaxLength="18"
+                                                               Text="{Binding DatoDescargaPorAdelantado.PrecioDescarga, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                                               Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                                                <misControles:OnlyImageAutoSizeButton
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Width="21"
+                                        Height="21"
+                                        Margin="5"
+                                        HorizontalAlignment="Left"
+                                        Background="{DynamicResource AccentColorBrush}"
+                                        Command="{Binding ComandoAgregarAdelantoDescarga}"
+                                        Imagen="{DynamicResource AgregarPathImagen}" />
+                                            </Grid>
+                                            <Grid Grid.Row="1">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <DataGrid                                    
+                                Margin="5"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                IsReadOnly="True"                                        
+                                ItemsSource="{Binding DescargasPorAdelantoModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedItem="{Binding DescargaPorAdelantadoSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTemplateColumn Width="25">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <misControles:OnlyImageAutoSizeButton
+                                                        Width="21"
+                                                        Height="21"
+                                                        Margin="2"
+                                                        Background="{DynamicResource AccentColorBrush}"
+                                                        Command="{Binding DescargadoresViewModel.ComandoRemoverAdelantoDescarga, Source={StaticResource Locator}}"
+                                                        Imagen="{DynamicResource QuitarPathImagen}" />
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                        </DataGridTemplateColumn>
+                                                        <DataGridTextColumn Binding="{Binding CodigoBoleta}" Header="#Boleta" />
+                                                        <DataGridTextColumn Binding="{Binding NumeroEnvio}" Header="#Envío" />
+                                                        <DataGridTextColumn Binding="{Binding PrecioDescarga, StringFormat=N2}" Header="Precio Descarga" />
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                                <Grid Grid.Row="1" HorizontalAlignment="Right">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="100" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <misControles:HeaderTextBlock Grid.Row="0"
+                                                                 FontSize="16"
+                                                                 Text="Total Adelantado:"/>
+                                                    <misControles:BodyTextBlock Grid.Row="0"
+                                                               Grid.Column="1"
+                                                               FontSize="16"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding DatoDescargaPorAdelantado.TotalDescargasPorAdelanto,
+                                                                              Mode=TwoWay,
+                                                                              UpdateSourceTrigger=PropertyChanged,
+                                                                              StringFormat=N2}"
+                                                               TextAlignment="Right" />
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                    </GroupBox>
+                                    <misControles:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                                        <misControles:AppBarButton
+                                    Command="{Binding ComandoGuardarAdelantoDescargas}"
+                                    Imagen="{DynamicResource GuardarPathImagen}"
+                                    Titulo="Guardar Adelanto" />
+                                    </misControles:AppBarPanel>
+                                </Grid>
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                    <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+            <controlsMahApps:Flyout x:Name="PagoDescargasFlyout"
+                Width="500"
+                Margin="100,0,0,0"
+                Header="Facturación de Descargas"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <GroupBox Header="Pago Descargas">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                    </Grid.RowDefinitions>
+                                    <misControles:HeaderTextBlock Grid.Column="0" Grid.Row="0" Text="Codigo Pago Descargas" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="0" 
+                                                                Text="{Binding DatoPagoDescargadores.CodigoPagoDescarga, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                                    <misControles:HeaderTextBlock Grid.Column="1" Grid.Row="0" Text="Total a Pagar" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="1" 
+                                                                Text="{Binding DatoPagoDescargadores.TotalPago, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                                    <misControles:HeaderTextBlock Grid.Column="0" Grid.Row="2" Text="Planta Origen" />
+                                    <misControles:InputTextBoxAutoCompleteControl
+                                    Grid.Row="3" Grid.Column="0" 
+                                    AutoCompletionList="{Binding ListaPlantasAutoComplete}"       
+                                    Buscar="{Binding ComandoBuscarPlantas}"
+                                    SelectedItem="{Binding PlantaAutoCompleteSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <misControles:HeaderTextBlock Grid.Column="1" Grid.Row="2" Text="Encargado de Cuadrilla" />
+                                    <misControles:InputTextBoxAutoCompleteControl
+                                        Grid.Column="1" Grid.Row="3"
+                                    AutoCompletionList="{Binding ListaCuadrillasAutoComplete}"       
+                                    Buscar="{Binding ComandoBuscarCuadrillas}"
+                                    SelectedItem="{Binding CuadrillaAutoCompleteSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <GroupBox Header="DESCARGAS PENDIENTES">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <DataGrid                                    
+                                Margin="5"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                IsReadOnly="True"                                        
+                                ItemsSource="{Binding ListaDescargasPorCuadrilla, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding CodigoBoleta}" Header="Codigo Boleta" />
+                                            <DataGridTextColumn Binding="{Binding PrecioDescarga, StringFormat=N2}" Header="Precio Descarga" />
+                                            <DataGridTextColumn Binding="{Binding FechaDescarga, StringFormat=d}" Header="Fecha" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                                <Grid Grid.Row="1" HorizontalAlignment="Right">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="60"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                    </Grid.RowDefinitions>
+                                    <misControles:HeaderTextBlock 
+                                    Grid.Column="0" 
+                                    Grid.Row="0" 
+                                    Text="Total de Descargas:" 
+                                    FontSize="16"/>
+                                    <misControles:BodyTextBlock Grid.Row="0" Grid.Column="1" 
+                                                                Text="{Binding DatoPagoDescargadores.TotalBoletaDescargas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                FontSize="16"
+                                                                FontWeight="SemiBold"
+                                                                Foreground="Red"/>
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <misControles:AppBarPanel Grid.Row="2" Background="{DynamicResource AccentColorBrush}">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoGuardarPagoDescargas}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar" />
+                    </misControles:AppBarPanel>
+                    <Border Grid.RowSpan="3" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+            <controlsMahApps:Flyout x:Name="PagoDescargasDetalleFlyout"
+                Width="650"
+                Margin="100,0,0,0"
+                Header="Justificación Pago Descargas"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <GroupBox Header="PAGO DE DESCARGAS">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width= "*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="40"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                    </Grid.RowDefinitions>
+                                    <misControles:HeaderTextBlock Grid.Column="0" Text="Pago Descarga" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="0" 
+                                                                Text="{Binding PagoDescargadoresSeleccionado.CodigoPagoDescarga, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <misControles:HeaderTextBlock Grid.Column="1" Text="Encargado Cuadrilla" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="1" 
+                                                                Text="{Binding PagoDescargadoresSeleccionado.EncargadoCuadrilla, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <misControles:HeaderTextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Text="Monto Total" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="2" 
+                                                                FontSize="12"
+                                                                FontWeight="Bold"
+                                                                Text="{Binding PagoDescargadoresSeleccionado.TotalPago,
+                                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                                    <misControles:HeaderTextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="3"
+                                        Text="Monto Justificado" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="3" 
+                                                                FontSize="12"
+                                                                FontWeight="Bold"
+                                                                Text="{Binding DatoPagoDescargaDetalle.CantidadJustificada,
+                                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <GroupBox Header="DETALLE DE PAGO DESCARGAS">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width= "*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="40"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                    </Grid.RowDefinitions>
+                                    <misControles:HeaderTextBlock Grid.Column="0" Text="Forma de Pago" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"/>
+                                    <ComboBox
+                                        Margin="5"
+                                        Grid.Row="1"
+                                        Grid.Column="0"                                        
+                                        ItemsSource="{Binding ListaFormaPagos}"
+                                        DisplayMemberPath="Descripcion"
+                                        SelectedItem="{Binding FormaDePagoSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValue="{Binding DatoPagoDescargaDetalle.FormaDePago, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        SelectedValuePath="Descripcion"/>
+                                    <misControles:HeaderTextBlock Grid.Column="1" Text="Banco" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"/>
+                                    <ComboBox
+                                        Margin="5"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        ItemsSource="{Binding ListadoBancos}"
+                                        DisplayMemberPath="Descripcion"                                        
+                                        SelectedItem="{Binding BancoSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValue="{Binding DatoPagoDescargaDetalle.BancoId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        SelectedValuePath="BancoId"
+                                        IsEnabled="{Binding FormaDePagoSeleccionada.RequiereBanco,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <misControles:HeaderTextBlock Grid.Column="2" Grid.ColumnSpan="2" Text="Linea Crédito" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"/>
+                                    <ComboBox Margin="5"
+                                              Grid.Row="1"
+                                              Grid.Column="2"
+                                              Grid.ColumnSpan="2"
+                                              HorizontalContentAlignment="Center" 
+                                              ItemsSource="{Binding LineasCredito}"
+                                              SelectedItem="{Binding LineaCreditoSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedValue="{Binding DatoPagoDescargaDetalle.LineaCreditoId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedValuePath="LineaCreditoId">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Margin="5" Grid.Column="0" Text="{Binding CodigoLineaCredito}"/>
+                                                    <TextBlock Margin="5" Grid.Column="1" Text="{Binding CuentaFinanciera}"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <misControles:HeaderTextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Text="Documento Ref" TextAlignment="Center"
+                                                              FontWeight="SemiBold"/>
+                                    <misControles:InputTextBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
+                                                               Text="{Binding DatoPagoDescargaDetalle.NoDocumento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                               MaxLength="50"
+                                                               IsEnabled="{Binding FormaDePagoSeleccionada.RequiereBanco,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <misControles:HeaderTextBlock Text="Monto"
+                                                              Grid.Column="2" 
+                                                              Grid.Row="2" 
+                                                              Grid.ColumnSpan="2" 
+                                                              TextAlignment="Center" 
+                                                              FontWeight="SemiBold"/>
+                                    <misControles:InputTextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding DatoPagoDescargaDetalle.Monto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                                               Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                                    <misControles:OnlyImageAutoSizeButton
+                                        Grid.Row="2"
+                                        Grid.Column="4"
+                                        Width="21"
+                                        Height="21"
+                                        Margin="5"
+                                        HorizontalAlignment="Left"
+                                        Background="{DynamicResource AccentColorBrush}"
+                                        Command="{Binding ComandoAgregarPagoDescargaDetalle}"
+                                        Imagen="{DynamicResource AgregarPathImagen}" />
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <DataGrid                                    
+                                Margin="5"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                IsReadOnly="True"                                        
+                                ItemsSource="{Binding ListaPagoDescargaDetalleModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedItem="{Binding PagoDescargaDetalleSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Width="55">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <misControles:OnlyImageAutoSizeButton
+                                                        Width="21"
+                                                        Height="21"
+                                                        Margin="2"
+                                                        Background="{DynamicResource AccentColorBrush}"
+                                                        Command="{Binding DescargadoresViewModel.ComandoRemoverPagoDescargaDetalle, Source={StaticResource Locator}}"
+                                                        Imagen="{DynamicResource QuitarPathImagen}" />
+                                                            <misControles:OnlyImageAutoSizeButton
+                                                        Width="21"
+                                                        Height="21"
+                                                        Margin="2"
+                                                        Background="{DynamicResource AccentColorBrush}"
+                                                        Command="{Binding DescargadoresViewModel.ComandoEditarPagoDescargaDetalle, Source={StaticResource Locator}}"
+                                                        Imagen="{DynamicResource EditarPathImagen}" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Binding="{Binding CodigoLineaCredito}" Header="Linea Crédito" />
+                                            <DataGridTextColumn Binding="{Binding FormaDePago}" Header="Forma Pago" />
+                                            <DataGridTextColumn Binding="{Binding Monto, StringFormat=N2}" Header="Monto" />
+                                            <DataGridTextColumn Binding="{Binding NombreBanco}" Header="Banco" />
+                                            <DataGridTextColumn Binding="{Binding NoDocumento}" Header="Documento Ref" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <misControles:AppBarPanel Grid.Row="2" Background="{DynamicResource AccentColorBrush}">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoGuardarPagoDescargasDetalle}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar" />
+                    </misControles:AppBarPanel>
+                    <Border Grid.RowSpan="3" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+            <controlsMahApps:Flyout x:Name="EditarDescargaFlyout"
+                Width="400"                
+                Margin="100,0,0,0"
+                Header="Actualizar Descarga"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical">
+                            <misControles:HeaderTextBlock Text="Encargado Cuadrilla" />
+                            <misControles:BodyTextBlock Text="{Binding DescargaSeleccionada.EncargadoCuadrilla, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock Text="Código Boleta" />
+                            <misControles:BodyTextBlock Text="{Binding DescargaSeleccionada.CodigoBoleta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock Text="Planta Destino" />
+                            <misControles:BodyTextBlock Text="{Binding DescargaSeleccionada.NombrePlanta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock Text="Precio Descarga" />
+                            <misControles:InputTextBox Text="{Binding DatoDescargadores.PrecioDescarga,
+                                                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                                                       Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                            <misControles:HeaderTextBlock Text="Proveedor" />
+                            <misControles:BodyTextBlock Text="{Binding DescargaSeleccionada.NombreProveedor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock Text="Placa Cabezal" />
+                            <misControles:BodyTextBlock Text="{Binding DescargaSeleccionada.PlacaEquipo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock Text="Tipo de Equipo" />
+                            <misControles:BodyTextBlock Text="{Binding DescargaSeleccionada.DescripcionTipoEquipo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                    </ScrollViewer>
+                    <misControles:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoActualizarDescarga}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar" />
+                    </misControles:AppBarPanel>
+                    <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+            <controlsMahApps:Flyout x:Name="DescargasPorAdelantadoFlyout"
+                Width="575"
+                Margin="100,0,0,0"
+                Header="Adelanto de Descargas"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <GroupBox Header="Datos Generales">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90*"/>
+                                        <ColumnDefinition Width= "90*" />
+                                        <ColumnDefinition Width="90*" />
+                                        <ColumnDefinition Width="90*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                    </Grid.RowDefinitions>
+                                    <misControles:HeaderTextBlock Grid.Column="0" Text="Código Pago" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="0" 
+                                                                Text="{Binding PagoDescargadoresSeleccionado.CodigoPagoDescarga, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <misControles:HeaderTextBlock Grid.Column="1" Text="Cuadrilla" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="1" 
+                                                                Text="{Binding PagoDescargadoresSeleccionado.EncargadoCuadrilla, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <misControles:HeaderTextBlock Grid.Column="2" Text="Total Descargas" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="2" 
+                                                                Text="{Binding DatoDescargaPorAdelantado.TotalDescargas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <misControles:HeaderTextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="3"
+                                        Text="Total a Pagar" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="3" 
+                                                                FontSize="12"
+                                                                FontWeight="Bold"
+                                                                Text="{Binding DatoDescargaPorAdelantado.TotalPagoDescargas,
+                                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <GroupBox Header="Descargas por Adelantado">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="40"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                    </Grid.RowDefinitions>
+                                    <misControles:HeaderTextBlock Grid.Column="0" Text="#Envío" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"
+                                                              Visibility="{Binding DatoDescargaPorAdelantado.HasShippingNumber, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    <misControles:HeaderTextBlock Grid.Column="0" Text="Código Boleta" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"
+                                                              Visibility="{Binding DatoDescargaPorAdelantado.HasShippingNumber, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=INVERTIR}"/>
+                                    <misControles:InputTextBox Grid.Row="1" Grid.Column="0"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               MaxLength="10"
+                                                               Text="{Binding DatoDescargaPorAdelantado.NumeroEnvio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                           Visibility="{Binding DatoDescargaPorAdelantado.HasShippingNumber, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    <misControles:InputTextBox Grid.Row="1" Grid.Column="0"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               MaxLength="10"
+                                                               Text="{Binding DatoDescargaPorAdelantado.CodigoBoleta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                           Visibility="{Binding DatoDescargaPorAdelantado.HasShippingNumber, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=INVERTIR}"/>
+
+                                    <misControles:HeaderTextBlock Grid.Column="1" Text="Precio Descarga" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"/>
+                                    <misControles:InputTextBox Grid.Row="1" Grid.Column="1"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               MaxLength="18"
+                                                               Text="{Binding DatoDescargaPorAdelantado.PrecioDescarga, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                                               Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                                    <misControles:OnlyImageAutoSizeButton
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Width="21"
+                                        Height="21"
+                                        Margin="5"
+                                        HorizontalAlignment="Left"
+                                        Background="{DynamicResource AccentColorBrush}"
+                                        Command="{Binding ComandoAgregarAdelantoDescarga}"
+                                        Imagen="{DynamicResource AgregarPathImagen}" />
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <DataGrid                                    
+                                Margin="5"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                IsReadOnly="True"                                        
+                                ItemsSource="{Binding DescargasPorAdelantoModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedItem="{Binding DescargaPorAdelantadoSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Width="25">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <misControles:OnlyImageAutoSizeButton
+                                                        Width="21"
+                                                        Height="21"
+                                                        Margin="2"
+                                                        Background="{DynamicResource AccentColorBrush}"
+                                                        Command="{Binding DescargadoresViewModel.ComandoRemoverAdelantoDescarga, Source={StaticResource Locator}}"
+                                                        Imagen="{DynamicResource QuitarPathImagen}" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Binding="{Binding CodigoBoleta}" Header="#Boleta" />
+                                            <DataGridTextColumn Binding="{Binding NumeroEnvio}" Header="#Envío" />
+                                            <DataGridTextColumn Binding="{Binding PrecioDescarga, StringFormat=N2}" Header="Precio Descarga" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <Grid Grid.Row="1" HorizontalAlignment="Right">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="100" />
+                                        </Grid.ColumnDefinitions>
+                                        <misControles:HeaderTextBlock Grid.Row="0"
+                                                                 FontSize="16"
+                                                                 Text="Total Adelantado:"/>
+                                        <misControles:BodyTextBlock Grid.Row="0"
+                                                               Grid.Column="1"
+                                                               FontSize="16"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding DatoDescargaPorAdelantado.TotalDescargasPorAdelanto,
+                                                                              Mode=TwoWay,
+                                                                              UpdateSourceTrigger=PropertyChanged,
+                                                                              StringFormat=N2}"
+                                                               TextAlignment="Right" />
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <misControles:AppBarPanel Grid.Row="2" Background="{DynamicResource AccentColorBrush}">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoGuardarAdelantoDescargas}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar" />
+                    </misControles:AppBarPanel>
+                    <Border Grid.RowSpan="3" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+        </controlsMahApps:FlyoutsControl>
+    </wpfCoreWindow:MetroWindowExt.Flyouts>
+
+    <Grid>
+        <Grid x:Name="Descargas"            
+            Visibility="{Binding EsFacturacion, ConverterParameter=INVERTIR,  Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="70" />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="275" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <GroupBox Header="Busqueda Descargas" Grid.Column="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="400*" />
+                            <RowDefinition Height="33*" />
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <misControles:TitleTextBlock Text="Buscar" />
+                            <misControles:SearchTextBox
+              Grid.Row="1"
+              Buscar="{Binding ComandoBuscarDescarga}"
+              SpellCheck.IsEnabled="True"
+              Text="{Binding ValorBusquedaDescarga, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                        <ListBox
+                        Grid.Row="1"
+                        Margin="5"
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding BusquedaDescargasControl.Items}"
+                        SelectedItem="{Binding DescargaSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Viewbox Margin="2">
+                                            <Grid Width="25">
+                                                <Path
+                                                Fill="{Binding Estado, Converter={StaticResource StateValueToColorConverter}}"
+                                                Data="M11.600006,11.299994C10.900024,11.299994 7.8000183,12.600012 8.1000061,12.9 8.5,13.299995 9.6000061,14.100013 10,14.100013 10.400024,14.100013 11.600006,11.799994 11.700012,11.299994z M6.9000244,5.8999968C6.4000244,5.8999968 5.9000244,5.8999968 5.8000183,6.0000029 5.5,6.2000151 4.8000183,9.10001 5.2000122,8.7999917 5.6000061,8.5000039 7.9000244,6.2999907 8.1000061,6.100009 8.2000122,6.0000029 7.6000061,5.8999968 6.9000244,5.8999968z M7.0312629,2.7609373C7.4437637,2.7624982 7.8750153,2.7749951 8.3000183,2.7999893 10,2.799989 11.800018,2.8999951 12.100006,3.0000015 12.700012,3.2999893 15.300018,7.5000034 15.800018,8.2000161 16.300018,8.7999917 15.700012,9.6000109 15.700012,9.6000109L12,16.20002 19.900024,22.600018 20,22.600018C20.200012,22.600018 20.300018,22.700024 20.300018,22.700024 21.300018,21.700022 22.200012,21.400003 22.900024,21.400003 24.400024,21.400003 25.300018,22.799999 25.300018,22.799999 25.300018,22.799999 28,22.400005 28.300018,25.700024 28.300018,25.700024 29.400024,25.799999 29.400024,26.700026 29.400024,26.700026 31.600006,26.300001 32,28.300001L12.300018,28.300001C12.300018,26.500013 15.400024,26.60002 15.400024,26.60002 15.5,24.700024 17.200012,24.900005 17.200012,24.900005 17.200012,23.600018 17.800018,23.000012 18.400024,22.700024L18.5,22.700024 11.5,17.000008 11.300018,17.299995C11.300018,17.299995 11.800018,17.900002 12.400024,18.400003 13,18.900003 12.400024,19.900003 12.400024,19.900003L8.4000244,27.60002C8.4000244,27.60002 7.7000122,28.400007 6.5,27.800001 5.4000244,27.300001 5.7000122,26.100018 5.7000122,26.100018 5.7000122,26.100018 9.1000061,19.700022 9,19.299997 8.8000183,19.200022 5.3000183,15.000007 5.3000183,15.000007 5.3000183,15.000007 5.2000122,19.600016 5.2000122,20.100016 5.1000061,20.600016 2.8000183,27.900007 2.8000183,27.900007 2.8000183,27.900007 1.8000183,28.500013 1,28.200026 0.1000061,27.800001 0,26.900007 0,26.900007 0,26.900007 1.8000183,20.600016 1.8000183,20.100016 1.9000244,19.600016 1.7000122,12.700018 1.8000183,12.4 1.9000244,12.000006 3.1000061,10.899999 3.1000061,10.899999L2.3000183,10.299993 2.3000183,9.8999987 2.3000183,9.7999926 0.80001831,8.5000039 1.4000244,7.7000156 2.5,8.60001 2.5,8.5000039C2.8000183,6.7000151 3.4000244,3.7000139 4.5,3.0000015 4.7250137,2.8499921 5.7937603,2.7562535 7.0312629,2.7609373z M17.400024,0C19,-6.0725142E-08 20.400024,1.2999883 20.400024,3.0000015 20.400024,4.6000081 19.100006,6.0000029 17.400024,6.0000029 15.800018,6.0000029 14.400024,4.7000142 14.400024,3.0000015 14.400024,1.2999883 15.800018,-6.0725142E-08 17.400024,0z"
+                                                RenderTransformOrigin="0.5,0.5"
+                                                Stretch="Uniform" />
+                                            </Grid>
+                                        </Viewbox>
+                                        <StackPanel
+                                        Width="185"
+                                        Margin="5"
+                                        Orientation="Vertical">
+                                            <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Text="{Binding CodigoBoleta}"
+                                            TextWrapping="Wrap" />
+                                            <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            FontSize="10"
+                                            Text="{Binding EncargadoCuadrilla}"
+                                            TextWrapping="Wrap" />
+                                            <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            Foreground="{Binding Estado, Converter={StaticResource StateValueToColorConverter}}"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Text="{Binding Estado}"
+                                            TextWrapping="Wrap" />
+                                            <Rectangle Height="6" Style="{StaticResource EstiloRectanguloEnListas}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <misControles:PaginarControl
+            Grid.Row="2"
+            Width="170"
+            Background="{DynamicResource AccentColorBrush}"
+            ComandoAnterior="{Binding ComandoNavegarDescargas}"
+            ComandoSiguiente="{Binding ComandoNavegarDescargas}"
+            NumeroPagina="{Binding NumeroPaginaDescargas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            TotalPaginas="{Binding BusquedaDescargasControl.TotalPagina}" />
+                    </Grid>
+                </GroupBox>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Datos Generales de la Descarga">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="160" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                                <RowDefinition Height="Auto" MinHeight="30"/>
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                                <RowDefinition Height="Auto" MinHeight="30"/>
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                                <RowDefinition Height="Auto" MinHeight="30" />
+                            </Grid.RowDefinitions>
+                            <misControles:HeaderTextBlock
+              Margin="5"
+              Text="Codigo de la Boleta"
+              TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+              Grid.Column="1"
+              Margin="5"
+              Text="{Binding DescargaSeleccionada.CodigoBoleta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+              Margin="5"                            
+                            Grid.Row="1"
+              Text="Numero de Envío"
+              TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+              Grid.Column="1"
+                            Grid.Row="1"
+              Margin="5"
+              Text="{Binding DescargaSeleccionada.NumeroEnvio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+                            Grid.Row="2"
+              Margin="5"
+              Text="Placa Cabezal"
+              TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+                            Grid.Row="2"
+              Grid.Column="1"
+              Margin="5"
+              Text="{Binding DescargaSeleccionada.PlacaEquipo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+                            Grid.Row="3"
+              Margin="5"
+              Text="Motorista"
+              TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+                            Grid.Row="3"
+              Grid.Column="1"
+              Margin="5"
+              Text="{Binding DescargaSeleccionada.Motorista, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+              Grid.Row="4"
+              Margin="5"
+              Text="Tipo Equipo"
+              TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+              Grid.Row="4"
+              Grid.Column="1"
+              Margin="5"
+              Text="{Binding DescargaSeleccionada.DescripcionTipoEquipo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+              Grid.Row="5"
+              Margin="5"
+              Text="Tipo Producto"
+              TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+              Grid.Row="5"
+              Grid.Column="1"
+              Margin="5"
+              Text="{Binding DescargaSeleccionada.DescripcionTipoProducto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+              Grid.Row="6"
+              Margin="5"
+              Text="Proveedor"
+              TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+              Grid.Row="6"
+              Grid.Column="1"
+              Margin="5"
+              Text="{Binding DescargaSeleccionada.NombreProveedor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+              Grid.Row="7"
+              Margin="5"
+              Text="Planta Origen"
+              TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+              Grid.Row="7"
+              Grid.Column="1"
+              Margin="5"
+              Text="{Binding DescargaSeleccionada.NombrePlanta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+              Grid.Row="8"
+              Margin="5"
+              Text="Fecha Descarga"
+              TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+              Grid.Row="8"
+              Grid.Column="1"
+              Text="{Binding DescargaSeleccionada.FechaDescarga, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+              Grid.Row="9"
+              Margin="5"
+              Text="Nombre Cuadrilla"
+              TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+              Grid.Row="9"
+              Grid.Column="1"
+              Text="{Binding DescargaSeleccionada.EncargadoCuadrilla, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+              Grid.Row="10"
+              Margin="5"
+              Text="Precio Descarga"
+              TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+              Grid.Row="10"
+              Grid.Column="1"
+              Text="{Binding DescargaSeleccionada.PrecioDescarga, Mode=TwoWay, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+              Grid.Row="11"
+                            Margin="5"
+              Text="Estado Descarga"
+              TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+              Grid.Row="11"
+              Grid.Column="1"
+              Text="{Binding DescargaSeleccionada.Estado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+              Grid.Row="12"
+                            Margin="5"
+              Text="Estado Boleta"
+              TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+              Grid.Row="12"
+              Grid.Column="1"
+              Text="{Binding DescargaSeleccionada.EstadoBoleta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+              Grid.Row="13"
+                            Margin="5"
+              Text="Factura Pago Descarga"
+              TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+              Grid.Row="13"
+              Grid.Column="1"
+              Text="{Binding DescargaSeleccionada.CodigoPagoDescarga, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </Grid>
+            <misControles:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                <misControles:AppBarButton
+        Command="{Binding ComandoMostrarEditar}"
+        Imagen="{DynamicResource EditarPathImagen}"
+        Titulo="Editar"/>
+                <misControles:AppBarButton
+        Command="{Binding ComandoEliminar}"
+        Imagen="{DynamicResource EliminarPathImagen}"
+        Titulo="Eliminar"/>
+                <misControles:Separador />
+                <misControles:AppBarButton
+        Command="{Binding ComandoMostrarFacturaciones}"
+        Imagen="{DynamicResource FacturarPathImagen}"
+        Titulo="Facturaciones" />
+                <misControles:Separador />
+                <misControles:AppBarButton
+        Command="{Binding ComandoRefrescar}"
+        Imagen="{DynamicResource RefrescarPathImagen}"
+        Titulo="Actualizar" />
+            </misControles:AppBarPanel>
+            <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEsperaPrincipal}" d:IsHidden="True">
+                <Grid>
+                    <misControles:BloqueoPanel/>
+                    <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid x:Name="Facturaciones"
+            Visibility="{Binding EsFacturacion, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="70" />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="275"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <GroupBox Header="Busqueda Pagos" Grid.Column="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="400*" />
+                            <RowDefinition Height="33*" />
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <misControles:TitleTextBlock Text="Buscar" />
+                            <misControles:SearchTextBox
+							Grid.Row="1"
+							Buscar="{Binding ComandoBuscarPagoDescargas}"
+							SpellCheck.IsEnabled="True"
+							Text="{Binding ValorBusquedaPagoDescarga, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                        <ListBox
+                        Grid.Row="1"
+                        Margin="5"
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding BusquedaPagoDescargadoresControl.Items}"
+                        SelectedItem="{Binding PagoDescargadoresSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Viewbox Margin="2">
+                                            <Grid Width="25">
+                                                <Path
+                                                Fill="{Binding Estado, Converter={StaticResource StateValueToColorConverter}}"
+                                                Data="M8,10.999992L10,10.999992 10,13.238166 10.17957,13.242165C11.135331,13.271067,11.847144,13.401223,12.317019,13.633973L12.317019,15.469973C11.682019,15.011974 10.864018,14.782974 9.8640175,14.782974 9.5880165,14.782974 9.3140163,14.808974 9.0400162,14.860974 8.7670164,14.911973 8.5220155,14.997974 8.3060159,15.117974 8.089015,15.238973 7.9130153,15.391974 7.7780151,15.578973 7.6430149,15.766973 7.5750146,15.992974 7.5750146,16.258973 7.5750146,16.508973 7.6270146,16.724973 7.7320151,16.907973 7.8350148,17.089973 7.9870152,17.255973 8.1890154,17.407973 8.3890152,17.558973 8.634016,17.704973 8.9230165,17.848973 9.2120161,17.992973 9.5460167,18.146973 9.9270172,18.313973 10.317018,18.516973 10.686018,18.730973 11.032019,18.953972 11.378018,19.177972 11.683019,19.425972 11.946019,19.696972 12.20902,19.966973 12.41702,20.267972 12.57102,20.598972 12.72502,20.929973 12.80202,21.305972 12.80202,21.727971 12.80202,22.294971 12.68702,22.774972 12.45802,23.164972 12.229019,23.55597 11.920019,23.872972 11.532019,24.118972 11.144018,24.363971 10.697018,24.539972 10.192018,24.64997 10.128893,24.663596 10.065314,24.676378 10.001285,24.688312L10,24.688533 10,27.043985 8,27.043985 8,24.780391 7.9000153,24.770971C7.6260147,24.742971 7.3460145,24.700971 7.0600142,24.645971 6.773014,24.59097 6.5020137,24.52497 6.2470135,24.446971 5.991013,24.367971 5.7860131,24.279971 5.630013,24.18097L5.630013,22.266971C5.8020129,22.422971 6.0060134,22.563972 6.2430134,22.688972 6.4800138,22.813972 6.7320137,22.918971 6.997014,23.004972 7.2630143,23.090972 7.5280146,23.157972 7.7940149,23.203971 8.0600157,23.250972 8.3040151,23.274972 8.5280161,23.274972 9.3100166,23.274972 9.8920173,23.144971 10.275018,22.883971 10.657018,22.622972 10.849018,22.245971 10.849018,21.750972 10.849018,21.485973 10.784018,21.254972 10.657018,21.059972 10.529017,20.864972 10.351018,20.685971 10.122017,20.524972 9.8930168,20.363973 9.6230173,20.207973 9.3140163,20.059972 9.0030165,19.910972 8.6710157,19.755972 8.3180151,19.594972 7.937015,19.391973 7.5830149,19.185972 7.2550144,18.977972 6.9270143,18.769972 6.642014,18.538972 6.4000134,18.285973 6.1570134,18.033973 5.9670133,17.747973 5.8290128,17.430973 5.6910128,17.113973 5.6220126,16.740973 5.6220126,16.313973 5.6220126,15.786973 5.7400131,15.329973 5.978013,14.942973 6.2140136,14.554974 6.5260138,14.234973 6.9150142,13.981974 7.2060141,13.792224 7.5268268,13.639036 7.8778744,13.522833L8,13.485095z M4.9329834,3.9999918L6.1870117,5.5589824 2,8.9240029 2,29.999992 16,29.999992 16,8.9249918 11.813,5.5589919 13.067,3.9999918 17.254,7.3659916C17.729,7.7489917,18,8.3169916,18,8.9249918L18,29.999992C18,31.102992,17.103001,31.999992,16,31.999992L2,31.999992C0.89697263,31.999992,-2.1662881E-08,31.103019,1.7763568E-15,29.999992L1.7763568E-15,8.9249794C-2.1662881E-08,8.3169777,0.27099607,7.7489846,0.74499492,7.3669958z M13.82338,0C15.468419,0 17.856476,0.2050004 19.618517,1.9760022 21.242556,3.610004 22.021574,6.2340069 22.000572,10.000011 21.997572,10.550011 21.550562,10.994012 21.000549,10.994012L20.994549,10.994012C20.442535,10.991012 19.997526,10.540012 20.000526,9.9880111 20.019526,6.8270075 19.412512,4.6060051 18.200483,3.3860036 17.246462,2.4280027 15.896429,2.0000023 13.82338,2.0000024 13.159366,2.0000023 12.09634,2.2880026 11.288321,3.1010033 10.423301,3.9720044 9.9892912,5.2780058 10.000291,6.9840074 10.003291,7.5360084 9.5592804,7.9860089 9.0062675,7.9900086 8.4712553,8.0060089 8.0032444,7.5470083 8.0002441,6.9950075 7.9862437,4.7380053 8.6152582,2.9530033 9.8692884,1.6910019 11.109317,0.44400048 12.725355,0 13.82338,0z"
+                                                RenderTransformOrigin="0.5,0.5"
+                                                Stretch="Uniform" />
+                                            </Grid>
+                                        </Viewbox>
+                                        <StackPanel
+                                        Width="185"
+                                        Margin="5"
+                                        Orientation="Vertical">
+                                            <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Text="{Binding CodigoPagoDescarga}"
+                                            TextWrapping="Wrap" />
+                                            <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            FontSize="10"
+                                            Text="{Binding EncargadoCuadrilla}"
+                                            TextWrapping="Wrap" />
+                                            <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            Foreground="{Binding Estado, Converter={StaticResource StateValueToColorConverter}}"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Text="{Binding Estado}"
+                                            TextWrapping="Wrap" />
+                                            <Rectangle Height="6" Style="{StaticResource EstiloRectanguloEnListas}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <misControles:PaginarControl
+						Grid.Row="2"
+						Width="170"
+						Background="{DynamicResource AccentColorBrush}"
+						ComandoAnterior="{Binding ComandoNavegarPagoDescargas}"
+						ComandoSiguiente="{Binding ComandoNavegarPagoDescargas}"
+						NumeroPagina="{Binding NumeroPaginaPagoDescargas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						TotalPaginas="{Binding BusquedaPagoDescargadoresControl.TotalPagina}" />
+                    </Grid>
+                </GroupBox>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Datos Generales del Pago">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <misControles:HeaderTextBlock
+							Margin="5"
+							Text="Codigo Pago Descargas"
+							TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+							Grid.Column="1"
+                            Grid.Row="0"
+							Margin="5"
+							Text="{Binding PagoDescargadoresSeleccionado.CodigoPagoDescarga, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+                            Grid.Column="2"
+							Margin="5"
+							Text="Nombre Planta"
+							TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+							Grid.Column="3"
+                            Grid.Row="0"
+							Margin="5"
+							Text="{Binding PagoDescargadoresSeleccionado.NombrePlanta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+                            Grid.Column="0"
+                            Grid.Row="1"
+							Margin="5"
+							Text="Encargado Cuadrilla"
+							TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+							Grid.Column="1"
+                            Grid.Row="1"
+							Margin="5"
+							Text="{Binding PagoDescargadoresSeleccionado.EncargadoCuadrilla, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+                            Grid.Column="2"
+                            Grid.Row="1"
+							Margin="5"
+							Text="Total Pago"
+							TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+							Grid.Column="3"
+                            Grid.Row="1"
+							Margin="5"
+							Text="{Binding PagoDescargadoresSeleccionado.TotalPago, Mode=TwoWay, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+                            Grid.Column="0"
+                            Grid.Row="2"
+							Margin="5"
+							Text="Total Justificado"
+							TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+							Grid.Column="1"
+                            Grid.Row="2"
+							Margin="5"
+							Text="{Binding PagoDescargadoresSeleccionado.TotalJustificado, Mode=TwoWay, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+                            Grid.Column="2"
+                            Grid.Row="2"
+							Margin="5"
+							Text="Estado"
+							TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+							Grid.Column="3"
+                            Grid.Row="2"
+							Margin="5"
+							Text="{Binding PagoDescargadoresSeleccionado.Estado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+                            Grid.Column="2"
+                            Grid.Row="3"
+							Margin="5"
+							Text="Fecha Pago"
+							TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+							Grid.Column="3"
+                            Grid.Row="3"
+							Margin="5"
+							Text="{Binding PagoDescargadoresSeleccionado.FechaPago, StringFormat=D, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock
+                            Grid.Column="0"
+                            Grid.Row="3"
+							Margin="5"
+							Text="Total Boletas Descargas"
+							TextWrapping="Wrap" />
+                            <misControles:BodyTextBlock
+							Grid.Column="1"
+                            Grid.Row="3"
+							Margin="5"
+							Text="{Binding PagoDescargadoresSeleccionado.ConteoDescargas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                    </GroupBox>
+                    <TabControl Grid.Row="1">
+                        <TabItem controlsMahApps:ControlsHelper.HeaderFontSize="16" Header="Detalle de Boletas">
+                            <Grid>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <DataGrid
+									AutoGenerateColumns="False"
+									IsReadOnly="True"
+									ItemsSource="{Binding ListaDescargasPorPago}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding NumeroEnvio}" Header="#Envio" />
+                                            <DataGridTextColumn Binding="{Binding CodigoBoleta}" Header="#Boleta" />
+                                            <DataGridTextColumn Binding="{Binding NombreProveedor}" Header="Proveedor" />
+                                            <DataGridTextColumn Binding="{Binding PlacaEquipo}" Header="Placa" />
+                                            <DataGridTextColumn Binding="{Binding DescripcionTipoProducto}" Header="Producto" />
+                                            <DataGridTemplateColumn Header="Precio">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding PrecioDescarga, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTemplateColumn Header="Fecha">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding FechaDescarga, StringFormat=d}" HorizontalAlignment="Right"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </Grid>
+                        </TabItem>
+                        <TabItem controlsMahApps:ControlsHelper.HeaderFontSize="16" Header="Adelanto de Descargas">
+                            <Grid>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <DataGrid
+									AutoGenerateColumns="False"
+									IsReadOnly="True"
+									ItemsSource="{Binding DescargasPorAdelantado}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding NumeroEnvio}" Header="#Envio" />
+                                            <DataGridTextColumn Binding="{Binding CodigoBoleta}" Header="#Boleta" />
+                                            <DataGridTextColumn Binding="{Binding CreadoPor}" Header="Creado Por" />
+                                            <DataGridTemplateColumn Header="Precio">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding PrecioDescarga, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTemplateColumn Header="Fecha Creación">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding FechaCreacion, StringFormat=d}" HorizontalAlignment="Right"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </Grid>
+                        </TabItem>
+                        <TabItem controlsMahApps:ControlsHelper.HeaderFontSize="16" Header="Detalle de Pagos">
+                            <Grid>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <DataGrid
+									AutoGenerateColumns="False"
+									IsReadOnly="True"
+									ItemsSource="{Binding ListaPagoDescargasDetalle}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding CodigoLineaCredito}" Header="Linea Crédito" />
+                                            <DataGridTextColumn Binding="{Binding FormaDePago}" Header="Tipo Transaccion" />
+                                            <DataGridTextColumn Binding="{Binding Monto, StringFormat=N2}" Header="Monto" />
+                                            <DataGridTextColumn Binding="{Binding NombreBanco}" Header="Banco" />
+                                            <DataGridTextColumn Binding="{Binding NoDocumento}" Header="Documento Ref" />
+                                            <DataGridTextColumn Binding="{Binding FechaTransaccion}" Header="Fecha Transaccion" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </Grid>
+            <misControles:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                <misControles:AppBarButton
+				Command="{Binding ComandoMostrarPagoDescargas}"
+				Imagen="{DynamicResource AgregarPathImagen}"
+				Titulo="Crear"/>
+                <misControles:AppBarButton
+				Command="{Binding ComandoMostrarPagoDescargas}"
+				Imagen="{DynamicResource EditarPathImagen}"
+				Titulo="Editar"/>
+                <misControles:AppBarButton
+				Command="{Binding ComandoEliminarPagoDescargas}"
+				Imagen="{DynamicResource EliminarPathImagen}"
+				Titulo="Eliminar"/>
+                <misControles:Separador />
+                <misControles:AppBarButton
+				Command="{Binding DescargasPorAdel}"
+				Imagen="{DynamicResource AdelantoPathImagen}"
+				Titulo="Descargas Manual" />
+                <misControles:Separador />
+                <misControles:AppBarButton
+				Command="{Binding ComandoActualizarDescargas}"
+				Imagen="{DynamicResource ActualizarDescargasPathImagen}"
+				Titulo="Actualizar Descargas" Visibility="Collapsed" />
+                <misControles:AppBarButton
+				Command="{Binding ComandoMostrarPagoDescargasDetalle}"
+				Imagen="{DynamicResource RegistrarPagoPathImagen}"
+				Titulo="Pagos" />
+                <misControles:Separador />
+                <misControles:AppBarButton
+                Command="{Binding ComandoImprimirPagoDescargas}"
+                Imagen="{DynamicResource ImprimirPathImagen}"
+                Titulo="Imprimir" />
+                <misControles:Separador />
+                <misControles:AppBarButton
+				Command="{Binding ComandoMostrarDescargas}"
+				Imagen="{DynamicResource DescargadoresPathImagen}"
+				Titulo="Descargas"/>
+                <misControles:Separador />
+                <misControles:AppBarButton
+				Command="{Binding ComandoRefrescarPagos}"
+				Imagen="{DynamicResource RefrescarPathImagen}"
+				Titulo="Actualizar" />
+            </misControles:AppBarPanel>
+            <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEsperaPrincipal}" d:IsHidden="True">
+                <Grid>
+                    <misControles:BloqueoPanel/>
+                    <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</wpfCoreWindow:MetroWindowExt>

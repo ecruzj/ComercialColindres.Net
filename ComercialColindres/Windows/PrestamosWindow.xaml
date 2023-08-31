@@ -1,0 +1,1145 @@
+﻿<wpfCoreWindow:MetroWindowExt
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Convertidores="clr-namespace:WPFCore.Convertidores;assembly=WPFCore"
+    xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:HelpersMahApps="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:controlsMahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:Comportamientos="clr-namespace:WPFCore.Comportamientos;assembly=WPFCore"
+    xmlns:misControles="clr-namespace:MisControlesWPF;assembly=MisControlesWPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:wpfCoreWindow="clr-namespace:WPFCore.UtilidadesWindows;assembly=WPFCore"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+    x:Class="ComercialColindres.Windows.PrestamosWindow"
+    Title="Prestamos"
+    Width="920"
+    Height="600"
+    MostrarDialogo="{Binding DialogSettings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    SaveWindowPosition="True"
+    ShowFlyout="{Binding SlidePanelIndice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    WindowStartupLocation="CenterScreen">
+
+    <wpfCoreWindow:MetroWindowExt.Resources>
+        <Convertidores:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <Convertidores:BoolToStringConverter x:Key="BoolToStringConverter" />
+        <Convertidores:StateValueToColorConverter x:Key="StateValueToColorConverter" />
+        <Convertidores:DateTimeToShortString x:Key="DateTimeToShortString" />
+    </wpfCoreWindow:MetroWindowExt.Resources>
+
+    <wpfCoreWindow:MetroWindowExt.DataContext>
+        <Binding Path="PrestamosViewModel" Source="{StaticResource Locator}"/>
+    </wpfCoreWindow:MetroWindowExt.DataContext>
+
+    <wpfCoreWindow:MetroWindowExt.Flyouts>
+        <controlsMahApps:FlyoutsControl>
+            <controlsMahApps:Flyout x:Name="CrearPrestamoFlyout"
+                Width="400"                
+                Margin="100,0,0,0"
+                Header="Crear Prestamo"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical">
+                            <misControles:HeaderTextBlock Text="Codigo Prestamo" />
+                            <misControles:BodyTextBlock Text="{Binding DatoPrestamo.CodigoPrestamo}" />
+                            <misControles:HeaderTextBlock Text="Fecha Creacion" />
+                            <DatePicker Margin="5" SelectedDate="{Binding DatoPrestamo.FechaCreacion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectedDateChanged">
+                                        <i:InvokeCommandAction Command="{Binding ComandoObtenerCorrelativoPrestamo}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </DatePicker>
+                            <misControles:HeaderTextBlock Text="Nombre del Proveedor" />
+                            <misControles:SearchTextBox
+                                    BuscarOpcional="{Binding ComandoMostrarBusquedaProveedores}"
+                                    IsReadOnly="True"
+                                    Text="{Binding DatoPrestamo.NombreProveedor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock Text="Autorizado Por" />
+                            <misControles:InputTextBox Text="{Binding DatoPrestamo.AutorizadoPor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   MaxLength="50"/>
+                            <misControles:HeaderTextBlock Text="Monto Prestamo" />
+                            <misControles:InputTextBox 
+                                                        FontSize="12"
+                                                        FontWeight="Bold"
+                                                        Text="{Binding DatoPrestamo.MontoPrestamo,
+                                                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                                                       Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                            <misControles:HeaderTextBlock Text="% de Interés" />
+                            <misControles:InputTextBox Text="{Binding DatoPrestamo.PorcentajeInteres,
+                                                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                                                       FontSize="12"
+                                                       FontWeight="Bold"
+                                                       Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                            <CheckBox Margin="5" IsChecked="{Binding DatoPrestamo.EsInteresMensual, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">Es interés Mensual?</CheckBox>
+                            <misControles:HeaderTextBlock Text="Comentarios" />
+                            <misControles:InputTextBox Height="80" Text="{Binding DatoPrestamo.Observaciones, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   MaxLength="80"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <misControles:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoCrear}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar" />
+                    </misControles:AppBarPanel>
+                    <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+            <controlsMahApps:Flyout x:Name="EditarPrestamoFlyout"
+                Width="400"                
+                Margin="100,0,0,0"
+                Header="Editar Prestamo"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical">
+                            <misControles:HeaderTextBlock Text="Codigo Prestamo" />
+                            <misControles:BodyTextBlock Text="{Binding DatoPrestamo.CodigoPrestamo}" />
+                            <misControles:HeaderTextBlock Text="Fecha Creacion" />
+                            <misControles:BodyTextBlock Text="{Binding DatoPrestamo.FechaCreacion}" />
+                            <misControles:HeaderTextBlock Text="Nombre del Proveedor" />
+                            <misControles:SearchTextBox
+                                    BuscarOpcional="{Binding ComandoMostrarBusquedaProveedores}"
+                                    IsReadOnly="True"
+                                    Text="{Binding DatoPrestamo.NombreProveedor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <misControles:HeaderTextBlock Text="Autorizado Por" />
+                            <misControles:InputTextBox Text="{Binding DatoPrestamo.AutorizadoPor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   MaxLength="50"/>
+                            <misControles:HeaderTextBlock Text="Monto Prestamo" />
+                            <misControles:InputTextBox Text="{Binding DatoPrestamo.MontoPrestamo,
+                                                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                                                       FontSize="12"
+                                                       FontWeight="Bold"
+                                                       Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                            <misControles:HeaderTextBlock Text="% de Interés" />
+                            <misControles:InputTextBox Text="{Binding DatoPrestamo.PorcentajeInteres,
+                                                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                                                       FontSize="12"
+                                                       FontWeight="Bold"
+                                                       Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                            <CheckBox Margin="5" IsChecked="{Binding DatoPrestamo.EsInteresMensual, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">Es interés Mensual?</CheckBox>
+                            <misControles:HeaderTextBlock Text="Comentarios" />
+                            <misControles:InputTextBox Height="80" Text="{Binding DatoPrestamo.Observaciones, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   MaxLength="80"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <misControles:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoEditar}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar" />
+                    </misControles:AppBarPanel>
+                    <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+            <controlsMahApps:Flyout x:Name="BusquedaProveedoresFlyout"
+                Width="500"
+                Margin="100,0,0,0"
+                Header="Buscar Proveedor"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Grid>
+                            <misControles:BusquedaControl
+                                Background="{DynamicResource AccentColorBrush}"
+                                ComandoBuscar="{Binding ComandoBuscarProveedores}"
+                                ComandoSeleccionarItem="{Binding ComandoSeleccionaProveedor}"
+                                ListadoColumnas="{Binding ControlBusquedaProveedores.ListadoColumnasBusqueda}"
+                                ListadoDatos="{Binding ControlBusquedaProveedores.DatosEncontrados, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ValorBusqueda="{Binding ControlBusquedaProveedores.ValorBusqueda, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                    </ScrollViewer>
+                    <Border Grid.RowSpan="1" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+            <controlsMahApps:Flyout x:Name="TransferenciasPrestamoFlyout"
+                Width="650"
+                Margin="100,0,0,0"
+                Header="Transferencias de Prestamo"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <GroupBox Header="Prestamo">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width= "*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="40"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                    </Grid.RowDefinitions>
+                                    <misControles:HeaderTextBlock Grid.Column="0" Text="Código Prestamo" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="0" 
+                                                                Text="{Binding PrestamoSeleccionado.CodigoPrestamo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <misControles:HeaderTextBlock Grid.Column="1" Text="Cliente" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="1" 
+                                                                Text="{Binding PrestamoSeleccionado.NombreProveedor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <misControles:HeaderTextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Text="Monto Total" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="2" 
+                                                                FontSize="12"
+                                                                FontWeight="Bold"
+                                                                Text="{Binding PrestamoSeleccionado.MontoPrestamo,
+                                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                                    <misControles:HeaderTextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="3"
+                                        Text="Monto Justificado" />
+                                    <misControles:BodyTextBlock Grid.Row="1" Grid.Column="3" 
+                                                                FontSize="12"
+                                                                FontWeight="Bold"
+                                                                Text="{Binding DatoPrestamoTransferencia.CantidadJustificada,
+                                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <GroupBox Header="DETALLE DE TRANSFERENCIA DEL PRESTAMO">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width= "*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="40"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                    </Grid.RowDefinitions>
+                                    <misControles:HeaderTextBlock Grid.Column="0" Text="Forma de Pago" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"/>
+                                    <ComboBox
+                                        Margin="5"
+                                        Grid.Row="1"
+                                        Grid.Column="0"                                        
+                                        ItemsSource="{Binding ListaFormaPagos}"
+                                        DisplayMemberPath="Descripcion"
+                                        SelectedItem="{Binding FormaDePagoSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValue="{Binding DatoPrestamoTransferencia.FormaDePago, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        SelectedValuePath="Descripcion"/>
+                                    <misControles:HeaderTextBlock Grid.Column="1" Text="Banco" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"/>
+                                    <ComboBox
+                                        Margin="5"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        ItemsSource="{Binding ListadoBancos}"
+                                        DisplayMemberPath="Descripcion"                                        
+                                        SelectedItem="{Binding BancoSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValue="{Binding DatoPrestamoTransferencia.BancoId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        SelectedValuePath="BancoId"
+                                        IsEnabled="{Binding FormaDePagoSeleccionada.RequiereBanco,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <misControles:HeaderTextBlock Grid.Column="2" Grid.ColumnSpan="2" Text="Linea Crédito" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"/>
+                                    <ComboBox Margin="5"
+                                              Grid.Row="1"
+                                              Grid.Column="2"
+                                              Grid.ColumnSpan="2"
+                                              HorizontalContentAlignment="Center" 
+                                              ItemsSource="{Binding LineasCredito}"
+                                              SelectedItem="{Binding LineaCreditoSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedValue="{Binding DatoPrestamoTransferencia.LineaCreditoId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedValuePath="LineaCreditoId">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Margin="5" Grid.Column="0" Text="{Binding CodigoLineaCredito}"/>
+                                                    <TextBlock Margin="5" Grid.Column="1" Text="{Binding CuentaFinanciera}"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <misControles:HeaderTextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Text="Documento Ref" TextAlignment="Center"
+                                                              FontWeight="SemiBold"/>
+                                    <misControles:InputTextBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
+                                                               Text="{Binding DatoPrestamoTransferencia.NoDocumento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                               MaxLength="50"
+                                                               IsEnabled="{Binding FormaDePagoSeleccionada.RequiereBanco,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <misControles:HeaderTextBlock Text="Monto"
+                                                              Grid.Column="2" 
+                                                              Grid.Row="2" 
+                                                              Grid.ColumnSpan="2" 
+                                                              TextAlignment="Center" 
+                                                              FontWeight="SemiBold"/>
+                                    <misControles:InputTextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding DatoPrestamoTransferencia.Monto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                                               Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                                    <misControles:OnlyImageAutoSizeButton
+                                        Grid.Row="2"
+                                        Grid.Column="4"
+                                        Width="21"
+                                        Height="21"
+                                        Margin="5"
+                                        HorizontalAlignment="Left"
+                                        Background="{DynamicResource AccentColorBrush}"
+                                        Command="{Binding ComandoAgregarTransferencia}"
+                                        Imagen="{DynamicResource AgregarPathImagen}" />
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <DataGrid                                    
+                                Margin="5"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                IsReadOnly="True"                                        
+                                ItemsSource="{Binding ListaPrestamosTransferenciasModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedItem="{Binding PrestamoTransferenciaSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Width="55">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <misControles:OnlyImageAutoSizeButton
+                                                        Width="21"
+                                                        Height="21"
+                                                        Margin="2"
+                                                        Background="{DynamicResource AccentColorBrush}"
+                                                        Command="{Binding PrestamosViewModel.ComandoRemoverTransferencia, Source={StaticResource Locator}}"
+                                                        Imagen="{DynamicResource QuitarPathImagen}" />
+                                                            <misControles:OnlyImageAutoSizeButton
+                                                        Width="21"
+                                                        Height="21"
+                                                        Margin="2"
+                                                        Background="{DynamicResource AccentColorBrush}"
+                                                        Command="{Binding PrestamosViewModel.ComandoEditarTransferencia, Source={StaticResource Locator}}"
+                                                        Imagen="{DynamicResource EditarPathImagen}" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Binding="{Binding CodigoLineaCredito}" Header="Linea Crédito" />
+                                            <DataGridTextColumn Binding="{Binding FormaDePago}" Header="Forma Pago" />
+                                            <DataGridTextColumn Binding="{Binding Monto, StringFormat=N2}" Header="Monto" />
+                                            <DataGridTextColumn Binding="{Binding NombreBanco}" Header="Banco" />
+                                            <DataGridTextColumn Binding="{Binding NoDocumento}" Header="Documento Ref" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <misControles:AppBarPanel Grid.Row="2" Background="{DynamicResource AccentColorBrush}">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoGuardarTransferenciasPrestamo}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar" />
+                    </misControles:AppBarPanel>
+                    <Border Grid.RowSpan="3" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+            <controlsMahApps:Flyout x:Name="AbonosPrestamoFlyout"
+                Width="650"
+                Margin="100,0,0,0"
+                Header="Abonos de Préstamos"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <GroupBox Header="Datos del Préstamo">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width= "*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                        <RowDefinition Height="Auto" MinHeight="30" />
+                                    </Grid.RowDefinitions>
+                                    <misControles:HeaderTextBlock Grid.Column="0" Text="Código Préstamo" 
+                                                              FontWeight="SemiBold"/>
+                                    <misControles:BodyTextBlock
+                                    Margin="5"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Text="{Binding PrestamoSeleccionado.CodigoPrestamo}"/>
+                                    <misControles:HeaderTextBlock Grid.Column="1" Text="Proveedor" 
+                                                              FontWeight="SemiBold"/>
+                                    <misControles:BodyTextBlock
+                                    Margin="5"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Text="{Binding PrestamoSeleccionado.NombreProveedor}"/>
+                                    <misControles:HeaderTextBlock Grid.Column="2" Text="Total Abono" 
+                                                              FontWeight="SemiBold"/>
+                                    <misControles:BodyTextBlock
+                                    Margin="5"
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Text="{Binding DatoAbonoPrestamo.TotalAbono, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                     Visibility="{Binding EsAbonoPorBoleta, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    <misControles:BodyTextBlock
+                                    Margin="5"
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Text="{Binding DatoOtroAbonoPrestamo.TotalAbono, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                    Visibility="{Binding EsAbonoPorBoleta, Converter={StaticResource BoolToVisibilityConverter},ConverterParameter=INVERTIR}"/>
+                                    <misControles:HeaderTextBlock Grid.Column="3" Text="Saldo Pendiente" 
+                                                              FontWeight="SemiBold"/>
+                                    <misControles:BodyTextBlock
+                                    Margin="5"
+                                    Grid.Row="1"
+                                    Grid.Column="3"
+                                    Text="{Binding DatoAbonoPrestamo.SaldoPendiente, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                    Visibility="{Binding EsAbonoPorBoleta, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    <misControles:BodyTextBlock
+                                    Margin="5"
+                                    Grid.Row="1"
+                                    Grid.Column="3"
+                                    Text="{Binding DatoOtroAbonoPrestamo.SaldoPendiente, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                    Visibility="{Binding EsAbonoPorBoleta, Converter={StaticResource BoolToVisibilityConverter},ConverterParameter=INVERTIR}"/>
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <TabControl Grid.Row="1">
+                        <TabItem HelpersMahApps:ControlsHelper.HeaderFontSize="16" Header="Abonos por Boletas">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding Path=ComandoIndicarTipoAbono}" CommandParameter="True"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <GroupBox >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width= "*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" MinHeight="30" />
+                                            <RowDefinition Height="Auto" MinHeight="30" />
+                                        </Grid.RowDefinitions>
+                                        <misControles:HeaderTextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="Código Boleta" TextAlignment="Center"
+                                                              FontWeight="SemiBold"/>
+                                        <misControles:BodyTextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontWeight="SemiBold"
+                                                               Text="{Binding DatoAbonoPrestamo.CodigoBoleta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <misControles:HeaderTextBlock Text="Monto Abono"
+                                                              Grid.Column="2" 
+                                                              Grid.Row="0" 
+                                                              Grid.ColumnSpan="2" 
+                                                              TextAlignment="Center" 
+                                                              FontWeight="SemiBold"/>
+                                        <misControles:InputTextBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding DatoAbonoPrestamo.MontoAbono, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                                               Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                                        <misControles:OnlyImageAutoSizeButton
+                                        Grid.Row="1"
+                                        Grid.Column="4"
+                                        Width="21"
+                                        Height="21"
+                                        Margin="5"
+                                        HorizontalAlignment="Left"
+                                        Background="{DynamicResource AccentColorBrush}"
+                                        Command="{Binding ComandoAgregarAbonoPorBoleta}"
+                                        Imagen="{DynamicResource AgregarPathImagen}" />
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <DataGrid                                    
+                                Margin="5"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                IsReadOnly="True"                                        
+                                ItemsSource="{Binding AbonosPrestamoPorBoletasModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedItem="{Binding AbonoPorBoletaSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <DataGrid.Columns>
+                                                <DataGridTemplateColumn Width="55">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <misControles:OnlyImageAutoSizeButton
+                                                        Width="21"
+                                                        Height="21"
+                                                        Margin="2"
+                                                        Background="{DynamicResource AccentColorBrush}"
+                                                        Command="{Binding PrestamosViewModel.ComandoRemoverAbonoPorBoleta, Source={StaticResource Locator}}"
+                                                        Imagen="{DynamicResource QuitarPathImagen}" />
+                                                                <misControles:OnlyImageAutoSizeButton
+                                                        Width="21"
+                                                        Height="21"
+                                                        Margin="2"
+                                                        Background="{DynamicResource AccentColorBrush}"
+                                                        Command="{Binding PrestamosViewModel.ComandoActualizarAbonoPorBoleta, Source={StaticResource Locator}}"
+                                                        Imagen="{DynamicResource EditarPathImagen}" />
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTextColumn Binding="{Binding CodigoBoleta}" Header="Código Boleta" />
+                                                <DataGridTextColumn Binding="{Binding PlantaDestino}" Header="Planta" />
+                                                <DataGridTextColumn Binding="{Binding MontoAbono, StringFormat=N2}" Header="Monto Abono" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Grid>
+                                </Grid>
+                            </GroupBox>
+                        </TabItem>
+                        <TabItem HelpersMahApps:ControlsHelper.HeaderFontSize="16" Header="Otros Abonos">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding Path=ComandoIndicarTipoAbono}" CommandParameter="False"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <GroupBox >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width= "*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" MinHeight="30" />
+                                            <RowDefinition Height="Auto" MinHeight="30" />
+                                            <RowDefinition Height="Auto" MinHeight="30" />
+                                            <RowDefinition Height="Auto" MinHeight="30" />
+                                        </Grid.RowDefinitions>
+                                        <misControles:HeaderTextBlock Grid.Column="0" Grid.ColumnSpan="2" Text="Forma de Abono" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"/>
+                                        <ComboBox
+                                        Margin="5"
+                                        Grid.Row="1"
+                                        Grid.Column="0"  Grid.ColumnSpan="2"
+                                        ItemsSource="{Binding ListaFormaPagos}"
+                                        DisplayMemberPath="Descripcion"
+                                        SelectedItem="{Binding FormaDeAbonoSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValue="{Binding DatoOtroAbonoPrestamo.FormaDePago, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        SelectedValuePath="Descripcion"/>
+                                        <misControles:HeaderTextBlock Grid.Column="2" Text="Banco" 
+                                                              FontWeight="SemiBold"
+                                                              TextAlignment="Center"/>
+                                        <ComboBox
+                                        Margin="5"
+                                        Grid.Row="1"
+                                        Grid.Column="2" 
+                                        ItemsSource="{Binding ListadoBancos}"
+                                        DisplayMemberPath="Descripcion"                                        
+                                        SelectedItem="{Binding BancoDelAbono, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValue="{Binding DatoOtroAbonoPrestamo.BancoId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        SelectedValuePath="BancoId"
+                                        IsEnabled="{Binding FormaDeAbonoSeleccionada.RequiereBanco,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <misControles:HeaderTextBlock Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2" Text="Documento Ref" TextAlignment="Center"
+                                                              FontWeight="SemiBold"/>
+                                        <misControles:InputTextBox Grid.Row="1" Grid.Column="3" 
+                                                               Text="{Binding DatoOtroAbonoPrestamo.NoDocumento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                               MaxLength="50"
+                                                               IsEnabled="{Binding FormaDeAbonoSeleccionada.RequiereBanco,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <misControles:HeaderTextBlock Text="Observaciones"
+                                                              Grid.Column="1" 
+                                                              Grid.Row="2" Grid.ColumnSpan="3"
+                                                              TextAlignment="Center" 
+                                                              FontWeight="SemiBold"/>
+                                        <misControles:InputTextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" 
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding DatoOtroAbonoPrestamo.Observaciones, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                               MaxLength="80"/>
+                                        <misControles:HeaderTextBlock Text="Monto Abono"
+                                                              Grid.Column="0" 
+                                                              Grid.Row="2" 
+                                                              TextAlignment="Center" 
+                                                              FontWeight="SemiBold"/>
+                                        <misControles:InputTextBox Grid.Row="3" Grid.Column="0" 
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding DatoOtroAbonoPrestamo.MontoAbono, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                                               Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                                        <misControles:OnlyImageAutoSizeButton
+                                        Grid.Row="2"
+                                        Grid.Column="4"
+                                        Width="21"
+                                        Height="21"
+                                        Margin="5"
+                                        HorizontalAlignment="Left"
+                                        Background="{DynamicResource AccentColorBrush}"
+                                        Command="{Binding ComandoAgregarOtroAbono}"
+                                        Imagen="{DynamicResource AgregarPathImagen}" />
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <DataGrid                                    
+                                Margin="5"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                IsReadOnly="True"                                        
+                                ItemsSource="{Binding OtrosAbonosPrestamo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedItem="{Binding OtroAbonoSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <DataGrid.Columns>
+                                                <DataGridTemplateColumn Width="55">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <misControles:OnlyImageAutoSizeButton
+                                                        Width="21"
+                                                        Height="21"
+                                                        Margin="2"
+                                                        Background="{DynamicResource AccentColorBrush}"
+                                                        Command="{Binding PrestamosViewModel.ComandoRemoverOtroAbono, Source={StaticResource Locator}}"
+                                                        Imagen="{DynamicResource QuitarPathImagen}" />
+                                                                <misControles:OnlyImageAutoSizeButton
+                                                        Width="21"
+                                                        Height="21"
+                                                        Margin="2"
+                                                        Background="{DynamicResource AccentColorBrush}"
+                                                        Command="{Binding PrestamosViewModel.ComandoActualizarOtroAbono, Source={StaticResource Locator}}"
+                                                        Imagen="{DynamicResource EditarPathImagen}" />
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTextColumn Binding="{Binding PagoPrestamoId}" Header="# Abono" />
+                                                <DataGridTextColumn Binding="{Binding FormaDePago}" Header="Forma de Abono" />
+                                                <DataGridTextColumn Binding="{Binding MontoAbono, StringFormat=N2}" Header="Monto Abono" />
+                                                <DataGridTextColumn Binding="{Binding NombreBanco}" Header="Banco" />
+                                                <DataGridTextColumn Binding="{Binding NoDocumento}" Header="Documento Ref" />
+                                                <DataGridTextColumn Binding="{Binding Observaciones}" Header="Observaciones" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Grid>
+                                </Grid>
+                            </GroupBox>
+                        </TabItem>
+                    </TabControl>
+                    <misControles:AppBarPanel x:Name="GuardarAbonosPorBoletas" Grid.Row="4" Background="{DynamicResource AccentColorBrush}"
+                                              Visibility="{Binding EsAbonoPorBoleta, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoGuardarAbonosPorBoletas}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar" />
+                    </misControles:AppBarPanel>
+                    <misControles:AppBarPanel x:Name="GuardarOtrosAbonos" Grid.Row="4" Background="{DynamicResource AccentColorBrush}"
+                                              Visibility="{Binding EsAbonoPorBoleta, Converter={StaticResource BoolToVisibilityConverter},ConverterParameter=INVERTIR}">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoGuardarOtrosAbonos}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar" />
+                    </misControles:AppBarPanel>
+                    <Border Grid.RowSpan="5" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+        </controlsMahApps:FlyoutsControl>
+    </wpfCoreWindow:MetroWindowExt.Flyouts>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="70" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="275" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="Busqueda Prestamos">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="400*" />
+                        <RowDefinition Height="33*" />
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <misControles:TitleTextBlock Text="Buscar" />
+                        <misControles:SearchTextBox
+							Grid.Row="1"
+							Buscar="{Binding ComandoBuscar}"
+							SpellCheck.IsEnabled="True"
+							Text="{Binding ValorBusquedaPrestamo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                    <ListBox
+                        Grid.Row="1"
+                        Margin="5"
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding BusquedaPrestamosControl.Items}"
+                        SelectedItem="{Binding PrestamoSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Margin="2">
+                                        <Grid Width="25">
+                                            <Path
+                                                Fill="{Binding Estado, Converter={StaticResource StateValueToColorConverter}}"   
+                                                Data="M1.6700134,23.702006L13.007996,23.702006C13.095001,23.956004 13.188019,24.210002 13.295013,24.460002 13.813019,25.683009 14.552002,26.779002 15.493011,27.721003 15.576996,27.803996 15.664001,27.883998 15.747009,27.964L1.6700134,27.964C0.74801636,27.964,0,27.215999,0,26.294001L0,25.372004C0,24.450007,0.74801636,23.702006,1.6700134,23.702006z M4.3390198,17.722003L12.864014,17.722003C12.617004,18.611003 12.493011,19.529002 12.493011,20.468005 12.493011,20.978999 12.529999,21.487002 12.604004,21.985003L4.3390198,21.985003C3.4170227,21.985003,2.6690063,21.236003,2.6690063,20.314006L2.6690063,19.392001C2.6690063,18.470004,3.4170227,17.722003,4.3390198,17.722003z M22.179993,14.468004L22.179993,15.517C21.338013,15.636003 20.722015,15.961 20.330017,16.492 19.938019,17.024005 19.740997,17.624003 19.740997,18.288005 19.740997,18.794001 19.851013,19.240001 20.072021,19.623004 20.290009,20.004001 20.575012,20.298999 20.928009,20.511004 21.279022,20.726001 21.768005,20.937999 22.393005,21.156001 23.08902,21.402003 23.539001,21.605006 23.740021,21.765002 23.94101,21.922999 24.042999,22.159999 24.042999,22.471003 24.042999,22.771998 23.94101,23.025996 23.740021,23.239009 23.539001,23.452006 23.222015,23.557002 22.794006,23.557002 21.878021,23.557002 21.338013,23.061 21.175995,22.070002L19.417023,22.529002C19.772003,24.103999,20.692993,24.969996,22.179993,25.122996L22.179993,26.475001 23.317993,26.475001 23.317993,25.117C24.210999,25.023005 24.893005,24.711009 25.365997,24.180995 25.83902,23.650996 26.075012,22.991008 26.075012,22.197001 26.075012,21.679004 25.960022,21.228 25.731995,20.841006 25.501007,20.456004 25.196014,20.151004 24.811005,19.932002 24.428009,19.713 23.895996,19.478999 23.222015,19.232005 22.606018,19.008006 22.205994,18.818004 22.018005,18.666003 21.830017,18.511004 21.737,18.292003 21.737,18.006999 21.737,17.726001 21.834015,17.487002 22.029999,17.290004 22.223022,17.092006 22.481018,16.995006 22.802002,16.995006 23.442993,16.995006 23.912994,17.436 24.218994,18.318004L25.787994,17.675006C25.412994,16.389003,24.588013,15.67,23.317993,15.517L23.317993,14.468004z M1.6700134,11.851999L17.184021,11.851999C16.57901,12.242998 16.015015,12.698 15.497009,13.214998 14.652008,14.060999 13.96701,15.036005 13.462006,16.112002L1.6700134,16.112002C0.74801636,16.112002,0,15.364,0,14.442003L0,13.523004C0,12.601,0.74801636,11.851999,1.6700134,11.851999z M22.748993,11.214998C27.860016,11.214998 32.003021,15.357004 32,20.475001 32,25.586009 27.856995,29.728999 22.746002,29.728999 20.718018,29.728999 18.841003,29.074 17.317017,27.967997 15.858002,26.906001 14.714996,25.426005 14.074005,23.704997 13.867004,23.157008 13.713013,22.583003 13.615997,21.988002 13.536011,21.494006 13.492004,20.989001 13.492004,20.471003 13.492004,19.516002 13.636017,18.594005 13.907013,17.725001 14.084015,17.164004 14.307007,16.626002 14.582001,16.115001 15.606995,14.194002 17.287018,12.681002 19.325012,11.869005 20.384003,11.448 21.540009,11.214998 22.748993,11.214998z M1.6700134,5.9800042L19.088013,5.9800042C20.01001,5.9800042,20.759003,6.7279977,20.759003,7.6500024L20.759003,8.5719995C20.759003,9.4940042,20.01001,10.241998,19.088013,10.241998L1.6700134,10.241998C0.74801636,10.241998,0,9.4940042,0,8.5719995L0,7.6500024C0,6.7279977,0.74801636,5.9800042,1.6700134,5.9800042z M4.3390198,0L21.757019,0C22.679016,8.7958597E-08,23.427002,0.74800125,23.427002,1.6699987L23.427002,2.5920033C23.427002,3.5140003,22.679016,4.2630009,21.757019,4.2630009L4.3390198,4.2630009C3.4170227,4.2630009,2.6690063,3.5140003,2.6690063,2.5920033L2.6690063,1.6699987C2.6690063,0.74800125,3.4170227,8.7958597E-08,4.3390198,0z"
+                                                RenderTransformOrigin="0.5,0.5"
+                                                Stretch="Uniform" />
+                                        </Grid>
+                                    </Viewbox>
+                                    <StackPanel
+                                        Width="185"
+                                        Margin="5"
+                                        Orientation="Vertical">
+                                        <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Text="{Binding CodigoPrestamo}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            FontSize="10"
+                                            Text="{Binding NombreProveedor}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            Foreground="{Binding Estado, Converter={StaticResource StateValueToColorConverter}}"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Text="{Binding Estado}"
+                                            TextWrapping="Wrap" />
+                                        <Rectangle Height="6" Style="{StaticResource EstiloRectanguloEnListas}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <misControles:PaginarControl
+						Grid.Row="2"
+						Width="170"
+						Background="{DynamicResource AccentColorBrush}"
+						ComandoAnterior="{Binding ComandoNavegar}"
+						ComandoSiguiente="{Binding ComandoNavegar}"
+						NumeroPagina="{Binding NumeroPagina, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						TotalPaginas="{Binding BusquedaPrestamosControl.TotalPagina}" />
+                </Grid>
+            </GroupBox>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <GroupBox Header="Datos Generales del Prestamo">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition Height="Auto"  />
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition Height="Auto" MinHeight="30"/>
+                        </Grid.RowDefinitions>
+                        <misControles:HeaderTextBlock
+							Margin="5"
+							Text="Codigo del Prestamo"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding PrestamoSeleccionado.CodigoPrestamo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+							Margin="5"
+                            Grid.Column="2"
+                            Grid.Row="0"
+							Text="Es Préstamo Mensual"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Column="3"
+                            Grid.Row="0"
+							Margin="5"
+							Text="{Binding PrestamoSeleccionado.EsInteresMensual, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+                            Grid.Row="1"
+							Margin="5"
+							Text="Fecha de Creacion"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+                            Grid.Row="1"
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding PrestamoSeleccionado.FechaCreacion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+                            Grid.Row="1"
+                            Grid.Column="2"
+							Margin="5"
+							Text="Nombre del Cliente"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+                            Grid.Row="1"
+							Grid.Column="3"
+							Margin="5"
+							Text="{Binding PrestamoSeleccionado.NombreProveedor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="2"
+							Margin="5"
+							Text="Autorizado Por"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="2"
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding PrestamoSeleccionado.AutorizadoPor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="2"
+                            Grid.Column="2"
+							Margin="5"
+							Text="Monto del Prestamo"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="2"
+							Grid.Column="3"
+							Margin="5"
+							Text="{Binding PrestamoSeleccionado.MontoPrestamo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="3"
+							Margin="5"
+							Text="% Interés"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="3"
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding PrestamoSeleccionado.PorcentajeInteres, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+
+                        <misControles:HeaderTextBlock
+							Grid.Row="4"
+                            Grid.Column="0"
+							Margin="5"
+							Text="Días Transcurridos"
+							TextWrapping="Wrap" 
+                            Visibility="{Binding PrestamoSeleccionado.EsInteresMensual, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <misControles:BodyTextBlock
+							Grid.Row="4"
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding PrestamoSeleccionado.DiasTranscurridos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='0.'}" 
+                            Visibility="{Binding PrestamoSeleccionado.EsInteresMensual, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <misControles:HeaderTextBlock
+							Grid.Row="4"
+                            Grid.Column="2"
+							Margin="5"
+							Text="Intereses"
+							TextWrapping="Wrap"
+                            Visibility="{Binding PrestamoSeleccionado.EsInteresMensual, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <misControles:BodyTextBlock
+							Grid.Row="4"
+							Grid.Column="3"
+							Margin="5"
+							Text="{Binding PrestamoSeleccionado.Intereses, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                            Visibility="{Binding PrestamoSeleccionado.EsInteresMensual, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <misControles:HeaderTextBlock
+							Grid.Row="3"
+                            Grid.Column="2"
+							Margin="5"
+							Text="Total a Cobrar"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="3"
+							Grid.Column="3"
+							Margin="5"
+							Text="{Binding PrestamoSeleccionado.TotalACobrar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="5"
+							Margin="5"
+							Text="Total Abono"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="5"
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding PrestamoSeleccionado.TotalAbono, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="5"
+                            Grid.Column="2"
+							Margin="5"
+							Text="Saldo Pendiente"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="5"
+							Grid.Column="3"
+							Margin="5"
+							Text="{Binding PrestamoSeleccionado.SaldoPendiente, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="6"
+							Margin="5"
+							Text="Observaciones"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="6"
+                            Grid.ColumnSpan="3"
+							Grid.Column="1"
+							Text="{Binding PrestamoSeleccionado.Observaciones, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                </GroupBox>
+                <TabControl Grid.Row="1">
+                    <TabItem controlsMahApps:ControlsHelper.HeaderFontSize="16" Header="Detalle Transferencias Prestamo">
+                        <Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <DataGrid
+									AutoGenerateColumns="False"
+									IsReadOnly="True"
+									ItemsSource="{Binding ListaPrestamosTransferencias}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding FormaDePago}" Header="Tipo Transaccion" />
+                                        <DataGridTextColumn Binding="{Binding Monto, StringFormat=N2}" Header="Monto" />
+                                        <DataGridTextColumn Binding="{Binding NombreBanco}" Header="Banco" />
+                                        <DataGridTextColumn Binding="{Binding NoDocumento}" Header="Documento Ref" />
+                                        <DataGridTextColumn Binding="{Binding FechaTransaccion}" Header="Fecha Transaccion" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <Grid Grid.Row="1" HorizontalAlignment="Right">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" MinWidth="80" />
+                                    </Grid.ColumnDefinitions>
+                                    <misControles:HeaderTextBlock Grid.Row="0"
+                                                                 FontSize="14"
+                                                                 Text="Préstamo"
+                                                                 FontWeight="SemiBold"/>
+                                    <misControles:BodyTextBlock Grid.Row="0"
+                                                               Grid.Column="1"
+                                                               FontSize="14"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding PrestamoSeleccionado.MontoPrestamo,
+                                                                              Mode=TwoWay,
+                                                                              UpdateSourceTrigger=PropertyChanged,
+                                                                              StringFormat=N2}"
+                                                               TextAlignment="Right" />
+                                    <misControles:HeaderTextBlock Grid.Row="1"
+                                                                 FontSize="14"
+                                                                 Text="(+) Intereses"
+                                                                  FontWeight="SemiBold"/>
+                                    <misControles:BodyTextBlock Grid.Row="1"
+                                                               Grid.Column="1"
+                                                               FontSize="14"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding PrestamoSeleccionado.Intereses,
+                                                                              Mode=TwoWay,
+                                                                              UpdateSourceTrigger=PropertyChanged,
+                                                                              StringFormat=N2}"
+                                                               TextAlignment="Right"
+                                                                Foreground="Red"/>
+                                    <misControles:HeaderTextBlock Grid.Row="2"
+                                                                 FontSize="14"
+                                                                 Text="(-) Abonos"
+                                                                  FontWeight="SemiBold"/>
+                                    <misControles:BodyTextBlock Grid.Row="2"
+                                                               Grid.Column="1"
+                                                               FontSize="14"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding PrestamoSeleccionado.TotalAbono,
+                                                                              Mode=TwoWay,
+                                                                              UpdateSourceTrigger=PropertyChanged,
+                                                                              StringFormat=N2}"
+                                                               TextAlignment="Right"
+                                                                Foreground="Green"/>
+                                    <misControles:HeaderTextBlock Grid.Row="3"
+                                                                 FontSize="14"
+                                                                 Text="Saldo"
+                                                                  FontWeight="SemiBold"/>
+                                    <misControles:BodyTextBlock Grid.Row="3"
+                                                               Grid.Column="1"
+                                                               FontSize="14"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding PrestamoSeleccionado.SaldoPendiente,
+                                                                              Mode=TwoWay,
+                                                                              UpdateSourceTrigger=PropertyChanged,
+                                                                              StringFormat=N2}"
+                                                               TextAlignment="Right" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem controlsMahApps:ControlsHelper.HeaderFontSize="16" Header="Detalle Abonos">
+                        <Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <DataGrid
+									AutoGenerateColumns="False"
+									IsReadOnly="True"
+									ItemsSource="{Binding ListaPagoPrestamos}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding FormaDePago}" Header="Tipo Transaccion" />
+                                        <DataGridTextColumn Binding="{Binding MontoAbono, StringFormat=N2}" Header="Monto Abono" />
+                                        <DataGridTextColumn Binding="{Binding NoDocumento}" Header="Documento Ref" />
+                                        <DataGridTextColumn Binding="{Binding NombreBanco}" Header="Banco" />
+                                        <DataGridTextColumn Binding="{Binding Observaciones}" Header="Observaciones" />
+                                        <DataGridTextColumn Binding="{Binding FechaTransaccion}" Header="Fecha Transaccion" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Grid>
+        <misControles:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+            <misControles:AppBarButton
+				Command="{Binding ComandoMostrarAgregar}"
+				Imagen="{DynamicResource AgregarPathImagen}"
+				Titulo="Crear" />
+            <misControles:AppBarButton
+				Command="{Binding ComandoMostrarEditar}"
+				Imagen="{DynamicResource EditarPathImagen}"
+				Titulo="Editar" />
+            <misControles:AppBarButton
+				Command="{Binding ComandoEliminar}"
+				Imagen="{DynamicResource EliminarPathImagen}"
+				Titulo="Eliminar" />
+            <misControles:Separador />
+            <misControles:AppBarButton
+				Command="{Binding ComandoMostrarPrestamosTransferencias}"
+				Imagen="{DynamicResource PrestamoTransferenciaPathImagen}"
+				Titulo="Transferencias" />
+            <misControles:Separador />
+            <misControles:AppBarButton
+				Command="{Binding ComandoActivarPrestamo}"
+				Imagen="{DynamicResource ActivarPrestamoPathImagen}"
+				Titulo="Activar" />
+            <misControles:Separador />
+            <misControles:AppBarButton
+				Command="{Binding ComandoMostrarAbonosPrestamo}"
+				Imagen="{DynamicResource AbonoPrestamoPathImagen}"
+				Titulo="Abonos" />
+            <misControles:Separador />
+            <misControles:AppBarButton
+				Command="{Binding ComandoImprimirDetallePrestamo}"
+				Imagen="{DynamicResource ImprimirPathImagen}"
+				Titulo="Imprimir" />
+            <misControles:Separador />
+            <misControles:AppBarButton
+				Command="{Binding ComandoRefrescar}"
+				Imagen="{DynamicResource RefrescarPathImagen}"
+				Titulo="Actualizar" />
+        </misControles:AppBarPanel>
+
+        <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEsperaPrincipal}" d:IsHidden="True">
+            <Grid>
+                <misControles:BloqueoPanel/>
+                <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+            </Grid>
+        </Border>
+    </Grid>
+</wpfCoreWindow:MetroWindowExt>

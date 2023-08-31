@@ -1,0 +1,236 @@
+﻿<UserControl x:Class="ComercialColindres.Views.RptBoletasPorProveedorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ComercialColindres.Views"
+             xmlns:MisControlesWPF="clr-namespace:MisControlesWPF;assembly=MisControlesWPF"
+             xmlns:controlsMahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" 
+             DataContext="{Binding RptBoletasPorProveedorViewModel, Mode=OneWay, Source={StaticResource Locator}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <MisControlesWPF:TitleTextBlock  Text="Reporte Historial de Boletas por Proveedor" Style="{DynamicResource EncabezadoTituloStyle}"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <MisControlesWPF:TitleTextBlock Text="Filtros"/>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="300"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <MisControlesWPF:HeaderTextBlock Text="Nombre del Cliente" Grid.Column="0" VerticalAlignment="Stretch"/>
+                    <MisControlesWPF:InputTextBoxAutoCompleteControl Grid.Row="0" Grid.Column="1" SelectedItem="{Binding ProveedorSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                     Buscar="{Binding ComandoBuscarProveedores}" AutoCompletionList="{Binding Proveedores}"/>
+                    <MisControlesWPF:HeaderTextBlock Text="Rango de Fecha" Grid.Row="1"/>
+                    <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" >
+                        <DatePicker SelectedDate="{Binding FechaInicio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5" MinWidth="130"/>
+                        <DatePicker SelectedDate="{Binding FechaFinal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5" MinWidth="130"/>
+                    </StackPanel>
+                    <CheckBox Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Content="Filtrar por Fechas" IsChecked="{Binding FiltrarPorRangoFecha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+                <TabControl Grid.Row="1">
+                    <TabItem controlsMahApps:ControlsHelper.HeaderFontSize="16" Header="Historial de Boletas">
+                        <Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <DataGrid ItemsSource="{Binding ReporteHistorialBoletas.HistorialBoletas}" AutoGenerateColumns="False" IsReadOnly="True">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Boleta" Binding="{Binding CodigoBoleta}"/>
+                                        <DataGridTextColumn Header="#Envio" Binding="{Binding NumeroEnvio}"/>
+                                        <DataGridTextColumn Header="Estado" Binding="{Binding Estado}"/>
+                                        <DataGridTextColumn Header="Planta" Binding="{Binding NombrePlanta}"/>
+                                        <DataGridTextColumn Header="Fecha" Binding="{Binding FechaSalida, StringFormat=d}"/>
+                                        <DataGridTextColumn Header="Motorista" Binding="{Binding Motorista}"/>
+                                        <DataGridTextColumn Header="Placa" Binding="{Binding PlacaEquipo}"/>
+                                        <DataGridTextColumn Header="Producto" Binding="{Binding TipoProducto}"/>
+                                        <DataGridTemplateColumn Header="Tone">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding PesoProducto, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Penalizacion">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding CantidadPenalizada, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Precio">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding PrecioProductoCompra, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="T/S">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding TasaSeguridad, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Diesel">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding MontoCombustible, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Descarga">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding PrecioDescarga, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="AbonoPrestamo">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding MontoAbonoPrestamo, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="- Otros">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding OtrasDeducciones, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="+ Otros">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding OtrosIngresos, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Deposito Proveedor">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding PagoCliente, StringFormat=N2}" HorizontalAlignment="Right"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <Grid Grid.Row="1" HorizontalAlignment="Right">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <MisControlesWPF:HeaderTextBlock Grid.Row="0"
+                                                                     Grid.Column="0"
+                                                                     FontSize="16"
+                                                                     Text="Total Boletas"/>
+                                    <MisControlesWPF:BodyTextBlock Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   FontSize="16"
+                                                                   FontWeight="Bold"
+                                                                   Text="{Binding ReporteHistorialBoletas.TotalBoletas,
+                                                                                  Mode=TwoWay,
+                                                                                  UpdateSourceTrigger=PropertyChanged}"
+                                                                   TextAlignment="Right" />
+                                    <MisControlesWPF:HeaderTextBlock Grid.Row="0"
+                                                                     FontSize="16"
+                                                                     Text="Total Toneladas" Grid.Column="1"/>
+                                    <MisControlesWPF:BodyTextBlock Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   FontSize="16"
+                                                                   FontWeight="Bold"
+                                                                   Text="{Binding ReporteHistorialBoletas.TotalToneladas,
+                                                                                  Mode=TwoWay,
+                                                                                  UpdateSourceTrigger=PropertyChanged,
+                                                                                  StringFormat=N2}"
+                                                                   TextAlignment="Right" />
+                                    <MisControlesWPF:HeaderTextBlock Grid.Row="0"
+                                                                     FontSize="16"
+                                                                     Text="Total Abono" Grid.Column="2"/>
+                                    <MisControlesWPF:BodyTextBlock Grid.Row="1"
+                                                                   Grid.Column="2"
+                                                                   FontSize="16"
+                                                                   FontWeight="Bold"
+                                                                   Text="{Binding ReporteHistorialBoletas.TotalAbono,
+                                                                                  Mode=TwoWay,
+                                                                                  UpdateSourceTrigger=PropertyChanged,
+                                                                                  StringFormat=N2}"
+                                                                   TextAlignment="Right" />
+                                    <MisControlesWPF:HeaderTextBlock Grid.Row="0"
+                                                                     Grid.Column="3"
+                                                                     FontSize="16"
+                                                                     Text="Total Ingreso"/>
+                                    <MisControlesWPF:BodyTextBlock Grid.Row="1"
+                                                                   Grid.Column="3"
+                                                                   FontSize="16"
+                                                                   FontWeight="Bold"
+                                                                   Text="{Binding ReporteHistorialBoletas.TotalIngreso,
+                                                                                  Mode=TwoWay,
+                                                                                  UpdateSourceTrigger=PropertyChanged,
+                                                                                  StringFormat=N2}"
+                                                                   TextAlignment="Right" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2" Background="{DynamicResource AccentColorBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <MisControlesWPF:AppBarPanel x:Name="appBarPanel"
+				Grid.Column="1"
+				HorizontalAlignment="Right">
+                <MisControlesWPF:AppBarButton Command="{Binding ComandoObtenerInformacionReporte}"
+					Imagen="{StaticResource BuscarReportPathImagen}"
+					Titulo="Obtener Informacion"
+					ToolTip="{StaticResource BuscarReporteToolTip}" />
+                <MisControlesWPF:Separador />
+                <MisControlesWPF:AppBarButton Command="{Binding ComandoImprimir}"
+					Imagen="{StaticResource ImprimirPathImagen}"
+					Titulo="Imprimir"
+					ToolTip="{StaticResource ImprimirToolTip}" />
+            </MisControlesWPF:AppBarPanel>
+        </Grid>
+        <Border Grid.RowSpan="3" Visibility="{Binding MostrarVentanaEsperaPrincipal}" d:IsHidden="True">
+            <Grid>
+                <MisControlesWPF:BloqueoPanel/>
+                <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

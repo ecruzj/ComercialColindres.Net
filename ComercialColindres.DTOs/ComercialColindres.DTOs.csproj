@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B772147B-2173-4145-A6AC-5564C66795F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ComercialColindres.DTOs</RootNamespace>
+    <AssemblyName>ComercialColindres.DTOs</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ServiceStack">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\ServiceStack\net45\ServiceStack.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\ServiceStack\net45\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Clases\BaseDTO.cs" />
+    <Compile Include="Clases\BusquedaRequestBaseDTO.cs" />
+    <Compile Include="Clases\BusquedaResponseBaseDTO.cs" />
+    <Compile Include="Clases\RequestBase.cs" />
+    <Compile Include="Clases\RequestUserInfo.cs" />
+    <Compile Include="Clases\ResponseBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestDTOs\AjusteBoletaDetalle\AjusteBoletaDetalleDto.cs" />
+    <Compile Include="RequestDTOs\AjusteBoletaDetalle\AjusteBoletaDetalleRequest.cs" />
+    <Compile Include="RequestDTOs\AjusteBoletaPagos\AjusteBoletaPagoDto.cs" />
+    <Compile Include="RequestDTOs\AjusteBoletaPagos\AjusteBoletaPagoRequest.cs" />
+    <Compile Include="RequestDTOs\AjusteBoletas\AjusteBoletaDto.cs" />
+    <Compile Include="RequestDTOs\AjusteBoletas\AjusteBoletaRequest.cs" />
+    <Compile Include="RequestDTOs\AjusteBoletas\BusquedaAjusteBoletas.cs" />
+    <Compile Include="RequestDTOs\AjusteTipos\AjusteTipoDto.cs" />
+    <Compile Include="RequestDTOs\AjusteTipos\AjusteTipoRequest.cs" />
+    <Compile Include="RequestDTOs\Bancos\BancosDTO.cs" />
+    <Compile Include="RequestDTOs\Bancos\BancosRequestDTO.cs" />
+    <Compile Include="RequestDTOs\BoletaCierres\BoletaCierresDTO.cs" />
+    <Compile Include="RequestDTOs\BoletaCierres\BoletaCierresRequestDTO.cs" />
+    <Compile Include="RequestDTOs\BoletaDeduccionManual\BoletaDeduccionManualDto.cs" />
+    <Compile Include="RequestDTOs\BoletaDeduccionManual\BoletaDeduccionManualRequest.cs" />
+    <Compile Include="RequestDTOs\BoletaDetalles\BoletaDetallesDTO.cs" />
+    <Compile Include="RequestDTOs\BoletaDetalles\BoletaDetallesRequestDTO.cs" />
+    <Compile Include="RequestDTOs\BoletaHumedadAsignacion\BoletaHumedadAsignacionDto.cs" />
+    <Compile Include="RequestDTOs\BoletaHumedadAsignacion\BoletaHumedadAsignacionRequest.cs" />
+    <Compile Include="RequestDTOs\BoletaHumedadPago\BoletaHumedadPagoRequest.cs" />
+    <Compile Include="RequestDTOs\BoletaHumedad\BoletaHumedadDto.cs" />
+    <Compile Include="RequestDTOs\BoletaHumedad\BoletaHumedadRequest.cs" />
+    <Compile Include="RequestDTOs\BoletaHumedad\BusquedaBoletasHumedadDto.cs" />
+    <Compile Include="RequestDTOs\BoletaOtrasDeducciones\BoletaOtrasDeduccionesDTO.cs" />
+    <Compile Include="RequestDTOs\BoletaOtrasDeducciones\BoletaOtrasDeduccionesRequestDTO.cs" />
+    <Compile Include="RequestDTOs\BoletaHumedadPago\BoletaHumedadPagoDto.cs" />
+    <Compile Include="RequestDTOs\Boletas\BoletaImgDto.cs" />
+    <Compile Include="RequestDTOs\Boletas\BoletaImgRequest.cs" />
+    <Compile Include="RequestDTOs\Boletas\BoletasDTO.cs" />
+    <Compile Include="RequestDTOs\Boletas\BoletasRequest.cs" />
+    <Compile Include="RequestDTOs\Boletas\BusquedaBoletasDTO.cs" />
+    <Compile Include="RequestDTOs\Bonificaciones\BonificacionProductoDto.cs" />
+    <Compile Include="RequestDTOs\Bonificaciones\BonificacionProductoRequest.cs" />
+    <Compile Include="RequestDTOs\CategoriaProductos\CategoriaProductosDTO.cs" />
+    <Compile Include="RequestDTOs\CategoriaProductos\CategoriaProductosRequestDTO.cs" />
+    <Compile Include="RequestDTOs\ClientePlantas\ClientePlantasDTO.cs" />
+    <Compile Include="RequestDTOs\ClientePlantas\ClientePlantasRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Cuadrillas\BusquedaCuadrillasDTO.cs" />
+    <Compile Include="RequestDTOs\Cuadrillas\CuadrillasDTO.cs" />
+    <Compile Include="RequestDTOs\Cuadrillas\CuadrillasRequestDTO.cs" />
+    <Compile Include="RequestDTOs\CuentasFinancieras\CuentasFinancierasDTO.cs" />
+    <Compile Include="RequestDTOs\CuentasFinancieras\CuentasFinancierasRequestDTO.cs" />
+    <Compile Include="RequestDTOs\CuentasFinancieraTipos\CuentasFinancieraTiposDTO.cs" />
+    <Compile Include="RequestDTOs\CuentasFinancieraTipos\CuentasFinancieraTiposRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Descargadores\BusquedaDescargadoresDTO.cs" />
+    <Compile Include="RequestDTOs\Descargadores\DescargadoresDTO.cs" />
+    <Compile Include="RequestDTOs\Descargadores\DescargadoresRequestDTO.cs" />
+    <Compile Include="RequestDTOs\DescargasPorAdelantado\DescargasPorAdelantadoDTO.cs" />
+    <Compile Include="RequestDTOs\DescargasPorAdelantado\DescargasPorAdelantadoRequest.cs" />
+    <Compile Include="RequestDTOs\FacturaDetalleBoletas\FacturaDetalleBoletasDTO.cs" />
+    <Compile Include="RequestDTOs\FacturaDetalleBoletas\FacturaDetalleBoletasRequestDTO.cs" />
+    <Compile Include="RequestDTOs\FacturaDetalleItems\FacturaDetalleItemDto.cs" />
+    <Compile Include="RequestDTOs\FacturaDetalleItems\FacturaDetalleItemRequest.cs" />
+    <Compile Include="RequestDTOs\FacturaPago\FacturaPagoDto.cs" />
+    <Compile Include="RequestDTOs\FacturaPago\FacturaPagoRequest.cs" />
+    <Compile Include="RequestDTOs\FuelOrderManualPayments\FuelOrderManualPaymentDto.cs" />
+    <Compile Include="RequestDTOs\FuelOrderManualPayments\FuelOrderManualPaymentRequest.cs" />
+    <Compile Include="RequestDTOs\GasolineraCreditoPagos\GasolineraCreditoPagosDTO.cs" />
+    <Compile Include="RequestDTOs\GasolineraCreditoPagos\GasolineraCreditoPagosRequestDTO.cs" />
+    <Compile Include="RequestDTOs\GasolineraCreditos\BusquedaGasolineraCreditosDTO.cs" />
+    <Compile Include="RequestDTOs\GasolineraCreditos\GasolineraCreditosDTO.cs" />
+    <Compile Include="RequestDTOs\GasolineraCreditos\GasolineraCreditosRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Gasolineras\GasolinerasDTO.cs" />
+    <Compile Include="RequestDTOs\Gasolineras\GasolinerasRequestDTO.cs" />
+    <Compile Include="RequestDTOs\LineasCreditoDeducciones\BusquedaLineasCreditoDeduccionesDTO.cs" />
+    <Compile Include="RequestDTOs\LineasCreditoDeducciones\LineasCreditoDeduccionesDTO.cs" />
+    <Compile Include="RequestDTOs\LineasCreditoDeducciones\LineasCreditoDeduccionesRequestDTO.cs" />
+    <Compile Include="RequestDTOs\LineasCredito\BusquedaLineasCreditoDTO.cs" />
+    <Compile Include="RequestDTOs\LineasCredito\LineasCreditoDTO.cs" />
+    <Compile Include="RequestDTOs\LineasCredito\LineasCreditoRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Logging\LoggingDTO.cs" />
+    <Compile Include="RequestDTOs\Logging\LoggingRequestDTO.cs" />
+    <Compile Include="RequestDTOs\MaestroBiomasa\MaestroBiomasaDTO.cs" />
+    <Compile Include="RequestDTOs\MaestroBiomasa\MaestroBiomasaRequestDTO.cs" />
+    <Compile Include="RequestDTOs\NotasCredito\NotaCreditoDto.cs" />
+    <Compile Include="RequestDTOs\NotasCredito\NotaCreditoRequest.cs" />
+    <Compile Include="RequestDTOs\OrdenesCombustible\BusquedaOrdenesCombustibleDTO.cs" />
+    <Compile Include="RequestDTOs\OrdenesCombustible\OrdenCombustibleImgRequest.cs" />
+    <Compile Include="RequestDTOs\OrdenesCombustible\OrdenesCombustibleDTO.cs" />
+    <Compile Include="RequestDTOs\OrdenesCombustible\OrdenesCombustibleRequestDTO.cs" />
+    <Compile Include="RequestDTOs\OrdenesCompraDetalleBoleta\OrdenesCompraDetalleBoletaDTO.cs" />
+    <Compile Include="RequestDTOs\OrdenesCompraDetalleBoleta\OrdenesCompraDetalleBoletaRequestDTO.cs" />
+    <Compile Include="RequestDTOs\OrdenesCompraProducto\BusquedaOrdenesCompraProductoDTO.cs" />
+    <Compile Include="RequestDTOs\OrdenesCompraProducto\OrdenesCompraProductoDTO.cs" />
+    <Compile Include="RequestDTOs\OrdenesCompraProductoDetalle\OrdenesCompraProductoDetalleDTO.cs" />
+    <Compile Include="RequestDTOs\OrdenesCompraProductoDetalle\OrdenesCompraProductoDetalleRequestDTO.cs" />
+    <Compile Include="RequestDTOs\OrdenesCompraProducto\OrdenesCompraProductoRequestDTO.cs" />
+    <Compile Include="RequestDTOs\PagoDescargaDetalles\PagoDescargaDetallesDTO.cs" />
+    <Compile Include="RequestDTOs\PagoDescargaDetalles\PagoDescargaDetallesRequestDTO.cs" />
+    <Compile Include="RequestDTOs\PagoDescargadores\BusquedaPagoDescargadoresDTO.cs" />
+    <Compile Include="RequestDTOs\PagoDescargadores\PagoDescargadoresDTO.cs" />
+    <Compile Include="RequestDTOs\PagoDescargadores\PagoDescargadoresRequestDTO.cs" />
+    <Compile Include="RequestDTOs\OrdenesCombustible\OrdenCombustibleImgDto.cs" />
+    <Compile Include="RequestDTOs\PagoOrdenesCombustible\PagoOrdenesCombustibleDTO.cs" />
+    <Compile Include="RequestDTOs\PagoPrestamos\PagoPrestamosDTO.cs" />
+    <Compile Include="RequestDTOs\PagoPrestamos\PagoPrestamosRequestDTO.cs" />
+    <Compile Include="RequestDTOs\PrecioDescargas\PrecioDescargasDTO.cs" />
+    <Compile Include="RequestDTOs\PrecioDescargas\PrecioDescargasRequestDTO.cs" />
+    <Compile Include="RequestDTOs\PrecioProductos\PrecioProductosDTO.cs" />
+    <Compile Include="RequestDTOs\PrecioProductos\PrecioProductosRequestDTO.cs" />
+    <Compile Include="RequestDTOs\PrestamosTransferencias\PrestamosTransferenciasDTO.cs" />
+    <Compile Include="RequestDTOs\PrestamosTransferencias\PrestamosTransferenciasRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Prestamos\BusquedaPrestamosDTO.cs" />
+    <Compile Include="RequestDTOs\Prestamos\PrestamosDTO.cs" />
+    <Compile Include="RequestDTOs\Prestamos\PrestamosRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Proveedores\BusquedaProveedoresDTO.cs" />
+    <Compile Include="RequestDTOs\Proveedores\ProveedoresDTO.cs" />
+    <Compile Include="RequestDTOs\Proveedores\ProveedoresRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Conductores\ConductoresDTO.cs" />
+    <Compile Include="RequestDTOs\Conductores\ConductoresRequestDTO.cs" />
+    <Compile Include="RequestDTOs\CuentasBancarias\CuentasBancariasDTO.cs" />
+    <Compile Include="RequestDTOs\CuentasBancarias\CuentasBancariasRequestDTO.cs" />
+    <Compile Include="RequestDTOs\EquiposCategorias\EquiposCategoriasDTO.cs" />
+    <Compile Include="RequestDTOs\EquiposCategorias\EquiposCategoriasRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Equipos\EquiposDTO.cs" />
+    <Compile Include="RequestDTOs\Equipos\EquiposRequestDTO.cs" />
+    <Compile Include="RequestDTOs\FacturasCategorias\FacturasCategoriasDTO.cs" />
+    <Compile Include="RequestDTOs\FacturasCategorias\FacturasCategoriasRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Facturas\BusquedaFacturasDTO.cs" />
+    <Compile Include="RequestDTOs\Facturas\FacturasDTO.cs" />
+    <Compile Include="RequestDTOs\Facturas\FacturasRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Opciones\OpcionesDTO.cs" />
+    <Compile Include="RequestDTOs\Opciones\OpcionesRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Recibos\RecibosDTO.cs" />
+    <Compile Include="RequestDTOs\Recibos\RecibosRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Reportes\BillsWithWeightsError\RptBillWithWeightsErrorDto.cs" />
+    <Compile Include="RequestDTOs\Reportes\BoletaPaymentPending\RptBoletaPaymentPendingDto.cs" />
+    <Compile Include="RequestDTOs\Reportes\BoletaPaymentPending\RptBoletaPaymentPendingResumenDto.cs" />
+    <Compile Include="RequestDTOs\Reportes\BoletasWithOutInvoice\RptBoletaWithOutInvoiceDto.cs" />
+    <Compile Include="RequestDTOs\Reportes\GasCreditos\RptGasCreditoEncabezadoDTO.cs" />
+    <Compile Include="RequestDTOs\Reportes\GasCreditos\RptOrdenesCombustibleOperativoDTO.cs" />
+    <Compile Include="RequestDTOs\Reportes\GasCreditos\RptOrdenesCombustiblePersonalesDTO.cs" />
+    <Compile Include="RequestDTOs\Reportes\HistoryOfInvoicceBalances\RptHistoryOfInvoiceBalancesDto.cs" />
+    <Compile Include="RequestDTOs\Reportes\Humidity\PendingHumidities\RptHumidityPendingPaymentDto.cs" />
+    <Compile Include="RequestDTOs\Reportes\PendingInvoice\RptPendingInvoiceDto.cs" />
+    <Compile Include="RequestDTOs\Reportes\Prestamos\ReporteBoletaDeduccionesPrestamoDTO.cs" />
+    <Compile Include="RequestDTOs\Reportes\Descargadores\ReporteDescargadoresDTO.cs" />
+    <Compile Include="RequestDTOs\Reportes\Facturacion\ReporteFacturacionDTO.cs" />
+    <Compile Include="RequestDTOs\Reportes\Descargadores\ReportePagoDescargadoresResumen.cs" />
+    <Compile Include="RequestDTOs\Reportes\Descargadores\ReportePagoDetalleDescargadoresDTO.cs" />
+    <Compile Include="RequestDTOs\Reportes\ReportesRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Reportes\GasCreditos\RptGasCreditoDetalleResumenDTO.cs" />
+    <Compile Include="RequestDTOs\Reportes\Prestamos\PrestamoPorProveedor\RptPrestamosPorProveedorDetalleDTO.cs" />
+    <Compile Include="RequestDTOs\Reportes\Prestamos\PrestamoPorProveedor\RptPrestamosPorProveedorEncabezadoDTO.cs" />
+    <Compile Include="RequestDTOs\Reportes\Prestamos\PrestamoPorProveedor\RptPrestamosPorProveedorResumenDTO.cs" />
+    <Compile Include="RequestDTOs\Reportes\CompraBiomasa\RptCompraProductoBiomasaDetalleDto.cs" />
+    <Compile Include="RequestDTOs\Reportes\CompraBiomasa\RptCompraProductoBiomasaResumenDto.cs" />
+    <Compile Include="RequestDTOs\Reportes\HistorialBoletas\RptHistorialBoletasDTO.cs" />
+    <Compile Include="RequestDTOs\Reportes\Prestamos\RptPrestamosPendientesDTO.cs" />
+    <Compile Include="RequestDTOs\SubPlanta\SubPlantaDto.cs" />
+    <Compile Include="RequestDTOs\SubPlanta\SubPlantaRequest.cs" />
+    <Compile Include="RequestDTOs\Sucursales\SucursalesDTO.cs" />
+    <Compile Include="RequestDTOs\Sucursales\SucursalesRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Usuarios\UsuariosDTO.cs" />
+    <Compile Include="RequestDTOs\Usuarios\UsuariosOpcionesDTO.cs" />
+    <Compile Include="RequestDTOs\Usuarios\UsuariosRequestDTO.cs" />
+    <Compile Include="RequestDTOs\Usuarios\UsuariosSucursalesAsignadasDTO.cs" />
+    <Compile Include="ResponseDTOs\ActualizarResponseDTO.cs" />
+    <Compile Include="ResponseDTOs\EliminarResponseDTO.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

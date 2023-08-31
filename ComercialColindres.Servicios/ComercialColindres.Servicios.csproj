@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{43111A72-A870-474D-AD46-83522D16357C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ComercialColindres.Servicios</RootNamespace>
+    <AssemblyName>ComercialColindres.Servicios</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\AutoMapper\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\Microsoft\EntityFramework\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\ServiceStack\net45\ServiceStack.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\ServiceStack\net45\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServidorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\dev\Librerias\WPF Otras\ServidorCore.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WinSCPnet, Version=1.7.2.11087, Culture=neutral, PublicKeyToken=2271ec4a3c56d0bf, processorArchitecture=MSIL">
+      <HintPath>..\packages\WinSCP.5.17.10\lib\net40\WinSCPnet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Clases\AppSettings.cs" />
+    <Compile Include="Clases\AutomapperTypeAdapter.cs" />
+    <Compile Include="Clases\CacheAdapter.cs" />
+    <Compile Include="Clases\SaveFileServer\FileSaveResult.cs" />
+    <Compile Include="Clases\ICacheAdapter.cs" />
+    <Compile Include="Clases\SaveFileServer\IStorageService.cs" />
+    <Compile Include="Clases\SaveFileServer\StorageService.cs" />
+    <Compile Include="Clases\TransaccionHelper.cs" />
+    <Compile Include="Servicios\AjusteBoletaDetalle\AjusteBoletaDetalleAppServices.cs" />
+    <Compile Include="Servicios\AjusteBoletaPagos\AjusteBoletaPagoAppServices.cs" />
+    <Compile Include="Servicios\AjusteBoletas\AjusteBoletaAppServices.cs" />
+    <Compile Include="Servicios\AjusteTipos\AjusteTipoAppServices.cs" />
+    <Compile Include="Servicios\AjusteTipos\IAjusteTipoAppServices.cs" />
+    <Compile Include="Servicios\BoletaDeduccionManual\BoletaDeduccionManualAppServices.cs" />
+    <Compile Include="Servicios\BoletaHumedadPago\BoletaHumedadPagoAppServices.cs" />
+    <Compile Include="Servicios\BoletaHumedadPago\IBoletaHumedadPagoAppServices.cs" />
+    <Compile Include="Servicios\BoletaHumedad\BoletaHumedadAppServices.cs" />
+    <Compile Include="Servicios\BoletaHumedad\IBoletaHumedadAppServices.cs" />
+    <Compile Include="Servicios\BoletaOtrasDeducciones\BoletaOtrasDeduccionesAppServices.cs" />
+    <Compile Include="Servicios\BoletasHumedadAsignacion\BoletasHumedadAsignacionAppServices.cs" />
+    <Compile Include="Servicios\BoletasImg\BoletaImgAppServices.cs" />
+    <Compile Include="Servicios\BoletasImg\IBoletaImgAppServices.cs" />
+    <Compile Include="Servicios\BonificacionProducto\BonificacionProductoAppServices.cs" />
+    <Compile Include="Servicios\CuentasFinancieras\CuentasFinancierasAppServices.cs" />
+    <Compile Include="Servicios\CuentasFinancieraTipos\CuentasFinancieraTiposAppServices.cs" />
+    <Compile Include="Servicios\DescargasPorAdelantado\DescargasPorAdelantadoAppServices.cs" />
+    <Compile Include="Servicios\FacturaDetalleBoletas\FacturaDetalleBoletasAppServices.cs" />
+    <Compile Include="Servicios\FacturaDetalleItem\FacturaDetalleItemAppServices.cs" />
+    <Compile Include="Servicios\FacturaPago\FacturaPagoAppServices.cs" />
+    <Compile Include="Servicios\FuelOrderManualPayments\FuelOrderManualPaymentAppServices.cs" />
+    <Compile Include="Servicios\FuelOrderManualPayments\IFuelOrderManualPaymentAppServices.cs" />
+    <Compile Include="Servicios\GasolineraCreditoPagos\GasolineraCreditoPagosAppServices.cs" />
+    <Compile Include="Servicios\GasolineraCreditos\GasolineraCreditosAppServices.cs" />
+    <Compile Include="Servicios\GasolineraCreditos\IGasolineraCreditosAppServices.cs" />
+    <Compile Include="Servicios\GasolineraCreditoPagos\IGasolineraCreditoPagosAppServices.cs" />
+    <Compile Include="Servicios\FacturaDetalleBoletas\IFacturaDetalleBoletasAppServices.cs" />
+    <Compile Include="Servicios\CuentasFinancieras\ICuentasFinancierasAppServices.cs" />
+    <Compile Include="Servicios\CuentasFinancieraTipos\ICuentasFinancieraTiposAppServices.cs" />
+    <Compile Include="Servicios\BoletaOtrasDeducciones\IBoletaOtrasDeduccionesAppServices.cs" />
+    <Compile Include="Servicios\DescargasPorAdelantado\IDescargasPorAdelantadoAppServices.cs" />
+    <Compile Include="Servicios\BoletasHumedadAsignacion\IBoletasHumedadAsignacionAppServices.cs" />
+    <Compile Include="Servicios\BoletaDeduccionManual\IBoletaDeduccionManualAppServices.cs" />
+    <Compile Include="Servicios\FacturaDetalleItem\IFacturaDetalleItemAppServices.cs" />
+    <Compile Include="Servicios\FacturaPago\IFacturaPagoAppServices.cs" />
+    <Compile Include="Servicios\BonificacionProducto\IBonificacionProductoAppServices.cs" />
+    <Compile Include="Servicios\AjusteBoletas\IAjusteBoletaAppServices.cs" />
+    <Compile Include="Servicios\AjusteBoletaPagos\IAjusteBoletaPagoAppServices.cs" />
+    <Compile Include="Servicios\AjusteBoletaDetalle\IAjusteBoletaDetalleAppServices.cs" />
+    <Compile Include="Servicios\NotasCredito\INotaCreditoServices.cs" />
+    <Compile Include="Servicios\NotasCredito\NotaCreditoServices.cs" />
+    <Compile Include="Servicios\OrdenesCombustibleImg\IOrdenCombustibleImgAppServices.cs" />
+    <Compile Include="Servicios\OrdenesCombustibleImg\OrdenCombustibleImgAppServices.cs" />
+    <Compile Include="Servicios\SubPlanta\ISubPlantaServices.cs" />
+    <Compile Include="Servicios\Logging\ILoggingAppServices.cs" />
+    <Compile Include="Servicios\Logging\LoggingAppServices.cs" />
+    <Compile Include="Servicios\MaestroBiomasa\IMaestroBiomasaAppServices.cs" />
+    <Compile Include="Servicios\MaestroBiomasa\MaestroBiomasaAppServices.cs" />
+    <Compile Include="Servicios\OrdenesCompraProductoDetalle\IOrdenesCompraProductoDetalleAppServices.cs" />
+    <Compile Include="Servicios\OrdenesCompraDetalleBoleta\IOrdenesCompraDetalleBoletaAppServices.cs" />
+    <Compile Include="Servicios\OrdenesCompraDetalleBoleta\OrdenesCompraDetalleBoletaAppServices.cs" />
+    <Compile Include="Servicios\OrdenesCompraProductoDetalle\OrdenesCompraProductoDetalleAppServices.cs" />
+    <Compile Include="Servicios\OrdenesCompraProducto\IOrdenesCompraProductoAppServices.cs" />
+    <Compile Include="Servicios\LineasCreditoDeducciones\ILineasCreditoDeduccionesAppServices.cs" />
+    <Compile Include="Servicios\LineasCreditoDeducciones\LineasCreditoDeduccionesAppServices.cs" />
+    <Compile Include="Servicios\LineasCredito\ILineasCreditoAppServices.cs" />
+    <Compile Include="Servicios\LineasCredito\LineasCreditoAppServices.cs" />
+    <Compile Include="Servicios\OrdenesCompraProducto\OrdenesCompraProductoAppServices.cs" />
+    <Compile Include="Servicios\Reportes\IReportesAppServices.cs" />
+    <Compile Include="Servicios\Recibos\IRecibosAppServices.cs" />
+    <Compile Include="Servicios\PagoDescargaDetalles\IPagoDescargaDetallesAppServices.cs" />
+    <Compile Include="Servicios\PagoDescargaDetalles\PagoDescargaDetallesAppServices.cs" />
+    <Compile Include="Servicios\PagoDescargadores\IPagoDescargadoresAppServices.cs" />
+    <Compile Include="Servicios\PagoDescargadores\PagoDescargadoresAppServices.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recursos\ConfiguracionesSistema.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConfiguracionesSistema.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos\KeyCache.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KeyCache.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Servicios\Bancos\BancosAppServices.cs" />
+    <Compile Include="Servicios\BoletaCierres\BoletaCierresAppServices.cs" />
+    <Compile Include="Servicios\BoletaDetalles\BoletaDetallesAppServices.cs" />
+    <Compile Include="Servicios\Boletas\BoletasAppServices.cs" />
+    <Compile Include="Servicios\Boletas\IBoletasAppServices.cs" />
+    <Compile Include="Servicios\CategoriaProductos\CategoriaProductosAppServices.cs" />
+    <Compile Include="Servicios\ClientePlantas\ClientePlantasAppServices.cs" />
+    <Compile Include="Servicios\ClientePlantas\IClientePlantasAppServices.cs" />
+    <Compile Include="Servicios\Cuadrillas\CuadrillasAppServices.cs" />
+    <Compile Include="Servicios\Cuadrillas\ICuadrillasAppServices.cs" />
+    <Compile Include="Servicios\CategoriaProductos\ICategoriaProductosAppServices.cs" />
+    <Compile Include="Servicios\Descargadores\DescargadoresAppServices.cs" />
+    <Compile Include="Servicios\Descargadores\IDescargadoresAppServices.cs" />
+    <Compile Include="Servicios\BoletaDetalles\IBoletaDetallesAppServices.cs" />
+    <Compile Include="Servicios\Gasolineras\GasolinerasAppServices.cs" />
+    <Compile Include="Servicios\Gasolineras\IGasolinerasAppServices.cs" />
+    <Compile Include="Servicios\BoletaCierres\IBoletaCierresAppServices.cs" />
+    <Compile Include="Servicios\PagoPrestamos\IPagoPrestamosAppServices.cs" />
+    <Compile Include="Servicios\PagoPrestamos\PagoPrestamosAppServices.cs" />
+    <Compile Include="Servicios\PrestamosTransferencias\IPrestamosTransferenciasAppServices.cs" />
+    <Compile Include="Servicios\PrestamosTransferencias\PrestamosTransferenciasAppServices.cs" />
+    <Compile Include="Servicios\Prestamos\IPrestamosAppServices.cs" />
+    <Compile Include="Servicios\OrdenesCombustible\IOrdenesCombustibleAppServices.cs" />
+    <Compile Include="Servicios\OrdenesCombustible\OrdenesCombustibleAppServices.cs" />
+    <Compile Include="Servicios\PrecioDescargas\IPrecioDescargasAppServices.cs" />
+    <Compile Include="Servicios\PrecioDescargas\PrecioDescargasAppServices.cs" />
+    <Compile Include="Servicios\PrecioProductos\IPrecioProductosAppServices.cs" />
+    <Compile Include="Servicios\PrecioProductos\PrecioProductosAppServices.cs" />
+    <Compile Include="Servicios\Prestamos\PrestamosAppServices.cs" />
+    <Compile Include="Servicios\Proveedores\ProveedoresAppServices.cs" />
+    <Compile Include="Servicios\Proveedores\IProveedoresAppServices.cs" />
+    <Compile Include="Servicios\Conductores\ConductoresAppServices.cs" />
+    <Compile Include="Servicios\CuentasBancarias\CuentasBancariasAppServices.cs" />
+    <Compile Include="Servicios\EquiposCategorias\EquiposCategoriasAppServices.cs" />
+    <Compile Include="Servicios\Equipos\EquiposAppServices.cs" />
+    <Compile Include="Servicios\FacturasCategorias\FacturasCategorias.cs" />
+    <Compile Include="Servicios\Facturas\FacturasAppServices.cs" />
+    <Compile Include="Servicios\Facturas\IFacturasAppServices.cs" />
+    <Compile Include="Servicios\FacturasCategorias\IFacturasCategoriasAppServices.cs" />
+    <Compile Include="Servicios\CuentasBancarias\ICuentasBancariasAppServices.cs" />
+    <Compile Include="Servicios\Conductores\IConductoresAppServices.cs" />
+    <Compile Include="Servicios\Equipos\IEquiposAppServices.cs" />
+    <Compile Include="Servicios\EquiposCategorias\IEquiposCategoriasAppServices.cs" />
+    <Compile Include="Servicios\Bancos\IBancosAppServices.cs" />
+    <Compile Include="Servicios\Opciones\IOpcionesAppServices.cs" />
+    <Compile Include="Servicios\Opciones\OpcionesAppServices.cs" />
+    <Compile Include="Servicios\Recibos\RecibosAppServices.cs" />
+    <Compile Include="Servicios\Reportes\ReportesAppServices.cs" />
+    <Compile Include="Servicios\SubPlanta\SubPlantaServices.cs" />
+    <Compile Include="Servicios\Sucursales\ISucursalesAppServices.cs" />
+    <Compile Include="Servicios\Sucursales\SucursalesAppServices.cs" />
+    <Compile Include="Servicios\Usuario\IUsuariosAppServices.cs" />
+    <Compile Include="Servicios\Usuario\UsuariosAppServices.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ComercialColindres.Datos\ComercialColindres.Datos.csproj">
+      <Project>{cd90379b-a665-458c-9877-334539a5dff2}</Project>
+      <Name>ComercialColindres.Datos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ComercialColindres.DTOs\ComercialColindres.DTOs.csproj">
+      <Project>{b772147b-2173-4145-a6ac-5564c66795f3}</Project>
+      <Name>ComercialColindres.DTOs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ComercialColindres.ReglasNegocio\ComercialColindres.ReglasNegocio.csproj">
+      <Project>{10f157c3-3219-4cf6-915c-24f1c6374cf5}</Project>
+      <Name>ComercialColindres.ReglasNegocio</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Recursos\ConfiguracionesSistema.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ConfiguracionesSistema.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos\KeyCache.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>KeyCache.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />
+  <PropertyGroup>
+    <SsdtUnitTestVersion>2.0</SsdtUnitTestVersion>
+  </PropertyGroup>
+  <Import Project="..\packages\WinSCP.5.17.10\build\WinSCP.targets" Condition="Exists('..\packages\WinSCP.5.17.10\build\WinSCP.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\WinSCP.5.17.10\build\WinSCP.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WinSCP.5.17.10\build\WinSCP.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

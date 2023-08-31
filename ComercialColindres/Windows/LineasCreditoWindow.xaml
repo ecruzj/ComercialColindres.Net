@@ -1,0 +1,690 @@
+﻿<wpfCoreWindow:MetroWindowExt
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:Convertidores="clr-namespace:WPFCore.Convertidores;assembly=WPFCore"
+    xmlns:convertidoresLocal="clr-namespace:ComercialColindres.Convertidores"
+    xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:HelpersMahApps="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:controlsMahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:Comportamientos="clr-namespace:WPFCore.Comportamientos;assembly=WPFCore"
+    xmlns:misControles="clr-namespace:MisControlesWPF;assembly=MisControlesWPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:wpfCoreWindow="clr-namespace:WPFCore.UtilidadesWindows;assembly=WPFCore"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+    x:Class="ComercialColindres.Windows.LineasCreditoWindow"
+    Title="Lineas de Crédito"
+    Width="920"
+    Height="600"
+    MostrarDialogo="{Binding DialogSettings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    SaveWindowPosition="True"
+    ShowFlyout="{Binding SlidePanelIndice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    WindowStartupLocation="CenterScreen">
+
+    <wpfCoreWindow:MetroWindowExt.Resources>
+        <Convertidores:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <Convertidores:BoolToStringConverter x:Key="BoolToStringConverter" />
+        <Convertidores:StateValueToColorConverter x:Key="StateValueToColorConverter" />
+        <Convertidores:DateTimeToShortString x:Key="DateTimeToShortString" />
+        <convertidoresLocal:EstadoColorConvert x:Key="EstadoColorConvert" />
+    </wpfCoreWindow:MetroWindowExt.Resources>
+
+    <wpfCoreWindow:MetroWindowExt.DataContext>
+        <Binding Path="LineasCreditoViewModel" Source="{StaticResource Locator}"/>
+    </wpfCoreWindow:MetroWindowExt.DataContext>
+
+    <wpfCoreWindow:MetroWindowExt.Flyouts>
+        <controlsMahApps:FlyoutsControl>
+            <controlsMahApps:Flyout x:Name="CrearLineaCreditoFlyout"
+                Width="400"                
+                Margin="100,0,0,0"
+                Header="Crear Linea Crédito"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical">
+                            <misControles:HeaderTextBlock Text="Código Linea Crédito" />
+                            <misControles:BodyTextBlock Text="{Binding DatoLineaCredito.CodigoLineaCredito}" />
+                            <misControles:HeaderTextBlock Text="Fecha Creacion" />
+                            <DatePicker Margin="5" SelectedDate="{Binding DatoLineaCredito.FechaCreacion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectedDateChanged">
+                                        <i:InvokeCommandAction Command="{Binding ComandoObtenerCorrelativoLineaCredito}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </DatePicker>
+                            <misControles:HeaderTextBlock Text="Tipo Cuenta Financiera"/>
+                            <ComboBox
+                                        Margin="5"
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        DisplayMemberPath="Descripcion"
+                                        ItemsSource="{Binding ListaCuentasFinancieraTipos}"
+                                        SelectedItem="{Binding CuentaFinancieraTipoSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValue="{Binding DatoLineaCredito.CuentaFinancieraTipoId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValuePath="CuentaFinancieraTipoId"/>
+                            <misControles:HeaderTextBlock Text="Banco" 
+                                                          Visibility="{Binding DatoLineaCredito.RequiereBanco, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <ComboBox
+                                        Margin="5"
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        DisplayMemberPath="Descripcion"
+                                        ItemsSource="{Binding ListadoBancos}"
+                                        SelectedItem="{Binding BancoSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValue="{Binding DatoLineaCredito.BancoId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValuePath="BancoId"
+                                        IsEnabled="{Binding RequiereBanco,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Visibility="{Binding DatoLineaCredito.RequiereBanco, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <misControles:HeaderTextBlock Text="Cuenta Financiera"/>
+                            <ComboBox
+                                        Margin="5"
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        DisplayMemberPath="CuentaNo"
+                                        ItemsSource="{Binding ListaCuentasFinancieras}"
+                                        SelectedItem="{Binding CuentaFinancieraSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValue="{Binding DatoLineaCredito.CuentaFinancieraId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValuePath="CuentaFinancieraId"/>                            
+                            <misControles:HeaderTextBlock Text="No Documento" />
+                            <misControles:InputTextBox Text="{Binding DatoLineaCredito.NoDocumento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   MaxLength="50"/>
+                            <misControles:HeaderTextBlock Text="Monto Inicial" />
+                            <misControles:InputTextBox 
+                                                        FontSize="12"
+                                                        FontWeight="Bold"
+                                                        Text="{Binding DatoLineaCredito.MontoInicial,
+                                                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                                                       Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                            <misControles:HeaderTextBlock Text="Observaciones" />
+                            <misControles:InputTextBox Height="100" Text="{Binding DatoLineaCredito.Observaciones, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   MaxLength="100"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <misControles:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoCrear}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar" />
+                    </misControles:AppBarPanel>
+                    <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+            <controlsMahApps:Flyout x:Name="EditarLineaCreditoFlyout"
+                Width="400"                
+                Margin="100,0,0,0"
+                Header="Editar Linea Crédito"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical">
+                            <misControles:HeaderTextBlock Text="Código Linea Crédito" />
+                            <misControles:BodyTextBlock Text="{Binding LineaCreditoSeleccionada.CodigoLineaCredito}" />
+                            <misControles:HeaderTextBlock Text="Fecha Creacion" />
+                            <misControles:BodyTextBlock Text="{Binding LineaCreditoSeleccionada.FechaCreacion}" />
+                            <misControles:HeaderTextBlock Text="Tipo Cuenta Financiera"/>
+                            <misControles:BodyTextBlock Text="{Binding LineaCreditoSeleccionada.TipoCredito}" />
+                            <misControles:HeaderTextBlock Text="Banco" 
+                                                          Visibility="{Binding LineaCreditoSeleccionada.RequiereBanco, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <misControles:BodyTextBlock Text="{Binding LineaCreditoSeleccionada.NombreBanco}"
+                                                          Visibility="{Binding LineaCreditoSeleccionada.RequiereBanco, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <misControles:HeaderTextBlock Text="Cuenta Financiera"/>
+                            <misControles:BodyTextBlock Text="{Binding LineaCreditoSeleccionada.CuentaFinanciera}" />
+                            <misControles:HeaderTextBlock Text="No Documento" />
+                            <misControles:InputTextBox Text="{Binding DatoLineaCredito.NoDocumento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   MaxLength="50"/>
+                            <misControles:HeaderTextBlock Text="Monto Inicial" />
+                            <misControles:InputTextBox 
+                                                        FontSize="12"
+                                                        FontWeight="Bold"
+                                                        Text="{Binding DatoLineaCredito.MontoInicial,
+                                                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                                                       Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                            <misControles:HeaderTextBlock Text="Observaciones" />
+                            <misControles:InputTextBox Height="100" Text="{Binding DatoLineaCredito.Observaciones, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   MaxLength="100"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <misControles:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoEditar}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar" />
+                    </misControles:AppBarPanel>
+                    <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+            <controlsMahApps:Flyout x:Name="CrearGastoVariosFlyout"
+                Width="400"                
+                Margin="100,0,0,0"
+                Header="Crear Gasto Varios"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical">
+                            <misControles:HeaderTextBlock Text="Código Linea Crédito" />
+                            <misControles:BodyTextBlock Text="{Binding LineaCreditoSeleccionada.CodigoLineaCredito}" />
+                            <misControles:HeaderTextBlock Text="Tipo Cuenta Financiera"/>
+                            <misControles:BodyTextBlock Text="{Binding LineaCreditoSeleccionada.TipoCredito}" />
+                            <misControles:HeaderTextBlock Text="Banco" 
+                                                          Visibility="{Binding LineaCreditoSeleccionada.RequiereBanco, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <misControles:BodyTextBlock Text="{Binding LineaCreditoSeleccionada.NombreBanco}"
+                                                          Visibility="{Binding LineaCreditoSeleccionada.RequiereBanco, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <misControles:HeaderTextBlock Text="Cuenta Financiera"/>
+                            <misControles:BodyTextBlock Text="{Binding LineaCreditoSeleccionada.CuentaFinanciera}" />
+                            <misControles:HeaderTextBlock Text="Fecha Creación" />
+                            <DatePicker Margin="5" SelectedDate="{Binding DatoLineaCreditoDeduccion.FechaCreacion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <misControles:HeaderTextBlock Text="Monto Deducción" />
+                            <misControles:InputTextBox 
+                                                        FontSize="12"
+                                                        FontWeight="Bold"
+                                                        Text="{Binding DatoLineaCreditoDeduccion.Monto,
+                                                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                                                       Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                            <misControles:HeaderTextBlock Text="No Documento" />
+                            <misControles:InputTextBox Text="{Binding DatoLineaCreditoDeduccion.NoDocumento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                       MaxLength="50" 
+                                                       Visibility="{Binding LineaCreditoSeleccionada.RequiereBanco, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <misControles:HeaderTextBlock Text="Descripción Deducción" />
+                            <misControles:InputTextBox Height="200" Text="{Binding DatoLineaCreditoDeduccion.Descripcion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            
+                        </StackPanel>
+                    </ScrollViewer>
+                    <misControles:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoGuardarDeduccion}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar" />
+                    </misControles:AppBarPanel>
+                    <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+            <controlsMahApps:Flyout x:Name="EditarGastoVariosFlyout"
+                Width="400"                
+                Margin="100,0,0,0"
+                Header="Editar Gasto Varios"
+                IsModal="True"
+                Position="Right"
+                Theme="Adapt">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical">
+                            <misControles:HeaderTextBlock Text="Código Linea Crédito" />
+                            <misControles:BodyTextBlock Text="{Binding LineaCreditoSeleccionada.CodigoLineaCredito}" />
+                            <misControles:HeaderTextBlock Text="Tipo Cuenta Financiera"/>
+                            <misControles:BodyTextBlock Text="{Binding LineaCreditoSeleccionada.TipoCredito}" />
+                            <misControles:HeaderTextBlock Text="Banco" 
+                                                          Visibility="{Binding LineaCreditoSeleccionada.RequiereBanco, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <misControles:BodyTextBlock Text="{Binding LineaCreditoSeleccionada.NombreBanco}"
+                                                          Visibility="{Binding LineaCreditoSeleccionada.RequiereBanco, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <misControles:HeaderTextBlock Text="Cuenta Financiera"/>
+                            <misControles:BodyTextBlock Text="{Binding LineaCreditoSeleccionada.CuentaFinanciera}" />
+                            <misControles:HeaderTextBlock Text="Fecha Creación" />
+                            <DatePicker Margin="5" SelectedDate="{Binding DatoLineaCreditoDeduccion.FechaCreacion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <misControles:HeaderTextBlock Text="Monto Deducción" />
+                            <misControles:InputTextBox 
+                                                        FontSize="12"
+                                                        FontWeight="Bold"
+                                                        Text="{Binding DatoLineaCreditoDeduccion.Monto,
+                                                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                                                       Comportamientos:TextBoxMaskBehavior.MaximumValue="18"/>
+                            <misControles:HeaderTextBlock Text="No Documento" />
+                            <misControles:InputTextBox Text="{Binding DatoLineaCreditoDeduccion.NoDocumento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                       MaxLength="50" 
+                                                       Visibility="{Binding LineaCreditoSeleccionada.RequiereBanco, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <misControles:HeaderTextBlock Text="Descripción Deducción" />
+                            <misControles:InputTextBox Height="200" Text="{Binding DatoLineaCreditoDeduccion.Descripcion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                        </StackPanel>
+                    </ScrollViewer>
+                    <misControles:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+                        <misControles:AppBarButton
+                            Command="{Binding ComandoEditarDeduccionCredito}"
+                            Imagen="{DynamicResource GuardarPathImagen}"
+                            Titulo="Guardar" />
+                    </misControles:AppBarPanel>
+                    <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEspera}">
+                        <Grid>
+                            <misControles:BloqueoPanel/>
+                            <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </controlsMahApps:Flyout>
+
+        </controlsMahApps:FlyoutsControl>
+    </wpfCoreWindow:MetroWindowExt.Flyouts>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="70" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="275" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="Busqueda Lineas de Crédito">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="400*" />
+                        <RowDefinition Height="33*" />
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <misControles:TitleTextBlock Text="Buscar" />
+                        <misControles:SearchTextBox
+							Grid.Row="1"
+							Buscar="{Binding ComandoBuscar}"
+							SpellCheck.IsEnabled="True"
+							Text="{Binding ValorBusquedaLineaCredito, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                    <ListBox
+                        Grid.Row="1"
+                        Margin="5"
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding BusquedaLineasCreditoControl.Items}"
+                        SelectedItem="{Binding LineaCreditoSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Margin="2">
+                                        <Grid Width="25">
+                                            <Path
+                                                Fill="{Binding Estado, Converter={StaticResource StateValueToColorConverter}}"
+                                                Data="M3.2330017,21.148024L11.417,21.148024 11.43,21.190016C11.456001,21.271986,11.483002,21.354017,11.512001,21.435011L11.569,21.586989 11.569,22.85298 3.2330017,22.85298z M3.2330017,17.940991L11.569,17.940991 11.569,18.011974 11.504997,18.117016C11.251999,18.563,11.117996,19.057018,11.112999,19.562023L11.113998,19.646008 3.2330017,19.646008z M24.634995,16.416025C24.358002,16.422007,24.113998,16.643992,24.113998,16.943003L24.113998,21.487013C24.113998,21.857008 24.466003,22.13899 24.811005,22.005018 25.298004,21.818007 25.727005,21.557997 26.106995,21.224989 26.791,20.622021 27.123001,19.901989 27.123001,19.021008 27.123001,18.292004 26.906006,17.732004 26.455994,17.305979 26.220993,17.083017 25.753998,16.781015 24.830002,16.448008 24.764999,16.424997 24.699005,16.414988 24.634995,16.416025z M2.5410004,6.5880166L11.966995,6.5880166C11.847,7.1350141,11.636002,7.7229658,11.616997,8.2749682L2.5419998,8.2749682C2.0830002,8.2769824,1.6920013,8.6679736,1.6899948,9.1289731L1.6899948,10.276983 11.669998,10.276983C11.705002,10.398993,11.741997,10.521978,11.780998,10.645026L11.835999,10.80799 11.877998,10.972968C12.068001,11.653998 12.356995,12.333992 12.738998,12.989021 13.195,13.770027 13.990997,14.599984 14.904999,15.286996L15.099998,15.429026 1.6899948,15.429026 1.6899948,23.266005C1.6920013,23.724989,2.0830002,24.11598,2.5429993,24.120009L13.100998,24.120009 13.278,24.315018C13.696999,24.763016,14.153,25.166031,14.640999,25.516983L14.68,25.544022 15.095001,25.807022 2.5419998,25.807022C1.1429977,25.802017,0.0039978027,24.662979,0,23.266981L0.0019989014,9.1289731C0.0039978027,7.7310224,1.1429977,6.5910073,2.5410004,6.5880166z M20.168747,6.3744612C20.122061,6.3764268 20.074247,6.3860055 20.027,6.4039956 19.566002,6.5769692 19.170998,6.80402 18.848,7.0839887 18.265999,7.5899702 17.981995,8.159978 17.981995,8.8280078 17.981995,9.4970151 18.219002,10.039984 18.699997,10.489019 19.010002,10.776008 19.463997,11.036017 20.056999,11.265998 20.381996,11.391975 20.696999,11.104987 20.696999,10.755988L20.696999,6.9320107C20.696999,6.6369668 20.478996,6.3889809 20.214996,6.3750039 20.199747,6.3739968 20.184311,6.3738061 20.168747,6.3744612z M22.156998,0L22.653992,0C23.459991,-6.4370397E-08,24.113998,0.653992,24.113998,1.4599618L24.113998,1.8029794C24.113998,2.2399915 24.477005,2.5709854 24.908005,2.6459976 26.291992,2.8809832 27.457001,3.2999898 28.378998,3.895022 29.796997,4.8049956 30.733994,6.0319858 31.167999,7.5460249 31.388,8.3150073 30.807999,9.0549985 30.013,9.1469784L28.035004,9.3770199C27.235001,9.4699765 26.533997,8.9060107 26.250992,8.1510058 26.067993,7.6629682 25.807999,7.2749677 25.464996,6.9790078 25.268005,6.8090249 25.039993,6.659977 24.778992,6.5330239 24.459991,6.377018 24.113998,6.6499673 24.113998,7.0050088L24.113998,11.432014C24.113998,11.860969 24.427994,12.224007 24.847,12.310982 25.835999,12.51899 26.526001,12.687996 26.938995,12.825996 28.048004,13.203011 28.970993,13.672981 29.684998,14.224008 30.419998,14.792001 30.996002,15.47999 31.395004,16.266977 31.796005,17.062021 32,17.930004 32,18.849987 32,20.849987 31.168991,22.537001 29.533005,23.864027 28.279999,24.88002 26.729996,25.529007 24.910004,25.80098 24.481003,25.865006 24.113998,26.190994 24.113998,26.623978L24.113998,27.072037C24.113998,27.878985,23.459991,28.532,22.653992,28.532L22.156998,28.532C21.349991,28.532,20.696999,27.878985,20.696999,27.072037L20.696999,26.62001C20.696999,26.310013,20.514999,26.050003,20.255997,25.901993L18.696999,25.684036C17.945999,25.469009,17.596001,25.386002,16.709,24.930008L15.577995,24.214003C15.043999,23.831007 14.554001,23.370985 14.112999,22.833998 13.422997,21.995009 12.964996,20.998974 12.743996,19.865002 12.584,19.04298 13.18,18.27998 14.011002,18.159985L15.842995,17.893993C16.649002,17.776987 17.372002,18.344006 17.589996,19.128002 17.824997,19.969982 18.154999,20.60603 18.580002,21.024977 19.004997,21.440016 19.466995,21.755995 19.975998,21.977003 20.319,22.125013 20.696999,21.862013 20.696999,21.487013L20.696999,16.247995C20.696999,15.953989 20.552002,15.688974 20.326996,15.52302 20.326996,15.52302 18.589996,15.461985 17.298996,14.870004 16.008995,14.279 14.670998,13.114998 14.125,12.179999 13.457001,11.03498 13.106995,9.7570248 13.243996,8.5849658 13.353996,7.6419721 13.379997,7.4279829 13.682999,6.6820107 13.987,5.9359775 14.920998,4.7399932 16.032997,3.9899927 17.008995,3.3269673 18.302002,2.8770159 19.962997,2.6270157 20.375999,2.5650039 20.696999,2.219972 20.696999,1.8029794L20.696999,1.4599618C20.696999,0.653992,21.349991,-6.4370397E-08,22.156998,0z"
+                                                RenderTransformOrigin="0.5,0.5"
+                                                Stretch="Uniform" />
+                                        </Grid>
+                                    </Viewbox>
+                                    <StackPanel
+                                        Width="185"
+                                        Margin="5"
+                                        Orientation="Vertical">
+                                        <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Text="{Binding CodigoLineaCredito}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            FontSize="10"
+                                            Text="{Binding CuentaFinanciera}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Margin="1"
+                                            HorizontalAlignment="Stretch"
+                                            Foreground="{Binding Estado, Converter={StaticResource StateValueToColorConverter}}"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Text="{Binding Estado}"
+                                            TextWrapping="Wrap" />
+                                        <Rectangle Height="6" Style="{StaticResource EstiloRectanguloEnListas}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <misControles:PaginarControl
+						Grid.Row="2"
+						Width="170"
+						Background="{DynamicResource AccentColorBrush}"
+						ComandoAnterior="{Binding ComandoNavegar}"
+						ComandoSiguiente="{Binding ComandoNavegar}"
+						NumeroPagina="{Binding NumeroPagina, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						TotalPaginas="{Binding BusquedaLineasCreditoControl.TotalPagina}" />
+                </Grid>
+            </GroupBox>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <GroupBox Header="Datos Generales de la Linea de Crédito">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition Height="Auto" MinHeight="30"/>
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                            <RowDefinition Height="Auto" MinHeight="30" />
+                        </Grid.RowDefinitions>
+                        <misControles:HeaderTextBlock
+							Margin="5"
+							Text="Código Linea Crédito"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding LineaCreditoSeleccionada.CodigoLineaCredito, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Foreground="Black"
+                            FontWeight="SemiBold"/>
+                        <misControles:HeaderTextBlock
+							Margin="5"
+                            Grid.Column="2"
+                            Grid.Row="0"
+							Text="Cuenta Financiera"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Column="3"
+                            Grid.Row="0"
+							Margin="5"
+							Text="{Binding LineaCreditoSeleccionada.CuentaFinanciera, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Foreground="Black"
+                            FontWeight="SemiBold"/>
+                        <misControles:HeaderTextBlock
+                            Grid.Row="1"
+							Margin="5"
+							Text="Sucursal"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+                            Grid.Row="1"
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding LineaCreditoSeleccionada.NombreSucursal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+                            Grid.Row="1"
+                            Grid.Column="2"
+							Margin="5"
+							Text="Nombre Banco"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+                            Grid.Row="1"
+							Grid.Column="3"
+							Margin="5"
+							Text="{Binding LineaCreditoSeleccionada.NombreBanco, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Foreground="Black"
+                            FontWeight="SemiBold"/>
+                        <misControles:HeaderTextBlock
+							Grid.Row="2"
+							Margin="5"
+							Text="Número Cuenta"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="2"
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding LineaCreditoSeleccionada.CuentaFinanciera, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="2"
+                            Grid.Column="2"
+							Margin="5"
+							Text="Tipo Crédito"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="2"
+							Grid.Column="3"
+							Margin="5"
+							Text="{Binding LineaCreditoSeleccionada.TipoCredito, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="3"
+							Margin="5"
+							Text="Número Documento"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="3"
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding LineaCreditoSeleccionada.NoDocumento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Foreground="Black"
+                            FontWeight="SemiBold"/>
+                        <misControles:HeaderTextBlock
+							Grid.Row="3"
+                            Grid.Column="2"
+							Margin="5"
+							Text="Es Crédito Actual"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="3"
+							Grid.Column="3"
+							Margin="5"
+							Text="{Binding LineaCreditoSeleccionada.EsLineaCreditoActual, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="4"
+							Margin="5"
+							Text="Monto Inicial"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="4"
+							Grid.Column="1"
+							Margin="5"
+							Text="{Binding LineaCreditoSeleccionada.MontoInicial, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                            Foreground="Black"
+                            FontWeight="SemiBold"/>
+                        <misControles:HeaderTextBlock
+							Grid.Row="4"
+                            Grid.Column="2"
+							Margin="5"
+							Text="Saldo"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="4"
+							Grid.Column="3"
+							Margin="5"
+							Text="{Binding LineaCreditoSeleccionada.Saldo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                            Foreground="Black"
+                            FontWeight="SemiBold"/>
+                        <misControles:HeaderTextBlock
+							Grid.Row="6"
+							Margin="5"
+							Text="Fecha Creación"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="6"
+							Grid.Column="1"
+							Text="{Binding LineaCreditoSeleccionada.FechaCreacion, Mode=TwoWay, StringFormat=D, UpdateSourceTrigger=PropertyChanged}" 
+                            Foreground="Black"
+                            FontWeight="SemiBold"/>
+                        <misControles:HeaderTextBlock
+							Grid.Row="5"
+							Margin="5"
+							Text="Deduccion Total"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="5"
+							Grid.Column="1"
+							Text="{Binding LineaCreditoSeleccionada.DeduccionTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                            Foreground="Red"
+                            FontWeight="SemiBold"/>
+                        <misControles:HeaderTextBlock
+							Grid.Row="5"
+                            Grid.Column="2"
+							Margin="5"
+							Text="Crédito Disponible"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="5"
+							Grid.Column="3"
+							Text="{Binding LineaCreditoSeleccionada.CreditoDisponible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                            Foreground="Green"
+                            FontWeight="SemiBold"/>
+                        <misControles:HeaderTextBlock
+							Grid.Row="6"
+                            Grid.Column="2"
+                            Margin="5"
+							Text="Fecha Cierre"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="6"
+							Grid.Column="3"
+							Text="{Binding LineaCreditoSeleccionada.FechaCierre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <misControles:HeaderTextBlock
+							Grid.Row="7"
+							Margin="5"
+							Text="Observaciones"
+							TextWrapping="Wrap" />
+                        <misControles:BodyTextBlock
+							Grid.Row="7"
+							Grid.Column="1"
+                            Grid.ColumnSpan="3"
+							Text="{Binding LineaCreditoSeleccionada.Observaciones, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                </GroupBox>
+                <TabControl Grid.Row="1">
+                    <TabItem controlsMahApps:ControlsHelper.HeaderFontSize="16" Header="Deducciones Operativas">
+                        <Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <DataGrid
+									AutoGenerateColumns="False"
+									IsReadOnly="True"
+									ItemsSource="{Binding ListaDeduccionesOperativas}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Descripcion}" Header="Descripción Deducción" />
+                                        <DataGridTextColumn Binding="{Binding FormaDePago}" Header="Tipo Transaccion" />
+                                        <DataGridTextColumn Binding="{Binding NoDocumento}" Header="Documento Ref" />
+                                        <DataGridTextColumn Binding="{Binding Monto, StringFormat=N2}" Header="Monto" />
+                                        <DataGridTextColumn Binding="{Binding FechaTransaccion}" Header="Fecha Transaccion" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem controlsMahApps:ControlsHelper.HeaderFontSize="16" Header="Deducciones Varias">
+                        <Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <DataGrid
+									AutoGenerateColumns="False"
+									IsReadOnly="True"
+									ItemsSource="{Binding ListaDeduccionesVarias}"
+                                    SelectedItem="{Binding LineaCreditoDeduccionSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Width="55">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <misControles:OnlyImageAutoSizeButton
+                                                            Width="21"
+                                                            Height="21"
+                                                            Margin="2"
+                                                            Background="{DynamicResource AccentColorBrush}"
+                                                            Command="{Binding LineasCreditoViewModel.ComandoRemoverDeduccionCredito, Source={StaticResource Locator}}"
+                                                            Imagen="{DynamicResource QuitarPathImagen}" />
+                                                        <misControles:OnlyImageAutoSizeButton
+                                                            Width="21"
+                                                            Height="21"
+                                                            Margin="2"
+                                                            Background="{DynamicResource AccentColorBrush}"
+                                                            Command="{Binding LineasCreditoViewModel.ComandoMostrarEditarDeduccionCredito, Source={StaticResource Locator}}"
+                                                            Imagen="{DynamicResource EditarPathImagen}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Binding="{Binding Descripcion}" Header="Descripción Deducción" />
+                                        <DataGridTextColumn Binding="{Binding NoDocumento}" Header="Documento Ref" />
+                                        <DataGridTextColumn Binding="{Binding Monto, StringFormat=N2}" Header="Monto" />
+                                        <DataGridTextColumn Binding="{Binding FechaCreacion}" Header="Fecha Transaccion" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Grid>
+        <misControles:AppBarPanel Grid.Row="1" Background="{DynamicResource AccentColorBrush}">
+            <misControles:AppBarButton
+				Command="{Binding ComandoMostrarAgregar}"
+				Imagen="{DynamicResource AgregarPathImagen}"
+				Titulo="Crear Linea Crédito" />
+            <misControles:AppBarButton
+				Command="{Binding ComandoMostrarEditar}"
+				Imagen="{DynamicResource EditarPathImagen}"
+				Titulo="Editar Linea Crédito" />
+            <misControles:AppBarButton
+				Command="{Binding ComandoEliminar}"
+				Imagen="{DynamicResource EliminarPathImagen}"
+				Titulo="Anular Linea Crédito" />
+            <misControles:Separador />
+            <misControles:AppBarButton
+				Command="{Binding ComandoMostrarAgregarGastoVarios}"
+				Imagen="{DynamicResource DeduccionCreditoPathImagen}"
+				Titulo="Crear Deducción" />
+            <misControles:Separador />
+            <misControles:AppBarButton
+				Command="{Binding ComandoActivarLineaCredito}"
+				Imagen="{DynamicResource ActivarLineaCreditoPathImagen}"
+				Titulo="Activar Linea Crédito" />            
+            <misControles:Separador />
+            <misControles:AppBarButton
+				Command="{Binding ComandoImprimirDetalleCredito}"
+				Imagen="{DynamicResource ImprimirPathImagen}"
+				Titulo="Imprimir Detalle Crédito" />
+            <misControles:Separador />
+            <misControles:AppBarButton
+				Command="{Binding ComandoRefrescar}"
+				Imagen="{DynamicResource RefrescarPathImagen}"
+				Titulo="Actualizar" />
+        </misControles:AppBarPanel>
+
+        <Border Grid.RowSpan="2" Visibility="{Binding MostrarVentanaEsperaPrincipal}" d:IsHidden="True">
+            <Grid>
+                <misControles:BloqueoPanel/>
+                <controlsMahApps:ProgressRing IsActive="True" IsLarge="False"/>
+            </Grid>
+        </Border>
+    </Grid>
+</wpfCoreWindow:MetroWindowExt>
