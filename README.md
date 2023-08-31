@@ -1,2 +1,2 @@
 # ComercialColindres.Net
-my DevOps project
+I am delighted to share this project I developed, named Comercial Colindres, using Visual Studio .NET with C# as the primary language. The database was implemented in SQL Server, following a domain-driven architecture (TDD). WPF technology was employed for the graphical interface, while ASP.NET was utilized for the web project. Additionally, a Restful API was implemented using Service Stack
